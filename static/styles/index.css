@@ -18,7 +18,7 @@ a{
 
 body{
     padding: 2%;
-    background-image: url(static/imgs/fundo_completo.png);
+    background-image: url(../imgs/fundo_completo.png);
     background-size: cover;
     position: fixed;
 }
@@ -69,6 +69,7 @@ body{
 .cabecalho{
     color: var(--cor-azul-escuro);
     font-family: var(--fonte-BDEx);
+    padding-left: 20px;
 }
 .link > .cabecalho{
     text-decoration: none;
