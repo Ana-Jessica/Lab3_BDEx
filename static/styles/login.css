@@ -20,7 +20,7 @@ html,body{
   height: 100%;
   width: 100%;
   place-items: center;
-  background-image: url("/static/imgs/fundo_completo.png");
+  background-image: url("static/imgs/fundo_completo.png");
   background-repeat: no-repeat;
   background-size: cover;
 }
