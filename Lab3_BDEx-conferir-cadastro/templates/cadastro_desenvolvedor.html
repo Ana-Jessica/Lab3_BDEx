@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+   <meta charset="utf-8">
+   <title>Cadastre-se</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="apple-touch-icon" sizes="180x180" href="static/imgs/logo/simbolo.svg">
+   <link rel="icon" type="image/png" sizes="32x32" href="static/imgs/logo/simbolo.svg">
+   <link rel="icon" type="image/png" sizes="16x16" href="static/imgs/logo/simbolo.svg">
+   <link rel="manifest" href="ICONS/site.webmanifest">
+   <link rel="mask-icon" href="ICONS/safari-pinned-tab.svg" color="#5bbad5">
+   <meta name="msapplication-TileColor" content="#da532c">
+   <link rel="stylesheet" href="../static/styles/login.css">
+   <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+   <div class="wrapper">
+      <div class="title-text">
+         <div class="logo-container">
+            <img src="../static/imgs/logo/simbolo.svg" alt="logo BDEx">
+         </div>
+         <div class="title-container">
+            <h1>Cadastro</h1>
+         </div>
+      </div>
+      <div class="form-container">
+         <div class="form-inner">
+            <form action="../server/cadastro_desenvolvedor.php" method="POST" class="login">
+               <div class="field">
+                  <label for="nome">Nome:</label>
+                  <input type="text" placeholder="Digite seu nome" id="nome_desenvolvedor" name="nome_desenvolvedor" required>
+               </div>
+               <div class="field">
+                  <label for="telefone_desenvolvedor">Nome:</label>
+                  <input type="text" placeholder="Digite seu telefone" id="telefone_desenvolvedor" name="telefone_desenvolvedor" required>
+               </div>
+               <div class="field">
+                  <label for="email_desenvolvedor">Email:</label>
+                  <input type="text" placeholder="Digite seu e-mail" id="email_desenvolvedor" name="email_desenvolvedor" required>
+               </div>
+               <div class="field">
+                  <label for="cpf">Email:</label>
+                  <input type="text" placeholder="Digite seu CPF:" id="cpf" name="cpf" required>
+               </div>
+               <div class="field">
+                  <label for="linguagens_de_programacao">Linguagens de programacao:</label>
+                  <input type="text" placeholder="Digite seus conhecimentos:" id="linguagens_de_programacao" name="linguagens_de_programacao" required>
+               </div>
+               <div class="field">
+                  <label for="tecnologias">Tecnologias:</label>
+                  <input type="text" placeholder="Quais frameworks você programa:" id="tecnologias" name="tecnologias" required>
+               </div>
+               <div class="field">
+                  <label for="senha">Senha:</label>
+                  <input type="password" placeholder="Digite sua senha" id="senha" name="senha" required>
+               </div>
+               <div class="field btn">
+                  <div class="btn-layer"></div>
+                  <input type="submit" value="Cadastrar">
+               </div>
+               <div class="signup-link">
+                  Já tem conta? <a href="pglogin.html">Entrar</a>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</body>
+
+</html>
