@@ -14,6 +14,8 @@
 }
 a{
     text-decoration: none;
+    font-size: 20px;
+    color: var(--cor-azul-claro);
 }
 
 body{
@@ -27,7 +29,7 @@ body{
     top: 10;
     left: 0;
     width: 100%;
-    color: white; /* Cor do texto */
+    color: #ccc; /* Cor do texto */
     display: flex;
     justify-content: space-between;
     align-items: center;
