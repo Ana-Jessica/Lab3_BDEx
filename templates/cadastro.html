@@ -13,8 +13,24 @@
    <meta name="msapplication-TileColor" content="#da532c">
    <link rel="stylesheet" href="../static/styles/login.css">
    <meta name="theme-color" content="#ffffff">
-</head>
+   <style>
+      .link_emp_dev {
+         width: 10%;
+         height: 10%;
+         padding: 10px;
+         background-color: #3ABAF1;
+         border-radius: 5px;
+         transition: all 0.3s ease-in-out;
+         text-decoration: none;
+      }
+      .link_emp_dev:hover {
+         background-color: #2A5EAC;
+         color: white;
+         text-decoration: none;
+      }
+   </style>
 
+</head>
 <body>
    <div class="wrapper">
       <div class="title-text">
@@ -27,55 +43,18 @@
       </div>
       <div class="form-container">
          <div class="form-inner">
-            <form action="../server/cadastro.php" method="POST" class="login">
-               <div class="field">
-                  <label for="nome">Nome:</label>
-                  <input type="text" placeholder="Digite seu nome" id="nome" name="nome" required>
-               </div>
-               <div class="field">
-                  <label for="cpf">CPF ou CNPJ:</label>
-                  <input type="text" placeholder="Digite..." id="cpf" name="cpf" required>
-               </div>               
-               <div class="perfil-selector">
-                <p class="perfil-titulo">Qual o seu perfil:</p>
-                <br>
-                <div class="radio-options">
-                  <!-- Opção Empresa -->
-                  <label class="radio-container">
-                    <input type="radio" name="perfil" value="empresa">
-                    <span class="radio-checkmark"></span>
-                    <span class="radio-texto">Empresa</span>
-                  </label>
-                  
-                  <!-- Opção Desenvolvedor -->
-                  <label class="radio-container">
-                    <input type="radio" name="perfil" value="desenvolvedor">
-                    <span class="radio-checkmark"></span>
-                    <span class="radio-texto">Desenvolvedor</span>
-                  </label>
-                </div>
-                <br>
-              </div>
-               <div class="field">
-                  <label for="cep">CEP:</label>
-                  <input type="text" placeholder="Digite seu CEP" id="cep" name="cep" required>
-               </div>
-               <div class="field">
-                  <label for="endereco">Endereço:</label>
-                  <input type="text" placeholder="Digite seu endereço" id="endereco" name="endereco" required>
-               </div>
-               <div class="field">
-                  <label for="email">Email:</label>
-                  <input type="text" placeholder="Digite seu e-mail" id="email" name="email" required>
-               </div>
-               <div class="field">
-                  <label for="senha">Senha:</label>
-                  <input type="password" placeholder="Digite sua senha" id="senha" name="senha" required>
-               </div>
-               <div class="field btn">
-                  <div class="btn-layer"></div>
-                  <input type="submit" value="Entrar">
-               </div>
+            <div class="field btn">
+               <div class="btn-layer"></div>
+               <a href="cadastro_empresa.html" class="link_emp_dev"> Cadastrar Empresa</a>
+            </div>
+            <br>
+            <br>
+            <div class="field btn">
+               <div class="btn-layer"></div>
+               <a href="cadastro_desenvolvedor.html" class="link_emp_dev"> Cadastrar Desenvolvedor</a>
+            </div>
+            <br>
+            <br>
                <div class="signup-link">
                   Já tem conta? <a href="pglogin.html">Entrar</a>
                </div>
