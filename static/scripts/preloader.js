@@ -1,8 +1,8 @@
-
-    window.addEventListener("load", function () {
-        setTimeout(function () {
-            document.getElementById("preloader").style.display = "none";
-            document.querySelector(".container").style.display = "block";
-        }, 3000); // 3000 milissegundos = 3 segundos
-    });
-
+window.addEventListener("load", function () {
+  const preloader = document.querySelector(".conteiner_preloader");
+  if (preloader) {
+    setTimeout(() => {
+      preloader.style.display = "none";
+    }, 5000); 
+  }
+});
