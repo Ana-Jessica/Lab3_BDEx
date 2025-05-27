@@ -12,20 +12,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tecnologias = filter_input(INPUT_POST, 'tecnologias', FILTER_SANITIZE_STRING);
     $senha = $_POST['senha'];
 
-    $errors = [];
-
-    if (empty($nome)) $errors[] = "Nome é obrigatório.";
-    if (empty($telefone)) $errors[] = "Telefone é obrigatório.";
-    if (empty($email)) $errors[] = "E-mail é obrigatório.";
-    if (empty($cpf)) $errors[] = "CPF é obrigatório.";
-    if (empty($senha)) $errors[] = "Senha é obrigatória.";
+    // Validacoes
+    if (!$nome || !$telefone || !$email || !$cpf || !$senha) {
+        echo "<script>alert('Preencha todos os campos obrigatórios!'); window.history.back();</script>";
+        exit();
+    }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Email inválido.";
+        echo "<script>alert('E-mail inválido!'); window.history.back();</script>";
+        exit();
     }
 
     if (strlen($senha) < 6) {
-        $errors[] = "A senha deve ter pelo menos 6 caracteres.";
+        echo "<script>alert('A senha deve ter pelo menos 6 caracteres!'); window.history.back();</script>";
+        exit();
     }
 
     // Verifica se email já existe
@@ -34,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_store_result($stmt);
     if (mysqli_stmt_num_rows($stmt) > 0) {
-        $errors[] = "Este email já está cadastrado.";
+        echo "<script>alert('Este email já foi cadastrado!'); window.history.back();</script>";
+        exit();
     }
     mysqli_stmt_close($stmt);
 
@@ -44,44 +45,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_store_result($stmt);
     if (mysqli_stmt_num_rows($stmt) > 0) {
-        $errors[] = "Este CPF já está cadastrado.";
+        echo "<script>alert('Este CPF já foi cadastrado!'); window.history.back();</script>";
+        exit();
     }
     mysqli_stmt_close($stmt);
 
-    if (empty($errors)) {
-        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+    // Cadastro
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+    $stmt = mysqli_prepare($conn, "INSERT INTO Desenvolvedor 
+        (nome_desenvolvedor, telefone_desenvolvedor, email_desenvolvedor, cpf, linguagens_de_programacao, tecnologias, senha_desenvolvedor) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, "sssssss", $nome, $telefone, $email, $cpf, $linguagens, $tecnologias, $senha_hash);
 
-        $stmt = mysqli_prepare($conn, "INSERT INTO Desenvolvedor 
-            (nome_desenvolvedor, telefone_desenvolvedor, email_desenvolvedor, cpf, linguagens_de_programacao, tecnologias, senha_desenvolvedor) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)");
-        mysqli_stmt_bind_param($stmt, "sssssss", $nome, $telefone, $email, $cpf, $linguagens, $tecnologias, $senha_hash);
-
-        if (mysqli_stmt_execute($stmt)) {
-            header("Location: ../templates/pglogin.html");
-            exit();
-        } else {
-            $errors[] = "Erro ao cadastrar desenvolvedor: " . mysqli_stmt_error($stmt);
-        }
-
-        mysqli_stmt_close($stmt);
-    }
-
-    if (!empty($errors)) {
-        $query = http_build_query([
-            'error' => implode(" ", $errors),
-            'nome_desenvolvedor' => $nome,
-            'telefone_desenvolvedor' => $telefone,
-            'email_desenvolvedor' => $email,
-            'cpf' => $cpf,
-            'linguagens_de_programacao' => $linguagens,
-            'tecnologias' => $tecnologias
-        ]);
-
-        header("Location: ../public/cadastro_desenvolvedor.html?" . $query);
+    if (mysqli_stmt_execute($stmt)) {
+        echo "<script>alert('DESENVOLVEDOR CADASTRADO COM ÊXITO!'); window.location.href = '../templates/pglogin.html';</script>";
+        exit();
+    } else {
+        echo "<script>alert('Erro ao cadastrar desenvolvedor!'); window.history.back();</script>";
         exit();
     }
+
+    mysqli_stmt_close($stmt);
 } else {
-    header("Location: ../public/cadastro_desenvolvedor.html");
+    echo "<script>window.location.href = '../public/cadastro_desenvolvedor.html';</script>";
     exit();
 }
 ?>

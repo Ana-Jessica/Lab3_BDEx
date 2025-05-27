@@ -1,0 +1,540 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+
+    background: black;
+    padding: 10px;
+    position: relative;
+}
+
+.menubar {
+    width: 100%;
+    height: 70px;
+    padding: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.logo {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+h1,
+h2 {
+    text-align: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.usuarionotificacoes {
+    color: white;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+nav {
+    top: 91px;
+    padding: 20px;
+    flex-direction: column;
+    width: 350px;
+    height: 100%;
+    background: black;
+    z-index: 200 !important;
+    position: absolute;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    color: white;
+    display: flex;
+    align-items: center;
+    transition: .4s;
+}
+
+nav ul {
+    list-style-type: none;
+    width: 100%;
+}
+
+nav ul li {
+
+    text-align: center;
+    padding: 10px;
+    display: block;
+    font-size: 20px;
+    font-weight: bolder;
+    background: #429867;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .5s;
+}
+
+nav ul li:hover {
+    background: #FAB243;
+
+}
+
+main {
+    top: 100px;
+    left: 350px;
+    background-color: white;
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+}
+.box-input {
+      width: 100%;
+      height: 50px;
+      position: relative;
+      margin: 20px 0;
+    }
+
+    .box-input input {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border-radius: 30px;
+      color: white;
+      outline: none;
+      padding: 20px 45px 20px 20px;
+      border: 2px solid white;
+    }
+
+    input::placeholder {
+      color: rgb(189, 189, 189);
+    }
+
+    .box-input i {
+      position: absolute;
+      right: 5%;
+      top: 80%;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+
+      width: 100%;
+      height: 99px;
+      padding: 20px;
+      background: black;
+      padding: 10px;
+      position: fixed;
+      z-index: 99;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .menubar {
+      position: relative;
+      flex-direction: row;
+    }
+
+    .logo {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+    }
+
+    h1,
+    h2 {
+      text-align: center;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .usuarionotificacoes {
+      color: white;
+      font-size: 15px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+
+    nav {
+      top: 100px;
+      padding: 40px;
+      flex-direction: column;
+      width: 350px;
+      height: 80vh;
+      background: black;
+      z-index: 100 !important;
+      position: fixed;
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+      color: white;
+      display: flex;
+      align-items: center;
+      float: left;
+    }
+
+    nav ul {
+      list-style-type: none;
+      width: 100%;
+    }
+
+    nav ul li {
+
+      text-align: center;
+      padding: 10px;
+      display: block;
+      font-size: 20px;
+      font-weight: bolder;
+      background: #429867;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: .5s;
+    }
+
+    nav ul li:hover {
+      background: #FAB243;
+
+    }
+
+    main {
+      float: right;
+      top: 100px;
+      display: flex;
+      justify-content: center;
+
+      position: absolute;
+      width: auto;
+      min-height: 100%;
+    }
+
+    .btndesconectar {
+      font-size: 15px;
+      padding: 10px;
+      border-radius: 30px;
+      background-color: transparent;
+      transition: 0.5s;
+    }
+
+    .btndesconectar:hover {
+      transform: scale(1.1);
+      text-decoration: none;
+      font-family: Arial,
+        Helvetica,
+        sans-serif;
+      outline: none;
+      border: none;
+      color: white;
+
+      cursor: pointer;
+      content: "deslogar";
+      box-shadow: 0 0 24px black;
+    }
+
+    .botaomenulateral {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      font-size: 30px;
+      color: white;
+      border-radius: 50%;
+      right: 10px;
+      position: absolute;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background: transparent;
+      transition: 3s;
+    }
+
+    .botaomenulateral:hover {
+      box-shadow: 0 0 34px white;
+    }
+
+    main {
+      top: 100px;
+      display: flex;
+      position: absolute;
+      width: calc(100% - 350px);
+      min-height: calc(100%- 250px);
+    }
+
+    .btnblack,
+    .btn-excluir {
+      color: black;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      border: 1px solid black;
+      cursor: pointer;
+      transition: .4s;
+    }
+
+    .btnblack:hover,
+    .btn-excluir:hover {
+      transform: scale(1.2);
+    }
+
+    .artusuarios,
+    .artcadastro,
+    .artconteudo,
+    .artconfigsite,
+    .artinscritos {
+      display: none;
+      width: 100%;
+      padding: 20px;
+      padding-top: 0;
+    }
+
+    .artinscritos {
+      flex-direction: column;
+    }
+
+    .artconfigsite {
+      display: flex;
+      width: 100%;
+      padding: 10px;
+      padding-top: 0;
+    }
+
+    .janelaedicao {
+      width: 100vw;
+      height: 100vh;
+
+      top: 0;
+      left: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 101;
+      text-align: center;
+      background-color: #0000004f;
+      backdrop-filter: blur(20px);
+      position: fixed;
+    }
+
+    .janelaedicao.abrir {
+      display: flex;
+    }
+
+    .addedicao {
+
+      width: 70%;
+      min-width: 600px;
+      backdrop-filter: blur(20px);
+      border-radius: 30px;
+      padding: 40px;
+      position: fixed;
+    }
+
+    @media (max-width: 1000px) {
+      .addedicao {
+        width: 80%;
+        height: 300px;
+        overflow-y: scroll;
+      }
+    }
+
+    .addedicao h2 {
+      color: #2B5166;
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+    }
+
+    /*interruptor */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 80px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #E02130;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    input:checked+.slider {
+      background-color: #429867;
+    }
+
+    input:checked+.slider:after {
+      content: "em uso";
+      font-size: 10px;
+      position: absolute;
+      color: white;
+      top: 10px;
+      left: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+    }
+
+    input:checked+.slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(50px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+
+    fieldset {
+      background: linear-gradient(45deg, #429867, #2b5166);
+      width: 100%;
+      height: 80%;
+    }
+
+    .artcadastro {
+      width: 100%;
+      justify-content: center;
+      color: white;
+    }
+
+    .btneditar {
+      margin-top: 30px;
+      width: 100%;
+      height: 40px;
+      border-radius: 30px;
+      background: #429867;
+      color: white;
+      font-size: 20px;
+      transition: 0.5s;
+      border: 1px solid white;
+      cursor: pointer;
+      background: #2b5166;
+    }
+
+    .btneditar:hover {
+      background: #429867;
+    }
+
+    .altsite {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tabledefault {
+      height: 10px;
+      overflow: scroll;
+    }
+
+    td {
+      text-align: center;
+
+    }
+
+    .btnaddper {
+
+      outline: none;
+      border: none;
+      width: 200px;
+      height: 50px;
+      border-radius: 30px;
+      background: #2B5166;
+      color: white;
+      cursor: pointer;
+      transition: .4s;
+    }
+
+    .btnnovoper {
+      outline: none;
+      border: none;
+      width: 200px;
+      height: 50px;
+      border-radius: 30px;
+      background: #429867;
+      color: white;
+      cursor: pointer;
+      transition: .4s;
+    }
+
+    .btnvoltar {
+      outline: none;
+      border: none;
+      width: 200px;
+      height: 50px;
+      border-radius: 30px;
+      background: #E02130;
+      color: white;
+      cursor: pointer;
+      transition: .4s;
+    }
+
+    .btnaddper:hover,
+    .btnvoltar:hover,
+    .btnnovoper:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 24px #2b5166;
+    }
+
+    .modaladdpersonagem,
+    .modaleditarpersonagem {
+      display: none;
+      top: 0;
+      padding: 50px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      position: absolute;
+      width: 90%;
+      height: 100%;
+      background: black;
+      color: white;
+      border-radius: 20px;
+    }

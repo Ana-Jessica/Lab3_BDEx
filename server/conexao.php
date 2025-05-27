@@ -1,7 +1,7 @@
 <?php
 $hostname = 'localhost';
 $usuario = 'root';
-$senha = 'senac';
+$senha = '';
 $banco = 'banco_bdex';
 
 $conn = mysqli_connect($hostname, $usuario, $senha, $banco);
