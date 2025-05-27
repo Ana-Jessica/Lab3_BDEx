@@ -49,46 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
 */
   //partes clicaveis li
   var liddscadastro = document.querySelector(".liddscadastro");
-  var lipainel = document.querySelector(".lipainel");
-  var ligeconteudo = document.querySelector(".ligeconteudo");
-  var liusuarios = document.querySelector(".liusuarios");
-  var liconfigsite = document.querySelector(".liconfigsite");
-  var liinscritos = document.querySelector(".liinscritos");
+  
   //partes visualizaveis:
   var artcadastro = document.querySelector(".artcadastro");
-  var artusuarios = document.querySelector(".artusuarios");
-  var artconfigsite = document.querySelector(".artconfigsite");
-  var artconteudo = document.querySelector(".artconteudo");
-  var artinscritos = document.querySelector(".artinscritos");
-
-  //funcoes
-  liconfigsite.addEventListener("click", function () {
-    artconfigsite.style.display = "flex";
-
-    artcadastro.style.display = "none";
-    artusuarios.style.display = "none";
-    artconteudo.style.display = "none";
-    artinscritos.style.display = "none";
-
-    liconfigsite.style.background = "#FAB243";
-
-    liusuarios.style.background = "#429867";
-    liddscadastro.style.background = "#429867";
-    ligeconteudo.style.background = "#429867";
-  });
-  ligeconteudo.addEventListener("click", function () {
-    artconteudo.style.display = "flex";
-    artcadastro.style.display = "none";
-    artconfigsite.style.display = "none";
-    artusuarios.style.display = "none";
-    artinscritos.style.display = "none";
-
-    ligeconteudo.style.background = "#FAB243";
-
-    liddscadastro.style.background = "#429867";
-    liusuarios.style.background = "#429867";
-    liconfigsite.style.background = "#429867";
-  });
+  
 
   liddscadastro.addEventListener("click", function () {
     artcadastro.style.display = "flex";
@@ -104,34 +68,4 @@ document.addEventListener("DOMContentLoaded", function () {
     liusuarios.style.background = "#429867";
     liconfigsite.style.background = "#429867";
   });
-
-  liusuarios.addEventListener("click", function () {
-    artusuarios.style.display = "flex";
-
-    artconteudo.style.display = "none";
-    artcadastro.style.display = "none";
-    artconfigsite.style.display = "none";
-    artinscritos.style.display = "none";
-
-    liusuarios.style.background = "#FAB243";
-
-    liddscadastro.style.background = "#429867";
-    ligeconteudo.style.background = "#429867";
-    liconfigsite.style.background = "#429867";
-  });
-  liinscritos.addEventListener("click", function () {
-    artinscritos.style.display = "flex";
-
-    artusuarios.style.display = "none";
-    artconteudo.style.display = "none";
-    artcadastro.style.display = "none";
-    artconfigsite.style.display = "none";
-
-    liinscritos.style.background = "#FAB243";
-
-    liusuarios.style.background = "#429867";
-    liddscadastro.style.background = "#429867";
-    ligeconteudo.style.background = "#429867";
-    liconfigsite.style.background = "#429867";
-  });
-});
+})

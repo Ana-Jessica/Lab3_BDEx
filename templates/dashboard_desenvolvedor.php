@@ -30,16 +30,14 @@
 
     <br />
     <ul>
-      <li class="item liconfigsite">Configurações do Site</li>
-      <br />
+    
       <li class="item liddscadastro">Dados de cadastro</li>
       <br />
-      <li class="item liusuarios">Administradores</li>
-
+      <li class="item ligeconteudo">Conectar a uma empresa</li>
       <br />
-      <li class="item ligeconteudo">Gerenciamento de Conteúdo</li>
+      <li class="item liusuarios">Minhas conexões</li>
       <br />
-      <li class="item liinscritos">Inscritos</li>
+    
 
     </ul>
   </nav>
@@ -84,22 +82,7 @@
         </fieldset>
       </form>
 
-    </article>
-    <article class="artconteudo">
-      
-    </article>
-
-    <article class="artusuarios">
-
-      
-    </article>
-
-    <article class="artconfigsite">
-      <h2>art config</h2>
-    </article>
-    <article class="artinscritos">
-    
-    </article>
+   
   </main>
   
   <script src="../static/scripts/dash_desenvolvedor.js"></script>
