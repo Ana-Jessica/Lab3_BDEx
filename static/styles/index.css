@@ -1,56 +1,71 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 :root {
- --cor-azul-escuro: #2A5EAC;
- --cor-azul-claro: #3ABAF1;
- --cor-verde-escuro: #00DE8A;
- --cor-verde-claro: #84EC80;
- --fonte-BDEx: 'Poppins';
+    --cor-azul-escuro: #2A5EAC;
+    --cor-azul-claro: #3ABAF1;
+    --cor-verde-escuro: #00DE8A;
+    --cor-verde-claro: #84EC80;
+    --fonte-BDEx: 'Poppins';
 }
 
-*{
+* {
     margin: auto;
     padding: auto;
+    cursor: url(../imgs/cur/axolotecursor_sf.png), default;
 }
-a{
+
+a {
     text-decoration: none;
     font-size: 20px;
     color: var(--cor-azul-claro);
 }
 
-body{
+.caixa:hover a{
+    color: black;
+
+}
+
+body {
     padding: 2%;
     background-image: url(../imgs/fundo_completo.png);
     background-size: cover;
     position: fixed;
 }
+
 .nav {
-    position: fixed; /* Fixa o cabeçalho no topo */
+    position: fixed;
+    /* Fixa o cabeçalho no topo */
     top: 10;
     left: 0;
     width: 100%;
-    color: #ccc; /* Cor do texto */
+    color: #ccc;
+    /* Cor do texto */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 1000; /* Garante que fique acima de outros elementos */
+    z-index: 1000;
+    /* Garante que fique acima de outros elementos */
 }
 
-.nav-link{
+.nav-link {
     text-decoration: none;
     color: var(--cor-azul-claro);
 }
+
 .nav-link :hover {
     width: 50px;
     height: 20px;
     background-color: #00DE8A;
-    color: #4CAF50; /* Cor ao passar o mouse */
+    color: #4CAF50;
+    /* Cor ao passar o mouse */
 }
 
 /* Container principal ajustado */
 .container {
     display: flex;
-    flex-direction: column; /* Organiza em coluna */
+    flex-direction: column;
+    /* Organiza em coluna */
     background-color: white;
     margin: 0 auto;
     width: 96vw;
@@ -65,19 +80,22 @@ body{
 .logo-section {
     display: flex;
     justify-content: left;
-    align-items:first baseline;
+    align-items: first baseline;
     padding: 20px;
 }
-.cabecalho{
+
+.cabecalho {
     color: var(--cor-azul-escuro);
     font-family: var(--fonte-BDEx);
     padding-left: 20px;
 }
-.link > .cabecalho{
+
+.link>.cabecalho {
     text-decoration: none;
     color: var(--cor-azul-escuro);
     font-family: var(--fonte-BDEx);
 }
+
 /* Container das caixas */
 .caixas-container {
     display: flex;
@@ -86,7 +104,9 @@ body{
 }
 
 /* Ajustes nas caixas individuais */
-.caixa, .caixa1, .caixa2 {
+.caixa,
+.caixa1,
+.caixa2 {
     background-color: var(--cor-azul-escuro);
     width: 230px;
     height: 250px;
@@ -98,19 +118,23 @@ body{
     transition: 0.4s;
 }
 
-.caixa1, .caixa2 {
+.caixa1,
+.caixa2 {
     background-color: var(--cor-azul-claro);
 }
 
 .caixa:hover {
     background: var(--cor-azul-claro);
     border: 1px solid --cor-verde-claro;
-    transform: translateY(-10px); /* Efeito de levantar */
+    transform: translateY(-10px);
+    /* Efeito de levantar */
     cursor: pointer;
 }
 
 /* Ajuste para o conteúdo dentro das caixas */
-.caixa h3, .caixa1 h3, .caixa2 h3 {
+.caixa h3,
+.caixa1 h3,
+.caixa2 h3 {
     margin-top: 20px;
     padding: 10px;
 }
@@ -121,11 +145,11 @@ body{
         flex-direction: column;
         padding: 1rem;
     }
-    
+
     .cabecalho nav {
         margin-top: 1rem;
     }
-    
+
     .cabecalho nav a {
         margin: 0 0.5rem;
     }
