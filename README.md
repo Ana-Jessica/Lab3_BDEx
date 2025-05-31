@@ -1,54 +1,61 @@
-﻿# Laboratorio-3
-# BDEx - Beginner Dev Experience
-![LOGO_BDEx](https://github.com/user-attachments/assets/1e0764d1-0e2f-4919-967b-ef6c955ce3a6)
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-## Sobre o Projeto
-O **BDeX - Beginner Dev Experience** é uma plataforma digital inovadora que conecta programadores iniciantes a empresas que necessitam de soluções tecnológicas. O objetivo principal é proporcionar experiência prática para desenvolvedores em início de carreira, permitindo que trabalhem em projetos reais, ganhem portfólio e aumentem suas chances de empregabilidade.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## Missão, Visão e Valores
-**Missão:**
-Conectar programadores iniciantes a oportunidades reais de mercado, fornecendo experiências práticas que impulsionam suas carreiras e auxiliando empresas na busca por talentos promissores e soluções inovadoras.
+## About Laravel
 
-**Visão:**
-Ser a principal plataforma de intermediação entre novos programadores e empresas, revolucionando a forma como os talentos são descobertos e desenvolvidos no setor de tecnologia.
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-**Valores:**
-- **Inclusão e Oportunidade:** Todos os programadores merecem uma chance de iniciar sua carreira com projetos reais.
-- **Compromisso com a Qualidade:** Agregar valor tanto para os programadores quanto para as empresas parceiras.
-- **Inovação e Acessibilidade:** Facilitar o acesso a oportunidades reais através da tecnologia e soluções estratégicas.
-- **Colaboração e Comunidade:** Criar um ambiente onde aprendizado, networking e crescimento sejam coletivos.
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-## Funcionalidades Principais
-- Empresas podem publicar demandas de projetos e buscar desenvolvedores.
-- Desenvolvedores iniciantes podem se candidatar a projetos e obter experiência prática.
-- Sistema de conexões para facilitar o contato entre empresas e programadores.
-- Monetização baseada em anúncios e futuras assinaturas premium.
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Modelo de Negócio
-- **Proposta de Valor:** Fornecimento de experiência prática a desenvolvedores e facilidade de contratação para empresas.
-- **Fontes de Receita:** Receita gerada por anúncios, parcerias e futuras assinaturas premium.
-- **Estrutura de Custos:** Hospedagem, desenvolvimento, marketing e suporte.
+## Learning Laravel
 
-## Tecnologias Utilizadas
-- **Front-end:** HTML/CSS/JS
-- **Back-end:** PHP
-- **Banco de Dados:** MySQL
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-## Como Contribuir
-1. Faça um fork do repositório.
-2. Crie uma branch com sua feature (`git checkout -b minha-feature`).
-3. Commit suas alterações (`git commit -m 'Adicionando minha feature'`).
-4. Envie para o repositório remoto (`git push origin minha-feature`).
-5. Abra um Pull Request.
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-## Contato
-- **Equipe:**
-  - Ana Jéssica
-  - João Bellino
-  - Mateus Jorge
-  - Roberto Eduardo
-  - Ubiratã Rodrigues
-- **Professor Orientador:** MSc. Edilberto M Silva - [prof.edilberto.silva@gmail.com](mailto:prof.edilberto.silva@gmail.com)
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
+## Laravel Sponsors
 
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
+### Premium Partners
+
+- **[Vehikl](https://vehikl.com)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Redberry](https://redberry.international/laravel-development)**
+- **[Active Logic](https://activelogic.com)**
+
+## Contributing
+
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+
+## Code of Conduct
+
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
