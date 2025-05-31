@@ -1,9 +1,9 @@
 // Função para preencher o formulário com dados do usuário
 function preencherFormulario(id) {
-  const nome = document.querySelector("#nome_desenvolvedor");
-  const telefone = document.querySelector("#telefone_desenvolvedor");
-  const email = document.querySelector("#email_desenvolvedor");
-  const cpf = document.querySelector("#cpf");
+  const nome = document.querySelector("#nome_empresa");
+  const telefone = document.querySelector("#telefone_empresa");
+  const email = document.querySelector("#email_empresa");
+  const cnpj = document.querySelector("#cnpj");
   const linguagens = document.querySelector("#linguagens_de_programacao");
   const tecnologias = document.querySelector("#tecnologias");
   const senha = document.querySelector("#senha");
@@ -13,10 +13,10 @@ function preencherFormulario(id) {
   xhr.onload = function () {
     if (this.status === 200) {
       const user = JSON.parse(this.responseText);
-      nome.value = user.nome_desenvolvedor || "";
-      telefone.value = user.telefone_desenvolvedor || "";
-      email.value = user.email_desenvolvedor || "";
-      cpf.value = user.cpf || "";
+      nome.value = user.nome_empresa || "";
+      telefone.value = user.telefone_empresa || "";
+      email.value = user.email_empresa || "";
+      cnpj.value = user.cnpj || "";
       linguagens.value = user.linguagens_de_programacao || "";
       tecnologias.value = user.tecnologias || "";
       senha.value = ""; // por segurança
@@ -27,28 +27,28 @@ function preencherFormulario(id) {
 
 // Seletores dos itens de menu
 const liddscadastro = document.querySelector(".liddscadastro");
-const liconectar = document.querySelector(".liconectar");
+const lisolicitacoes = document.querySelector(".lisolicitacoes");
 const liconexoes = document.querySelector(".liconexoes");
 
 // Seletores dos artigos
 const artcadastro = document.querySelector(".artcadastro");
-const artconectar = document.querySelector(".artconectar");
+const artsolicitacoes = document.querySelector(".artsolicitacoes");
 const artconexoes = document.querySelector(".artconexoes");
 
 // Função para resetar os backgrounds dos menus
 function resetarBackground() {
   liddscadastro.style.background = "";
-  liconectar.style.background = "";
+  lisolicitacoes.style.background = "";
   liconexoes.style.background = "";
   liddscadastro.style.color = "";
-  liconectar.style.color = "";
+  lisolicitacoes.style.color = "";
   liconexoes.style.color = "";
 }
 
 // Mostrar seção Cadastro
 liddscadastro.addEventListener("click", function () {
   artcadastro.style.display = "flex";
-  artconectar.style.display = "none";
+  artsolicitacoes.style.display = "none";
   artconexoes.style.display = "none";
 
   resetarBackground();
@@ -57,20 +57,20 @@ liddscadastro.addEventListener("click", function () {
 });
 
 // Mostrar seção Conectar
-liconectar.addEventListener("click", function () {
+lisolicitacoes.addEventListener("click", function () {
   artcadastro.style.display = "none";
-  artconectar.style.display = "flex";
+  artsolicitacoes.style.display = "flex";
   artconexoes.style.display = "none";
 
   resetarBackground();
-  liconectar.style.background = "#00DE8A";
-liconectar.style.color = "black"
+  lisolicitacoes.style.background = "#00DE8A";
+lisolicitacoes.style.color = "black"
 });
 
 // Mostrar seção Conexões
 liconexoes.addEventListener("click", function () {
   artcadastro.style.display = "none";
-  artconectar.style.display = "none";
+  artsolicitacoes.style.display = "none";
   artconexoes.style.display = "flex";
 
   resetarBackground();

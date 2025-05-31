@@ -154,3 +154,9 @@ body {
         margin: 0 0.5rem;
     }
 }
+::-webkit-scrollbar{
+    background: #00DE8A;
+}
+::-webkit-scrollbar-thumb{
+    background: #2A5EAC;
+}
