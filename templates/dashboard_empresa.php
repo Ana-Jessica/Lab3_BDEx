@@ -37,6 +37,8 @@ include_once("../server/auth.php");
 
             <li class="item liddscadastro">Dados de cadastro</li>
             <br />
+            <li class="item livagas">Gerenciar vagas</li>
+            <br />
             <li class="item lisolicitacoes">Solicitações</li>
             <br />
             <li class="item liconexoes">Conexões</li>
@@ -100,6 +102,11 @@ include_once("../server/auth.php");
                 </box-inputset>
             </form>
         </article>
+         <article class="artvagas" style="display: none;">
+            <h2>gerenciar vagas</h2>
+            <button>criar vaga</button>
+        </article>
+
         <article class="artsolicitacoes" style="display: none;">
             <h2>Minhas Solicitações</h2>
   <table class="tabela-solicitacoes">

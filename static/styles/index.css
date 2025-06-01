@@ -12,7 +12,8 @@
 * {
     margin: auto;
     padding: auto;
-    cursor: url(../imgs/cur/axolotecursor_sf.png), default;
+    
+  /*  cursor: url(../imgs/cur/axolotecursor_sf.png), default; */
 }
 
 a {
