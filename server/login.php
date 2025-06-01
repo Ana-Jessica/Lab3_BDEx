@@ -7,12 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $senha = $_POST['senha'];
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "<script>alert('Email inválido.'); window.location.href = '../public/pglogin.html';</script>";
+        echo "<script>alert('Email inválido.'); window.location.href = '../templates/pglogin.html';</script>";
         exit();
     }
 
     if (empty($senha)) {
-        echo "<script>alert('Senha obrigatória.'); window.location.href = '../public/pglogin.html';</script>";
+        echo "<script>alert('Senha obrigatória.'); window.location.href = '../templates/pglogin.html';</script>";
         exit();
     }
 
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: ../templates/dashboard_empresa.php");
             exit();
         } else {
-            echo "<script>alert('Senha incorreta.'); window.location.href = '../public/pglogin.html';</script>";
+            echo "<script>alert('Senha incorreta.'); window.location.href = '../templates/pglogin.html';</script>";
             exit();
         }
     } else {
@@ -66,18 +66,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: ../templates/dashboard_desenvolvedor.php");
                 exit();
             } else {
-                echo "<script>alert('Senha incorreta.'); window.location.href = '../public/pglogin.html';</script>";
+                echo "<script>alert('Senha incorreta.'); window.location.href = '../templates/pglogin.html';</script>";
                 exit();
             }
         } else {
-            echo "<script>alert('Usuário não encontrado.'); window.location.href = '../public/pglogin.html';</script>";
+            echo "<script>alert('Usuário não encontrado.'); window.location.href = '../templates/pglogin.html';</script>";
             exit();
         }
     }
 
     mysqli_stmt_close($stmt);
 } else {
-    header("Location: ../public/login.html");
+    header("Location: ../templates/login.html");
     exit();
 }
 ?>

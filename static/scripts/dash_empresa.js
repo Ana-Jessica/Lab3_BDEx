@@ -95,7 +95,20 @@ livagas.addEventListener("click", function () {
   resetarBackground();
   livagas.style.background = "#00DE8A";
   livagas.style.color = "black"
+  
+  btnvaga = document.querySelector(".criarvaga");
+  modalvaga = document.querySelector(".modalvaga");
+  btnfecharmodal = document.querySelector(".btnfecharmodal");
+  
+  btnvaga.addEventListener("click", function () {
+  modalvaga.style.display = "flex";
+  });
+  btnfecharmodal.addEventListener("click", function () {
+  modalvaga.style.display = "none";
+  });
+
 });
+
 
  function confirmarEncerramento() {
     return confirm("Deseja realmente desativar sua conta?");

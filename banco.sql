@@ -23,7 +23,7 @@ CREATE TABLE Desenvolvedor (
 );
 
 CREATE TABLE Vaga (
-    id_vaga INT PRIMARY KEY auto_increment,
+    id_vaga INT PRIMARY KEY auto_increment AUTO INCREMENT ,
     id_empresa INT,
     titulo_vaga VARCHAR(255),
     descricao_vaga TEXT,

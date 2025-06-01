@@ -102,43 +102,68 @@ include_once("../server/auth.php");
                 </box-inputset>
             </form>
         </article>
-         <article class="artvagas" style="display: none;">
+        <article class="artvagas" style="display: none;">
             <h2>gerenciar vagas</h2>
-            <button>criar vaga</button>
+            <button class="criarvaga">criar vaga +</button>
+            <br>
+            <div class="modalvaga">
+                <form class="modaleditarvaga" action="" method="POST">
+                    <div class="btnfecharmodal">⮐</div>
+                    <h2>NOVA VAGA</h2>
+                    <div class="box-input">
+                        <label for="">Titulo</label>
+                        <input type="text" placeholder="ex: dev frontEnd php">
+                    </div>
+                    <div class="box-input">
+                        <label for="">descrição:</label>
+                        <input type="text"
+                            placeholder="precisamos de um desenvolvedor php com conhecimentos em laravel...">
+                    </div>
+                    <div class="box-input">
+                        <label for="">valor de oferta:</label>
+                        <input type="text" placeholder="R$ 99,99">
+                    </div>
+                    <div class="box-input">
+                        <label for="">Emprasa: (esta nome dessa empresa vinda do banco)</label>
+                       
+                    </div>
+                    <button class="btnsubmitvaga" type="submit"> CRIAR VAGA</button>
+                </form>
+            </div>
         </article>
 
         <article class="artsolicitacoes" style="display: none;">
             <h2>Minhas Solicitações</h2>
-  <table class="tabela-solicitacoes">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Título</th>
-        <th>Descrição</th>
-        <th>Data</th>
-        <th>Candidatos</th>
-        <th>Status</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Exemplo de linha -->
-      <tr style="text-align: center;">
-        <td>001</td>
-        <td>Dev PHP</td>
-        <td>Preciso de um sistema de agendamento simples em PHP e MySQL.</td>
-        <td>31/05/2025</td>
-        <td>2
-            <button class="btn-ver">Ver Candidatos</button>
-        </td>
-        <td><span class="status pendente">Aberta</span></td>
-        <td>
-          <button class="btn-editar">Editar</button>
-          <button class="btn-cancelar">Cancelar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            <table class="tabela-solicitacoes">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Descrição</th>
+                        <th>Data</th>
+                        <th>Candidatos</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Exemplo de linha -->
+                    <tr style="text-align: center;">
+                        <td>001</td>
+                        <td>Dev PHP</td>
+                        <td>Preciso de um sistema de agendamento simples em PHP e MySQL.</td>
+                        <td>31/05/2025</td>
+                        <td>2
+                            <button class="btn-ver">Ver Candidatos</button>
+                        </td>
+                        <td><span class="status pendente">Aberta</span></td>
+                        <td>
+                            <button class="btn-editar">Editar</button>
+                            <button class="btn-cancelar">Cancelar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </article>
 
         <article class="artconexoes" style="display: none;">
