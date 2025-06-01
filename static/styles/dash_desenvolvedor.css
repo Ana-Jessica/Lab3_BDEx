@@ -409,6 +409,8 @@ textarea{
   display: inline-block;
   max-height: 300px;
   margin: 5px;
+  background: var(--cor-verde-claro);
+  color: var(--cor-azul-escuro);
 }
 legend{
   text-align: center;
