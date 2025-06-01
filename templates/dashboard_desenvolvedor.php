@@ -1,3 +1,18 @@
+<?php
+include_once '../server/conexao.php'; // ou o nome do seu arquivo de conexão
+include_once '../server/auth.php';
+
+$id = $_SESSION['id']; // ID do desenvolvedor logado
+
+// Buscar dados no banco
+$sql = "SELECT * FROM desenvolvedor WHERE id_desenvolvedor = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$dev = $resultado->fetch_assoc();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,9 +33,9 @@
         <div class="usuarionotificacoes">
 
         </div>
-        <a href="sairsessao.php">
-          <img width="60px" height="60px" class="btndesconectar" src="../static/imgs/iconelogout.png" alt="">
-        </a>
+          <a href="../server/logout.php">
+                <img width="60px" height="60px" class="btndesconectar" src="../static/imgs/iconelogout.png" alt="">
+            </a>
       </div>
     </header>
     <nav class="menulateral">

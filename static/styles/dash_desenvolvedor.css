@@ -399,7 +399,7 @@ td {
   background-color: var(--cor-verde-claro);
 }
 ::-webkit-scrollbar-thumb{
-  background-color: var(--cor-verde-escuro);
+  background-color: var(--cor-azul-escuro);
   border-radius: 20px;
   border: 2px solid white;
 }

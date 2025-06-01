@@ -14,5 +14,5 @@ if (isset($_COOKIE['id']) && isset($_COOKIE['tipo'])) {
 }
 
 // Se não tiver sessão nem cookie, manda pro login
-header("Location: ../public/login.html");
+header("Location: ../templates/pglogin.html");
 exit();

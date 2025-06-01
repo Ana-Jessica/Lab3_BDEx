@@ -1,5 +1,22 @@
 <?php
+
+include_once("../server/conexao.php");
 include_once("../server/auth.php");
+// Verifica se está logado e se é uma empresa
+if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'empresa') {
+    header("Location: ../templates/pglogin.html");
+    exit();
+}
+
+$id_empresa = $_SESSION['id'];
+
+// Buscar dados da empresa
+$stmt = $conn->prepare("SELECT nome_empresa, cnpj, endereco, email, telefone_empresa FROM empresa WHERE id_empresa = ?");
+$stmt->bind_param("i", $id_empresa);
+$stmt->execute();
+$stmt->bind_result($nome, $cnpj, $endereco, $email, $telefone);
+$stmt->fetch();
+$stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -19,11 +36,13 @@ include_once("../server/auth.php");
                 <img src="../static/imgs/bdexsemfundo.png" alt="" width="150px" height="68px"
                     style="object-fit: contain;" />
             </div>
-
+            <div>
+                <h3>BEM VINDO <?= htmlspecialchars($nome) ?></h3>
+            </div>
             <div class="usuarionotificacoes">
 
             </div>
-            <a href="sairsessao.php">
+            <a href="../server/logout.php">
                 <img width="60px" height="60px" class="btndesconectar" src="../static/imgs/iconelogout.png" alt="">
             </a>
         </div>
@@ -54,37 +73,40 @@ include_once("../server/auth.php");
     <main>
         <article class="artcadastro">
 
-            <form action="saveedit.php" method="POST">
+            <form action="edit_dds_empresa.php" method="POST">
                 <box-inputset>
                     <legend>
                         <h1><b>Editar dados da Empresa</b></h1>
                     </legend>
                     <br />
-
                     <div class="box-input">
                         <label for="nome_empresa">Nome:</label>
-                        <input type="text" placeholder="Digite seu nome" id="nome_empresa" name="nome_empresa" required>
+                        <input type="text" placeholder="Digite seu nome" id="nome_empresa" name="nome_empresa" required
+                            value="<?= htmlspecialchars($nome) ?>">
                     </div>
                     <br>
                     <div class="box-input">
                         <label for="cnpj">CNPJ</label>
-                        <input type="text" placeholder="Digite..." id="cnpj" name="cnpj" required>
+                        <input type="text" placeholder="Digite..." id="cnpj" name="cnpj" required
+                            value="<?= htmlspecialchars($cnpj) ?>">
                     </div>
                     <br>
                     <div class="box-input">
                         <label for="endereco">Endereço:</label>
-                        <input type="text" placeholder="Digite seu endereço" id="endereco" name="endereco" required>
+                        <input type="text" placeholder="Digite seu endereço" id="endereco" name="endereco" required
+                            value="<?= htmlspecialchars($endereco) ?>">
                     </div>
                     <br>
                     <div class="box-input">
                         <label for="email">Email:</label>
-                        <input type="text" placeholder="Digite seu e-mail" id="email" name="email" required>
+                        <input type="text" placeholder="Digite seu e-mail" id="email" name="email" required
+                            value="<?= htmlspecialchars($email) ?>">
                     </div>
                     <br>
                     <div class="box-input">
                         <label for="telefone_empresa">Telefone:</label>
                         <input type="text" placeholder="Digite seu telefone" id="telefone_empresa"
-                            name="telefone_empresa" required>
+                            name="telefone_empresa" required value="<?= htmlspecialchars($telefone) ?>">
                     </div>
                     <br>
                     <div class="box-input">
@@ -125,7 +147,7 @@ include_once("../server/auth.php");
                     </div>
                     <div class="box-input">
                         <label for="">Emprasa: (esta nome dessa empresa vinda do banco)</label>
-                       
+
                     </div>
                     <button class="btnsubmitvaga" type="submit"> CRIAR VAGA</button>
                 </form>

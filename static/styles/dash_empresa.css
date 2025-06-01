@@ -32,7 +32,9 @@ header {
   justify-content: space-between;
   border-bottom: 2px solid var(--cor-azul-escuro);
 }
-
+header h3{
+  color: var(--cor-azul-escuro);
+}
 /* Menubar */
 .menubar {
   width: 100%;
