@@ -29,11 +29,13 @@ function preencherFormulario(id) {
 const liddscadastro = document.querySelector(".liddscadastro");
 const lisolicitacoes = document.querySelector(".lisolicitacoes");
 const liconexoes = document.querySelector(".liconexoes");
+const livagas = document.querySelector(".livagas");
 
 // Seletores dos artigos
 const artcadastro = document.querySelector(".artcadastro");
 const artsolicitacoes = document.querySelector(".artsolicitacoes");
 const artconexoes = document.querySelector(".artconexoes");
+const artvagas = document.querySelector(".artvagas");
 
 // Função para resetar os backgrounds dos menus
 function resetarBackground() {
@@ -43,6 +45,9 @@ function resetarBackground() {
   liddscadastro.style.color = "";
   lisolicitacoes.style.color = "";
   liconexoes.style.color = "";
+  
+  livagas.style.background = "";
+  livagas.style.color = "";
 }
 
 // Mostrar seção Cadastro
@@ -50,6 +55,7 @@ liddscadastro.addEventListener("click", function () {
   artcadastro.style.display = "flex";
   artsolicitacoes.style.display = "none";
   artconexoes.style.display = "none";
+  artvagas.style.display = "none";
 
   resetarBackground();
   liddscadastro.style.background = "#00DE8A";
@@ -61,6 +67,7 @@ lisolicitacoes.addEventListener("click", function () {
   artcadastro.style.display = "none";
   artsolicitacoes.style.display = "flex";
   artconexoes.style.display = "none";
+  artvagas.style.display = "none";
 
   resetarBackground();
   lisolicitacoes.style.background = "#00DE8A";
@@ -71,12 +78,25 @@ lisolicitacoes.style.color = "black"
 liconexoes.addEventListener("click", function () {
   artcadastro.style.display = "none";
   artsolicitacoes.style.display = "none";
+  artvagas.style.display = "none";
   artconexoes.style.display = "flex";
 
   resetarBackground();
   liconexoes.style.background = "#00DE8A";
   liconexoes.style.color = "black"
 });
+
+livagas.addEventListener("click", function () {
+  artvagas.style.display = "flex";
+  artcadastro.style.display = "none";
+  artsolicitacoes.style.display = "none";
+  artconexoes.style.display = "none";
+  
+  resetarBackground();
+  livagas.style.background = "#00DE8A";
+  livagas.style.color = "black"
+});
+
  function confirmarEncerramento() {
     return confirm("Deseja realmente desativar sua conta?");
   }
