@@ -75,7 +75,7 @@
             </div>
             <br>
             <div class="box-input">
-              <label for="linguagens_de_programacao">Linguagens de programacao:</label>
+              <label for="linguagens_de_programacao">Skills:</label>
               <textarea type="text" placeholder="Digite seus conhecimentos:" id="linguagens_de_programacao"
                 name="linguagens_de_programacao" required>
               </textarea>
