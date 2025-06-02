@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
                desenvolvedorForm.classList.add('active');
                tipoUsuario.textContent = 'Desenvolvedor';
                tipoUsuario.style.left = '10px';
-               tipoUsuario.style.color = 'blue';
+               tipoUsuario.style.color = 'black';
                
             } else {
                 empresaForm.classList.add('active');
