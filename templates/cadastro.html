@@ -12,147 +12,9 @@
    <link rel="mask-icon" href="ICONS/safari-pinned-tab.svg" color="#5bbad5">
    <meta name="msapplication-TileColor" content="#da532c">
    <link rel="stylesheet" href="../static/styles/login.css">
+   <link rel="stylesheet" href="../static/styles/cadastro.css">
    <meta name="theme-color" content="#ffffff">
-   <style>
-      /* Estilo para o toggle e forms */
-      .toggle-container {
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         gap: 10px;
-         margin-bottom: 20px;
-      }
-
-      .form-inner {
-         display: none;
-      }
-
-      .form-inner.active {
-         display: block;
-      }
-
-      /* Estilo do switch (toggle) */
-      .switch {
-         position: relative;
-         display: inline-block;
-         width: 60px;
-         height: 34px;
-      }
-
-      .switch input {
-         opacity: 0;
-         width: 0;
-         height: 0;
-      }
-
-      .toggle-container {
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         gap: 10px;
-         margin-bottom: 20px;
-      }
-
-      .tipo-usuario-text {
-         font-weight: bold;
-         min-width: 100px;
-         text-align: left;
-      }
-
-      /* Estilo base do switch */
-      .custom-switch {
-         position: relative;
-         display: inline-block;
-         width: 180px;
-         height: 44px;
-      }
-
-      /* Esconde o checkbox padrão */
-      .custom-switch input {
-         opacity: 0;
-         width: 0;
-         height: 0;
-      }
-
-      /* Estilo do slider (parte deslizante) */
-      .custom-slider {
-         position: absolute;
-         cursor: pointer;
-         top: 0;
-         left: 0;
-         right: 0;
-         bottom: 0;
-         background-color: #2A5EAC;
-         transition: .4s;
-         box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-      }
-
-      .custom-slider.custom-round {
-         border-radius: 34px;
-      }
-
-      .custom-slider.custom-round:before {
-         position: absolute;
-         content: "";
-         height: 36px;
-         width: 36px;
-         left: 4px;
-         bottom: 4px;
-         background-color: white;
-         transition: .4s;
-         border-radius: 50%;
-         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-         z-index: 2;
-      }
-
-      input:checked+.custom-slider {
-         background-color: #3ABAF1;
-         /* Azul quando ativo */
-      }
-
-      input:checked+.custom-slider.custom-round:before {
-         transform: translateX(136px);
-      }
-
-      /* Estilo dos labels (textos) */
-      .custom-label {
-         position: absolute;
-         top: 50%;
-         transform: translateY(-50%);
-         color: #555;
-         font-weight: bold;
-         font-size: 14px;
-         transition: all 0.3s ease;
-         z-index: 1;
-         user-select: none;
-      }
-
-      .custom-label.left {
-         left: 15px;
-      }
-
-      .custom-label.right {
-         right: 15px;
-      }
-
-
-      input:checked~.custom-label.right {
-         color: white;
-      }
-
-      input:not(:checked)~.custom-label.left {
-         color: white;
-      }
-
-      /* Estilo dos formulários */
-      .form-inner {
-         display: none;
-      }
-
-      .form-inner.active {
-         display: block;
-      }
-   </style>
+   
 
 </head>
 
@@ -166,17 +28,18 @@
             <h1>Cadastro</h1>
          </div>
       </div>
-
-      <label>Qual seu tipo de usuário</label>
-      <div class="toggle-container">
+      <div class="ldld">
+         <label>CADASTRAR COMO:</label>
+         <div class="toggle-container">
+      </div>
 
          <label class="custom-switch">
             <input type="checkbox" id="toggleCadastro">
             <span class="custom-slider custom-round"></span>
             <span class="custom-label left"></span>
             <span class="custom-label right"></span>
+            <span id="tipoUsuario" class="tipo-usuario-text">Empresa</span>
          </label>
-         <span id="tipoUsuario" class="tipo-usuario-text">Empresa</span>
       </div>
 
       <div class="form-container">
@@ -263,26 +126,8 @@
          </div>
       </div>
    </div>
-   <script>
-      document.addEventListener('DOMContentLoaded', function () {
-         const toggle = document.getElementById('toggleCadastro');
-         const empresaForm = document.getElementById('empresaForm');
-         const desenvolvedorForm = document.getElementById('desenvolvedorForm');
-         const tipoUsuario = document.getElementById('tipoUsuario');
-
-         toggle.addEventListener('change', function () {
-            if (this.checked) {
-               empresaForm.classList.remove('active');
-               desenvolvedorForm.classList.add('active');
-               tipoUsuario.textContent = 'Desenvolvedor';
-            } else {
-               empresaForm.classList.add('active');
-               desenvolvedorForm.classList.remove('active');
-               tipoUsuario.textContent = 'Empresa';
-            }
-         });
-      });
-   </script>
+   <script src="../static/scripts/cadastro.js"></script>
+  
 </body>
 
 </html>

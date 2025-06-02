@@ -1,0 +1,150 @@
+ /* Estilo para o toggle e forms */
+      .toggle-container {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         gap: 10px;
+         margin-bottom: 20px;
+      }
+
+      .form-inner {
+         display: none;
+      }
+
+      .form-inner.active {
+         display: block;
+      }
+
+      /* Estilo do switch (toggle) */
+      .switch {
+         position: relative;
+         display: inline-block;
+         width: 60px;
+         height: 34px;
+      }
+
+      .switch input {
+         opacity: 0;
+         width: 0;
+         height: 0;
+      }
+
+      .toggle-container {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         gap: 10px;
+         margin-bottom: 20px;
+         position: relative;
+      }
+
+      .tipo-usuario-text {
+         font-weight: bold;
+         min-width: 100px;
+         text-align: left;
+      }
+
+      /* Estilo base do switch */
+      .custom-switch {
+         position: relative;
+         display: inline-block;
+         width: 180px;
+         height: 44px;
+      }
+
+      /* Esconde o checkbox padrão */
+      .custom-switch input {
+         opacity: 0;
+         width: 0;
+         height: 0;
+      }
+
+      /* Estilo do slider (parte deslizante) */
+      .custom-slider {
+         position: absolute;
+         cursor: pointer;
+         top: 0;
+         left: 0;
+         right: 0;
+         bottom: 0;
+         background-color: #2A5EAC;
+         transition: .4s;
+         box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      .custom-slider.custom-round {
+         border-radius: 34px;
+      }
+
+      .custom-slider.custom-round:before {
+         position: absolute;
+         content: "";
+         height: 36px;
+         width: 36px;
+         left: 4px;
+         bottom: 4px;
+         background-color: white;
+         transition: .4s;
+         border-radius: 50%;
+         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+         z-index: 2;
+      }
+
+      input:checked+.custom-slider {
+         background-color: #3ABAF1;
+         /* Azul quando ativo */
+      }
+
+      input:checked+.custom-slider.custom-round:before {
+         transform: translateX(136px);
+      }
+
+      /* Estilo dos labels (textos) */
+      .custom-label {
+         position: absolute;
+         top: 50%;
+         transform: translateY(-50%);
+         color: #555;
+         font-weight: bold;
+         font-size: 14px;
+         transition: all 0.3s ease;
+         z-index: 1;
+         user-select: none;
+      }
+
+      .custom-label.left {
+         left: 15px;
+      }
+
+      .custom-label.right {
+         right: 15px;
+      }
+
+
+      input:checked~.custom-label.right {
+         color: white;
+      }
+
+      input:not(:checked)~.custom-label.left {
+         color: white;
+      }
+
+      /* Estilo dos formulários */
+      .form-inner {
+         display: none;
+      }
+
+      .form-inner.active {
+         display: block;
+      }
+      #tipoUsuario{
+        color: white;
+        position: absolute;
+        top: 10px;
+        left: 60px;
+      }
+      .ldld{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
