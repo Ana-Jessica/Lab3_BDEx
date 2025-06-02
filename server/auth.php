@@ -1,6 +1,7 @@
 <?php
-session_start();
-
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 // Se já estiver logado pela sessão, tá tudo certo
 if (isset($_SESSION['id']) && isset($_SESSION['tipo'])) {
     return; // continua o carregamento da página
@@ -14,5 +15,5 @@ if (isset($_COOKIE['id']) && isset($_COOKIE['tipo'])) {
 }
 
 // Se não tiver sessão nem cookie, manda pro login
-header("Location: ../templates/pglogin.html");
+header("Location: ../templates/login.html");
 exit();

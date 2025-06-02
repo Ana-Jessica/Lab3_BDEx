@@ -1,32 +1,46 @@
 <?php
-
+session_start();
 include_once("../server/conexao.php");
 include_once("../server/auth.php");
+
 // Verifica se está logado e se é uma empresa
 if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'empresa') {
     header("Location: ../templates/pglogin.html");
     exit();
 }
 
-$id_empresa = $_SESSION['id'];
-
 // Buscar dados da empresa
+$id_empresa = $_SESSION['id'];
+$nome = $cnpj = $endereco = $email = $telefone = ''; // Inicializa as variáveis
+
 $stmt = $conn->prepare("SELECT nome_empresa, cnpj, endereco, email, telefone_empresa FROM empresa WHERE id_empresa = ?");
-$stmt->bind_param("i", $id_empresa);
-$stmt->execute();
-$stmt->bind_result($nome, $cnpj, $endereco, $email, $telefone);
-$stmt->fetch();
-$stmt->close();
+if ($stmt) {
+    $stmt->bind_param("i", $id_empresa);
+    $stmt->execute();
+    $stmt->bind_result($nome, $cnpj, $endereco, $email, $telefone);
+
+    if (!$stmt->fetch()) {
+        // Se não encontrar a empresa, define valores padrão
+        $nome = "Empresa não encontrada";
+    }
+    $stmt->close();
+} else {
+    // Em caso de erro na preparação da query
+    $nome = "Erro ao carregar dados";
+    error_log("Erro na preparação da query: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagina da empresa</title>
     <link rel="stylesheet" href="../static/styles/dash_empresa.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body>
@@ -37,13 +51,13 @@ $stmt->close();
                     style="object-fit: contain;" />
             </div>
             <div>
-                <h3>BEM VINDO <?= htmlspecialchars($nome) ?></h3>
+                <h3>Bem vindo <?= htmlspecialchars($nome) ?></h3>
             </div>
             <div class="usuarionotificacoes">
 
             </div>
             <a href="../server/logout.php">
-                <img width="60px" height="60px" class="btndesconectar" src="../static/imgs/iconelogout.png" alt="">
+                <i class="bi bi-box-arrow-right"></i>
             </a>
         </div>
     </header>
@@ -62,8 +76,6 @@ $stmt->close();
             <br />
             <li class="item liconexoes">Conexões</li>
             <br />
-
-            <a href="Desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
 
             <br />
 
@@ -109,6 +121,7 @@ $stmt->close();
                             name="telefone_empresa" required value="<?= htmlspecialchars($telefone) ?>">
                     </div>
                     <br>
+                    
                     <div class="box-input">
                         <label for="senha">Senha:</label>
                         <input type="password" placeholder="Digite sua senha" id="senha" name="senha" required>
@@ -116,7 +129,7 @@ $stmt->close();
                     <br>
 
 
-
+                <a href="Desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
                     <br />
                     <button type="submit" id="update" name="update"
                         onclick="return confirm('Tem certeza de que deseja editar os dados? Verifique se a senha e os dados estão preenchidos corretamente');"
@@ -129,28 +142,75 @@ $stmt->close();
             <button class="criarvaga">criar vaga +</button>
             <br>
             <div class="modalvaga">
-                <form class="modaleditarvaga" action="" method="POST">
-                    <div class="btnfecharmodal">⮐</div>
+                <form class="modaleditarvaga" action="../server/criar_vaga.php" method="POST">
+                    <div class="btnfecharmodal">X</div>
                     <h2>NOVA VAGA</h2>
+                    <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">
                     <div class="box-input">
                         <label for="">Titulo</label>
-                        <input type="text" placeholder="ex: dev frontEnd php">
+                        <input type="text" name="titulo_vaga" placeholder="ex: dev frontEnd php">
                     </div>
                     <div class="box-input">
                         <label for="">descrição:</label>
-                        <input type="text"
+                        <input type="text" name="descricao_vaga"
                             placeholder="precisamos de um desenvolvedor php com conhecimentos em laravel...">
                     </div>
                     <div class="box-input">
                         <label for="">valor de oferta:</label>
-                        <input type="text" placeholder="R$ 99,99">
+                        <input type="text" name="valor_oferta" placeholder="R$ 99,99">
                     </div>
                     <div class="box-input">
-                        <label for="">Emprasa: (esta nome dessa empresa vinda do banco)</label>
+                        <label for="">Empresa: <?php echo htmlspecialchars($nome); ?></label>
 
                     </div>
                     <button class="btnsubmitvaga" type="submit"> CRIAR VAGA</button>
                 </form>
+            </div>
+            <div class="vagas-lista" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <?php
+                if ($_SESSION['tipo'] === 'empresa' && isset($_SESSION['id'])) {
+                    $id_empresa = $_SESSION['id'];
+                    $sql = "SELECT id_vaga, titulo_vaga, data_publicacao, descricao_vaga, valor_oferta 
+                    FROM Vaga 
+                    WHERE id_empresa = ? 
+                    ORDER BY data_publicacao DESC";
+                    $stmt = mysqli_prepare($conn, $sql);
+                    mysqli_stmt_bind_param($stmt, "i", $id_empresa);
+                    mysqli_stmt_execute($stmt);
+                    $result = mysqli_stmt_get_result($stmt);
+
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($vaga = mysqli_fetch_assoc($result)) {
+                            echo "<div class='card border-primary mb-3' style='width: 80%; max-width: 800px;'>
+                            <div class='card-body'>
+                                <h5 class='card-title text-primary'>" . htmlspecialchars($vaga['titulo_vaga']) . "</h5>
+                                <h6 class='card-subtitle mb-2 text-muted'>Publicada em: " . $vaga['data_publicacao'] . "</h6>
+                                <p class='card-text'>" . htmlspecialchars($vaga['descricao_vaga']) . "</p>
+                                <p class='card-text'>
+                                    <strong>Oferta Salarial:</strong> " .
+                                ($vaga['valor_oferta']
+                                    ? 'R$ ' . number_format($vaga['valor_oferta'], 2, ',', '.')
+                                    : '—') . "
+                                </p>
+                                <div style='display: flex; justify-content: center; gap: 10px;'>
+                                    <a href='../server/gerenciar_vagas.php?acao=editar&id=" . $vaga['id_vaga'] . "' class='btn btn-info'><i class='bi bi-pencil'></i></a>
+                                    <a href='../server/gerenciar_vagas.php?acao=excluir&id=" . $vaga['id_vaga'] . "' 
+                                        onclick=\"return confirm('Deseja excluir esta vaga?')\" 
+                                        class='btn btn-danger'>
+                                        <i class='bi bi-trash3'></i>
+                                        </a>
+                                </div>
+                            </div>
+                        </div>";
+                        }
+                    } else {
+                        echo "<p style='text-align: center; width: 100%;'>Você ainda não criou nenhuma vaga.</p>";
+                    }
+                    mysqli_stmt_close($stmt);
+                } else {
+                    echo "<p style='text-align: center; width: 100%;'>Empresa não autenticada.</p>";
+                }
+                ?>
             </div>
         </article>
 

@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     mysqli_stmt_close($stmt);
 } else {
-    echo "<script>window.location.href = '../public/cadastro_empresa.html';</script>";
+    echo "<script>window.location.href = '../templates/cadastro_empresa.html';</script>";
     exit();
 }
 ?>

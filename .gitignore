@@ -1,0 +1,25 @@
+# Ignorar pastas e arquivos de sistema
+node_modules/
+.env
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos compilados
+*.class
+*.pyc
+*.o
+*.exe
+
+# Ignorar logs
+*.log
+
+# Ignorar IDEs
+.vscode/
+.idea/
+
+# Ignorar arquivos temporários
+*.tmp
+*.swp
+
+# ignorar arquivo de conexão
+/server/conexão.php
