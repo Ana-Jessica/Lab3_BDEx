@@ -43,7 +43,9 @@ header {
   flex-direction: row;
   position: relative;
 }
-
+.menubar a{
+  text-decoration: none;
+}
 /* Logo */
 .logo {
   display: flex;
@@ -530,4 +532,31 @@ nav ul a {
 nav ul a:hover {
   background:red; 
   color: white;
+}
+.bi-box-arrow-right{
+  object-fit: contain;
+ font-size: 30px;
+ padding: 2px;
+ z-index: 3;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+.bi-box-arrow-right:hover{
+  font-size: 40px;
+  color: darkred;
+  border-radius: 30px;
+}
+
+.bi-box-arrow-right::after{
+  font-size: 0px;
+  content: "logout";
+  transition: .2s linear;
+}
+
+.bi-box-arrow-right:hover::after{
+font-size: 20px;
+right: 0;
+color: red;
+z-index: 1;
 }

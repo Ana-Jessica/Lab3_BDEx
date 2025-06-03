@@ -12,13 +12,15 @@
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
-body{
+
+body {
   /* background: linear-gradient(45deg, gray,white,gray); */
   background-image: url(../imgs/fundo_completo.png);
   background-repeat: no-repeat;
   background-size: cover;
-  
+
 }
+
 /* Header */
 header {
   width: 100%;
@@ -32,9 +34,11 @@ header {
   justify-content: space-between;
   border-bottom: 2px solid var(--cor-azul-escuro);
 }
-header h3{
+
+header h3 {
   color: var(--cor-azul-escuro);
 }
+
 /* Menubar */
 .menubar {
   width: 100%;
@@ -47,7 +51,9 @@ header h3{
   position: relative;
 
 }
-
+.menubar a{
+  text-decoration: none;
+}
 /* Logo */
 .logo {
   display: flex;
@@ -282,7 +288,7 @@ input:checked+.slider:before {
   max-width: 600px;
   padding: 30px;
   margin: 0 auto;
-  background:white;
+  background: white;
   /* Cor de fundo para o formulário */
   border-radius: 20px;
   display: flex;
@@ -637,14 +643,16 @@ nav ul a:hover {
   justify-content: center;
   flex-direction: column;
   left: 0px;
-color: var(--cor-azul-escuro);
+  color: var(--cor-azul-escuro);
 }
-label{
+
+label {
   font-weight: bolder;
 }
+
 .artvagas label {
   color: white;
-  
+
 }
 
 .artvagas button {
@@ -691,19 +699,23 @@ label{
   border: 2px solid var(--cor-azul-escuro);
   display: flex;
   align-items: center;
-  
+
   flex-direction: column;
-  
+
 }
-.artvagas .modaleditarvaga label{
+
+.artvagas .modaleditarvaga label {
   color: var(--cor-azul-escuro);
 }
-.artvagas .modaleditarvaga input{
-color: var(--cor-azul-escuro);
+
+.artvagas .modaleditarvaga input {
+  color: var(--cor-azul-escuro);
 }
+
 .artvagas .modaleditarvaga input::placeholder {
   color: var(--cor-azul-escuro);
 }
+
 .modaleditarvaga h2 {
   text-align: center;
 }
@@ -734,4 +746,42 @@ color: var(--cor-azul-escuro);
 .btnsubmitvaga {
   width: 400px !important;
   outline: none;
+}
+
+.vagas-lista {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.bi-box-arrow-right{
+  object-fit: contain;
+ font-size: 30px;
+ padding: 2px;
+ z-index: 3;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+.bi-box-arrow-right:hover{
+  font-size: 40px;
+  color: darkred;
+  border-radius: 30px;
+}
+
+.bi-box-arrow-right::after{
+  font-size: 0px;
+  content: "logout";
+  transition: .2s linear;
+}
+
+.bi-box-arrow-right:hover::after{
+font-size: 20px;
+right: 0;
+color: red;
+z-index: 1;
 }

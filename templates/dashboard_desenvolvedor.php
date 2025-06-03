@@ -2,15 +2,26 @@
 include_once '../server/conexao.php'; // ou o nome do seu arquivo de conexão
 include_once '../server/auth.php';
 
-$id = $_SESSION['id']; // ID do desenvolvedor logado
+// Buscar dados da empresa
+$id_desenvolvedor = $_SESSION['id'];
+$nome = $cpf = $endereco = $email = $telefone = $skill = ''; // Inicializa as variáveis
 
-// Buscar dados no banco
-$sql = "SELECT * FROM desenvolvedor WHERE id_desenvolvedor = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$resultado = $stmt->get_result();
-$dev = $resultado->fetch_assoc();
+$stmt = $conn->prepare("SELECT nome_desenvolvedor, cpf, endereco_desenvolvedor, email_desenvolvedor, telefone_desenvolvedor, Skills FROM desenvolvedor WHERE id_desenvolvedor = ?");
+if ($stmt) {
+  $stmt->bind_param("i", $id_desenvolvedor);
+  $stmt->execute();
+  $stmt->bind_result($nome, $cpf, $endereco, $email, $telefone, $skill);
+
+  if (!$stmt->fetch()) {
+    // Se não encontrar a empresa, define valores padrão
+    $nome = "desenvolvedor(a) não encontrado(a)";
+  }
+  $stmt->close();
+} else {
+  // Em caso de erro na preparação da query
+  $nome = "Erro ao carregar dados";
+  error_log("Erro na preparação da query: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +42,7 @@ $dev = $resultado->fetch_assoc();
         <img src="../static/imgs/bdexsemfundo.png" alt="" width="150px" height="68px" style="object-fit: contain;" />
       </div>
       <div class="usuarionotificacoes">
-
+                <h3>Bem vindo <?= htmlspecialchars($nome) ?></h3>
       </div>
       <a href="../server/logout.php">
         <i class="bi bi-box-arrow-right"></i>
@@ -67,29 +78,29 @@ $dev = $resultado->fetch_assoc();
 
           <div class="box-input">
             <label for="nome">Nome:</label>
-            <input type="text" placeholder="Digite seu nome" id="nome_desenvolvedor" name="nome_desenvolvedor" required>
+            <input value="<?= htmlspecialchars($nome) ?>" type="text" placeholder="Digite seu nome" id="nome_desenvolvedor" name="nome_desenvolvedor" required>
           </div>
           <br>
           <div class="box-input">
             <label for="telefone_desenvolvedor">Telefone:</label>
-            <input type="text" placeholder="Digite seu telefone" id="telefone_desenvolvedor"
+            <input value="<?= htmlspecialchars($telefone) ?>" type="text" placeholder="Digite seu telefone" id="telefone_desenvolvedor"
               name="telefone_desenvolvedor" required>
           </div>
           <br>
           <div class="box-input">
             <label for="email_desenvolvedor">Email:</label>
-            <input type="text" placeholder="Digite seu e-mail" id="email_desenvolvedor" name="email_desenvolvedor"
+            <input value="<?= htmlspecialchars($email) ?>" type="text" placeholder="Digite seu e-mail" id="email_desenvolvedor" name="email_desenvolvedor"
               required>
           </div>
           <br>
           <div class="box-input">
             <label for="cpf">CPF:</label>
-            <input type="text" placeholder="Digite seu CPF:" id="cpf" name="cpf" required>
+            <input value="<?= htmlspecialchars($cpf) ?>" type="text" placeholder="Digite seu CPF:" id="cpf" name="cpf" required>
           </div>
           <br>
           <div class="box-input">
             <label for="linguagens_de_programacao">Skills:</label>
-            <textarea type="text" placeholder="Digite seus conhecimentos:" id="linguagens_de_programacao"
+            <textarea value="<?= htmlspecialchars($skills) ?>" type="text" placeholder="Digite seus conhecimentos:" id="linguagens_de_programacao"
               name="linguagens_de_programacao" required>
               </textarea>
           </div>

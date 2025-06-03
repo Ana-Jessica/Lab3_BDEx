@@ -27,38 +27,46 @@
       </div>
       <div class="form-container">
          <div class="form-inner">
-            <form action="../server/cadastro_desenvolvedor.php" method="POST" class="login">
+            <form action="../server/cadastro.php" method="POST" class="login">
                <div class="field">
                   <label for="nome">Nome:</label>
-                  <input type="text" placeholder="Digite seu nome" id="nome_desenvolvedor" name="nome_desenvolvedor" required>
+                  <input type="text" placeholder="Digite seu nome" id="nome" name="nome" required>
                </div>
                <div class="field">
-<<<<<<< HEAD
-                  <label for="telefone_desenvolvedor">Telefone:</label>
-=======
-                  <label for="telefone_desenvolvedor">Nome:</label>
->>>>>>> origin/conferir-cadastro
-                  <input type="text" placeholder="Digite seu telefone" id="telefone_desenvolvedor" name="telefone_desenvolvedor" required>
+                  <label for="cpf">CPF ou CNPJ:</label>
+                  <input type="text" placeholder="Digite..." id="cpf" name="cpf" required>
+               </div>               
+               <div class="perfil-selector">
+                <p class="perfil-titulo">Qual o seu perfil:</p>
+                <br>
+                <div class="radio-options">
+                  <!-- Opção Empresa -->
+                  <label class="radio-container">
+                    <input type="radio" name="perfil" value="empresa">
+                    <span class="radio-checkmark"></span>
+                    <span class="radio-texto">Empresa</span>
+                  </label>
+                  
+                  <!-- Opção Desenvolvedor -->
+                  <label class="radio-container">
+                    <input type="radio" name="perfil" value="desenvolvedor">
+                    <span class="radio-checkmark"></span>
+                    <span class="radio-texto">Desenvolvedor</span>
+                  </label>
+                </div>
+                <br>
+              </div>
+               <div class="field">
+                  <label for="cep">CEP:</label>
+                  <input type="text" placeholder="Digite seu CEP" id="cep" name="cep" required>
                </div>
                <div class="field">
-                  <label for="email_desenvolvedor">Email:</label>
-                  <input type="text" placeholder="Digite seu e-mail" id="email_desenvolvedor" name="email_desenvolvedor" required>
+                  <label for="endereco">Endereço:</label>
+                  <input type="text" placeholder="Digite seu endereço" id="endereco" name="endereco" required>
                </div>
                <div class="field">
-<<<<<<< HEAD
-                  <label for="cpf">CPF:</label>
-=======
-                  <label for="cpf">Email:</label>
->>>>>>> origin/conferir-cadastro
-                  <input type="text" placeholder="Digite seu CPF:" id="cpf" name="cpf" required>
-               </div>
-               <div class="field">
-                  <label for="linguagens_de_programacao">Linguagens de programacao:</label>
-                  <input type="text" placeholder="Digite seus conhecimentos:" id="linguagens_de_programacao" name="linguagens_de_programacao" required>
-               </div>
-               <div class="field">
-                  <label for="tecnologias">Tecnologias:</label>
-                  <input type="text" placeholder="Quais frameworks você programa:" id="tecnologias" name="tecnologias" required>
+                  <label for="email">Email:</label>
+                  <input type="text" placeholder="Digite seu e-mail" id="email" name="email" required>
                </div>
                <div class="field">
                   <label for="senha">Senha:</label>
@@ -66,7 +74,7 @@
                </div>
                <div class="field btn">
                   <div class="btn-layer"></div>
-                  <input type="submit" value="Cadastrar">
+                  <input type="submit" value="Entrar">
                </div>
                <div class="signup-link">
                   Já tem conta? <a href="pglogin.html">Entrar</a>
@@ -75,10 +83,6 @@
          </div>
       </div>
    </div>
-<<<<<<< HEAD
-   <script src="/static/scripts/interruptor.js"></script>
-=======
->>>>>>> origin/conferir-cadastro
 </body>
 
 </html>

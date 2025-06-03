@@ -121,7 +121,7 @@ if ($stmt) {
                             name="telefone_empresa" required value="<?= htmlspecialchars($telefone) ?>">
                     </div>
                     <br>
-                    
+
                     <div class="box-input">
                         <label for="senha">Senha:</label>
                         <input type="password" placeholder="Digite sua senha" id="senha" name="senha" required>
@@ -129,7 +129,7 @@ if ($stmt) {
                     <br>
 
 
-                <a href="Desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
+                    <a href="Desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
                     <br />
                     <button type="submit" id="update" name="update"
                         onclick="return confirm('Tem certeza de que deseja editar os dados? Verifique se a senha e os dados estão preenchidos corretamente');"
@@ -166,7 +166,7 @@ if ($stmt) {
                     <button class="btnsubmitvaga" type="submit"> CRIAR VAGA</button>
                 </form>
             </div>
-            <div class="vagas-lista" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="vagas-lista">
                 <?php
                 if ($_SESSION['tipo'] === 'empresa' && isset($_SESSION['id'])) {
                     $id_empresa = $_SESSION['id'];
@@ -181,7 +181,7 @@ if ($stmt) {
 
                     if (mysqli_num_rows($result) > 0) {
                         while ($vaga = mysqli_fetch_assoc($result)) {
-                            echo "<div class='card border-primary mb-3' style='width: 80%; max-width: 800px;'>
+                            echo "<div class='card border-primary mb-3' style='width: 300px;margin-left:10px; '>
                             <div class='card-body'>
                                 <h5 class='card-title text-primary'>" . htmlspecialchars($vaga['titulo_vaga']) . "</h5>
                                 <h6 class='card-subtitle mb-2 text-muted'>Publicada em: " . $vaga['data_publicacao'] . "</h6>
