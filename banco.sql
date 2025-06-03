@@ -9,7 +9,7 @@ CREATE TABLE Empresa (
     email VARCHAR(255) NOT NULL,
     telefone_empresa INT NOT NULL,
     senha_empresa VARCHAR(255) NOT NULL,
-    empresa_ativa boolean default true
+    status_empresa boolean default true
 );
 
 CREATE TABLE Desenvolvedor (
@@ -21,7 +21,7 @@ CREATE TABLE Desenvolvedor (
     cpf VARCHAR(14) NOT NULL,
 	skills TEXT NOT NULL, -- lista pode ser tratada como JSON ou texto separado por vírgula
     senha_desenvolvedor VARCHAR(255) NOT NULL,
-	desenvolvedor_ativo boolean default true
+	status_desenvolvedor boolean default true
 );
 
 CREATE TABLE Vaga (
