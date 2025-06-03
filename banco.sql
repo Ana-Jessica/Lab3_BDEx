@@ -8,7 +8,8 @@ CREATE TABLE Empresa (
     endereco VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     telefone_empresa INT NOT NULL,
-    senha_empresa VARCHAR(255) NOT NULL
+    senha_empresa VARCHAR(255) NOT NULL,
+    empresa_ativa boolean default true
 );
 
 CREATE TABLE Desenvolvedor (
@@ -18,23 +19,17 @@ CREATE TABLE Desenvolvedor (
     email_desenvolvedor VARCHAR(255) NOT NULL,
     endereco_desenvolvedor VARCHAR(255) NOT NULL,
     cpf VARCHAR(14) NOT NULL,
-	Skills TEXT NOT NULL, -- lista pode ser tratada como JSON ou texto separado por vírgula
-    senha_desenvolvedor VARCHAR(255) NOT NULL
+	skills TEXT NOT NULL, -- lista pode ser tratada como JSON ou texto separado por vírgula
+    senha_desenvolvedor VARCHAR(255) NOT NULL,
+	desenvolvedor_ativo boolean default true
 );
 
 CREATE TABLE Vaga (
-<<<<<<< HEAD
-    id_vaga INT PRIMARY KEY auto_increment AUTO INCREMENT ,
-    id_empresa INT,
-    titulo_vaga VARCHAR(255),
-    descricao_vaga TEXT,
-=======
     id_vaga INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     id_empresa INT NOT NULL,
     titulo_vaga VARCHAR(255) NOT NULL,
-    data_publicacao DATE NOT NULL,
     descricao_vaga TEXT NOT NULL,
->>>>>>> 648c07625ed9829c1cf1c08dca877ed8ec4608ec
+    data_publicacao DATE NOT NULL,
     valor_oferta FLOAT,
     FOREIGN KEY (id_empresa) REFERENCES Empresa(id_empresa)
 );
