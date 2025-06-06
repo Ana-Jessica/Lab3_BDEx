@@ -152,7 +152,7 @@ if ($stmt) {
       </form>
     </article>
 
-    <article class="artconectar" style="display: none;">
+    <article class="artconectar" style="display: flex;">
     <h2>Vagas Diponiveis</h2>
       <div class="vagas-lista">
       <?php
