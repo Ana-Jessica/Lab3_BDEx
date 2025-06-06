@@ -22,4 +22,4 @@ Thumbs.db
 *.swp
 
 # ignorar arquivo de conexão
-/server/conexão.php
+/server/conexao.php

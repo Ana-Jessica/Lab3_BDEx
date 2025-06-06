@@ -4,8 +4,7 @@ function preencherFormulario(id) {
   const telefone = document.querySelector("#telefone_desenvolvedor");
   const email = document.querySelector("#email_desenvolvedor");
   const cpf = document.querySelector("#cpf");
-  const linguagens = document.querySelector("#linguagens_de_programacao");
-  const tecnologias = document.querySelector("#tecnologias");
+  const linguagens = document.querySelector("#skills");
   const senha = document.querySelector("#senha");
 
   const xhr = new XMLHttpRequest();
@@ -17,8 +16,7 @@ function preencherFormulario(id) {
       telefone.value = user.telefone_desenvolvedor || "";
       email.value = user.email_desenvolvedor || "";
       cpf.value = user.cpf || "";
-      linguagens.value = user.linguagens_de_programacao || "";
-      tecnologias.value = user.tecnologias || "";
+      skills.value = user.skills || "";
       senha.value = ""; // por segurança
     }
   };

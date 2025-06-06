@@ -50,3 +50,11 @@ CREATE TABLE Conexao (
     FOREIGN KEY (id_empresa) REFERENCES Empresa(id_empresa),
     FOREIGN KEY (id_desenvolvedor) REFERENCES Desenvolvedor(id_desenvolvedor)
 );
+
+
+-- Para visualizar os dados inseridos
+select * from Empresa;
+select * from Desenvolvedor;
+select * from Vaga;
+select * from Solicitacao;
+select * from Conexao;

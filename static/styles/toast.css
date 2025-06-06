@@ -1,0 +1,33 @@
+#toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  font-size: 16px;
+  opacity: 0;
+  animation: subirDesaparecer 3s ease forwards;
+  z-index: 9999;
+}
+
+@keyframes subirDesaparecer {
+  0% {
+    bottom: 20px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    bottom: 100px;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    bottom: 120px;
+  }
+}
