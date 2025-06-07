@@ -208,7 +208,7 @@ if (isset($_SESSION['id'])) {
     </article>
 
     <div class="modalsenha">
-                <form class="modaleditarsenha" action="../server/criar_vaga.php" method="POST">
+                <form class="modaleditarsenha" action="../server/update_password.php" method="POST">
                     <div class="btnfecharmodalsenha">X</div>
                     <h2>ALTERAR SENHA</h2>
                     <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">
@@ -234,7 +234,7 @@ if (isset($_SESSION['id'])) {
 </div>
   <!-- Tost com notificação que os dados foram editados -->
   <?php if ($exibir_toast): ?>
-    <div id="toast">Editado com sucesso</div>
+    <div id="toast">os dados de <?= htmlspecialchars($nome) ?> foram alterados</div>
   <?php endif; ?>
 
   <script src="../static/scripts/toast.js"></script>
