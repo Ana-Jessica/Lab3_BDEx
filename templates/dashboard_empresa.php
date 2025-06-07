@@ -63,29 +63,38 @@ if ($stmt) {
             </a>
         </div>
     </header>
-    <nav class="menulateral">
-        <h2>Área da Empresa</h2>
+    <div class="ldld">
 
-
+        <nav class="menulateral">
+              <div class="tammenu"><i class="bi bi-list"></i></div>
+            <h2>Área da Empresa</h2>
         <br />
-        <ul>
+       <ul>
+           <li class="item livagas">
+               Gerenciar vagas
+               <i class="brief bi bi-clipboard-data"></i> 
+           </li>
+           <br>
+    <li class="item liddscadastro">
+        Dados de cadastro
+        <i class="brief bi bi-person-lines-fill"></i> 
+    </li>
+    <br />
+    <li class="item lisolicitacoes">
+        Solicitações
+        <i class="brief bi bi-envelope-open-fill"></i> 
+    </li>
+    <br />
+    <li class="item liconexoes">
+        Conexões
+        <i class="brief bi bi-people-fill"></i> 
+    </li>
+    <br />
+</ul>
 
-            <li class="item liddscadastro">Dados de cadastro</li>
-            <br />
-            <li class="item livagas">Gerenciar vagas</li>
-            <br />
-            <li class="item lisolicitacoes">Solicitações</li>
-            <br />
-            <li class="item liconexoes">Conexões</li>
-            <br />
-
-            <br />
-
-
-        </ul>
     </nav>
     <main>
-        <article class="artcadastro">
+        <article class="artcadastro" style="display: none;">
 
             <form action="edit_dds_empresa.php" method="POST">
                 <box-inputset>
@@ -124,7 +133,7 @@ if ($stmt) {
                     </div>
                     <br>
 
-                
+
                     <br>
 
 
@@ -136,7 +145,7 @@ if ($stmt) {
                 </box-inputset>
             </form>
         </article>
-        <article class="artvagas" style="display: none;">
+        <article class="artvagas" style="display: flex;">
             <h2>gerenciar vagas</h2>
             <button class="criarvaga">criar vaga +</button>
             <br>
@@ -246,12 +255,13 @@ if ($stmt) {
                 </tbody>
             </table>
         </article>
-                
+
         <article class="artconexoes" style="display: none;">
             <!-- Em breve: Minhas conexões -->
         </article>
     </main>
-
+    
+</div>
     <script src="../static/scripts/dash_empresa.js"></script>
 
 
