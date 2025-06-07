@@ -234,7 +234,7 @@ if (isset($_SESSION['id'])) {
 </div>
   <!-- Tost com notificação que os dados foram editados -->
   <?php if ($exibir_toast): ?>
-    <div id="toast">Editado com sucesso</div>
+    <div id="toast">os dados de <?= htmlspecialchars($nome) ?> foram alterados</div>
   <?php endif; ?>
 
   <script src="../static/scripts/toast.js"></script>
