@@ -124,10 +124,7 @@ if ($stmt) {
                     </div>
                     <br>
 
-                    <div class="box-input">
-                        <label for="senha">Senha:</label>
-                        <input type="password" placeholder="Digite sua senha" id="senha" name="senha" required>
-                    </div>
+                
                     <br>
 
 
@@ -249,7 +246,7 @@ if ($stmt) {
                 </tbody>
             </table>
         </article>
-
+                
         <article class="artconexoes" style="display: none;">
             <!-- Em breve: Minhas conexões -->
         </article>

@@ -31,6 +31,7 @@ const lisolicitacoes = document.querySelector(".lisolicitacoes");
 const liconexoes = document.querySelector(".liconexoes");
 const livagas = document.querySelector(".livagas");
 
+
 // Seletores dos artigos
 const artcadastro = document.querySelector(".artcadastro");
 const artsolicitacoes = document.querySelector(".artsolicitacoes");
@@ -96,6 +97,7 @@ livagas.addEventListener("click", function () {
   livagas.style.background = "#00DE8A";
   livagas.style.color = "black"
   
+});
   btnvaga = document.querySelector(".criarvaga");
   modalvaga = document.querySelector(".modalvaga");
   btnfecharmodal = document.querySelector(".btnfecharmodal");
@@ -107,7 +109,7 @@ livagas.addEventListener("click", function () {
   modalvaga.style.display = "none";
   });
 
-});
+
 
 
  function confirmarEncerramento() {

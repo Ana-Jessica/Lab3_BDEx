@@ -17,11 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $email_desenvolvedor = $_POST['email_desenvolvedor'] ?? '';
     $cpf = $_POST['cpf'] ?? '';
     $skills = $_POST['skills'] ?? ''; 
-    $senha = $_POST['senha'] ?? '';
+   
 
 
     // Validações básicas
-    if (empty($nome_desenvolvedor) || empty($telefone_desenvolvedor) || empty($email_desenvolvedor) || empty($cpf) || empty($skills) || empty($senha)) {
+    if (empty($nome_desenvolvedor) || empty($telefone_desenvolvedor) || empty($email_desenvolvedor) || empty($cpf) || empty($skills)) {
         header("Location: dash_desenvolvedor.php?erro=campos_vazios");
         exit();
     }
@@ -34,11 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $stmt->fetch();
     $stmt->close();
 
-    // Verifica se a senha fornecida corresponde à armazenada (assumindo que a senha no banco está hasheada)
-    if (!password_verify($senha, $senha_atual)) {
-        header("Location: dashboard_desenvolvedor.php?erro=senha_incorreta");
-        exit();
-    }
 
     // Prepara a query de atualização
     $sql = "UPDATE `banco_bdex`.`desenvolvedor` SET 

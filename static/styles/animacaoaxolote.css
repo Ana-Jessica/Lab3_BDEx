@@ -129,7 +129,14 @@
         transform: rotateZ(-25deg);
     }
 }
-
+@keyframes direita_para_centro {
+    0%{
+        transform: translateX();
+    }
+    100%{
+        transform: translateX();
+    }
+}
 
 
 .axolote {
