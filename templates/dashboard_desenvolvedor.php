@@ -208,7 +208,7 @@ if (isset($_SESSION['id'])) {
     </article>
 
     <div class="modalsenha">
-                <form class="modaleditarsenha" action="../server/criar_vaga.php" method="POST">
+                <form class="modaleditarsenha" action="../server/update_password.php" method="POST">
                     <div class="btnfecharmodalsenha">X</div>
                     <h2>ALTERAR SENHA</h2>
                     <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">
