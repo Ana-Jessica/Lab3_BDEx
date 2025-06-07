@@ -13,6 +13,23 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@keyframes telagira {
+  0% {
+    transform: scale(0) ;
+  }
+
+  100% {
+
+    transform: scale(1);
+
+  }
+}
+
+html {
+  transition: .5s;
+  animation: telagira .5s;
+}
+
 body {
   /* background: linear-gradient(45deg, gray,white,gray); */
   background-image: url(../imgs/fundo_completo.png);
