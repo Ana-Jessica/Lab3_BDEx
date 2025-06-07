@@ -74,7 +74,7 @@ header h3 {
   position: relative;
 }
 
-.menubar a {
+.menubar > a {
   text-decoration: none;
   
 }
@@ -907,3 +907,16 @@ flex-wrap: wrap;
  height: 400px;
  overflow: auto;
 }
+ .menubar .ulogado {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: transform 0.3s ease;
+  z-index: 10;
+}
+
+/* Movimenta para a direita ao passar o mouse no botão */
+.menubar .ulogado.mover {
+  transform: translateX(100px);
+}
+

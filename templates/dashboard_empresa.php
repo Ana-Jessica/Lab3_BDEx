@@ -52,13 +52,11 @@ if ($stmt) {
                 <img src="../static/imgs/bdexsemfundo.png" alt="" width="150px" height="68px"
                     style="object-fit: contain;" />
             </div>
-            <div>
-                <h3>Bem vindo <?= htmlspecialchars($nome) ?></h3>
+            <div class="ulogado">
+                <h3><?= htmlspecialchars($nome) ?></h3>
             </div>
-            <div class="usuarionotificacoes">
-
-            </div>
-            <a href="../server/logout.php">
+          
+            <a class="logout-link" href="../server/logout.php">
                 <i class="bi bi-box-arrow-right"></i>
             </a>
         </div>

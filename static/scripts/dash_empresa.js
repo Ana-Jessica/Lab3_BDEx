@@ -56,7 +56,15 @@ function resetarBackground() {
     lisolicitacoes.classList.remove("ativo");
     livagas.classList.remove("ativo");
   }
-  
+ const botaoToggle = document.querySelector(".tammenu");
+  const menuLateral = document.querySelector(".menulateral");
+  const mainContent = document.querySelector("main");
+
+  botaoToggle.addEventListener("click", function () {
+    menuLateral.classList.toggle("escondido");
+    mainContent.classList.toggle("expandido");
+    menuLateral.classList.toggle("fechar");
+  });  
   // Mostrar seção Cadastro
   liddscadastro.addEventListener("click", function () {
     artcadastro.style.display = "flex";
@@ -134,15 +142,20 @@ livagas.addEventListener("click", function () {
     btnfechareditmodal.onclick = () => modaleditvaga.style.display = "none";
   }
 
-    const botaoToggle = document.querySelector(".tammenu");
-  const menuLateral = document.querySelector(".menulateral");
-  const mainContent = document.querySelector("main");
+   
 
-  botaoToggle.addEventListener("click", function () {
-    menuLateral.classList.toggle("escondido");
-    mainContent.classList.toggle("expandido");
-    menuLateral.classList.toggle("fechar");
-  });
+
+   const logoutLink = document.querySelector('.logout-link');
+const ulogado = document.querySelector('.ulogado');
+
+logoutLink.addEventListener("mouseenter", function () {
+      ulogado.classList.add(".mover");
+    });
+
+    logoutLink.addEventListener("mouseleave", function () {
+      ulogado.classList.remove(".mover");
+    });
+
 
 });
 
