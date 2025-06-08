@@ -32,7 +32,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid var(--cor-azul-escuro);
+  /* border-bottom: 2px solid white; */
 }
 
 header h3 {
@@ -75,7 +75,7 @@ h2 {
 
 /* Side navigation menu */
 nav {
-  top: 100px;
+  top: 98px;
   padding: 40px 20px;
   width: 350px;
   height: 80vh;
@@ -651,7 +651,6 @@ label {
 
 .artvagas label {
   color: white;
-
 }
 
 .artvagas button {
@@ -719,7 +718,7 @@ label {
   text-align: center;
 }
 
-.btnfecharmodal,.btnfecharmodaleditarsenha {
+.btnfecharmodaleditarsenha {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -727,24 +726,20 @@ label {
   align-items: center;
   justify-content: center;
   align-items: center;
-  background: darkred;
+  background: var(--cor-azul-escuro);
   color: white;
   top: 10px;
   left: 20px;
   cursor: pointer;
   position: absolute;
   transition: .5s linear;
-
 }
 
-.btnfecharmodal:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 25px red;
-}
 
 .btnsubmitvaga {
   width: 400px !important;
   outline: none;
+  border: none;
 }
 
 .vagas-lista {
@@ -758,7 +753,7 @@ label {
   gap: 10px;
 }
 .bi-box-arrow-right{
-  object-fit: contain;
+ object-fit: contain;
  font-size: 30px;
  padding: 2px;
  z-index: 3;
@@ -807,4 +802,37 @@ flex-wrap: wrap;
  width: 300px;
  height: 400px;
  overflow: auto;
+}
+
+#formVaga{
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+}
+.btnfecharmodal{
+  width: 50px;
+  height: 50px;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  background: var(--cor-azul-escuro);
+  cursor: pointer;
+  position: absolute;
+  transition: .5s linear;
+}
+
+.btnfecharmodal:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 25px var(--azul-azul-escuro);
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    text-align: center;
+}
+.btn-sm i {
+    margin-right: 5px;
 }

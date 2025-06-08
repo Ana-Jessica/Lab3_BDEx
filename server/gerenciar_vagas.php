@@ -23,10 +23,9 @@ switch ($acao) {
     case 'editar':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             editarVaga($conn, $id_vaga, $id_empresa);
-        } else {
-            mostrarFormularioEdicao($conn, $id_vaga, $id_empresa);
         }
         break;
+        
         
     default:
         listarVagas($conn, $id_empresa);
@@ -67,51 +66,38 @@ function excluirVaga($conn, $id_vaga, $id_empresa) {
     exit();
 }
 
-function mostrarFormularioEdicao($conn, $id_vaga, $id_empresa) {
-    // Busca os dados da vaga específica
-    $sql = "SELECT * FROM Vaga WHERE id_vaga = ? AND id_empresa = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $id_vaga, $id_empresa);
-    $stmt->execute();
-    $vaga = $stmt->get_result()->fetch_assoc();
-    
-    if (!$vaga) {
-        $_SESSION['erro'] = "Vaga não encontrada!";
+
+function editarVaga($conn, $id_vaga, $id_empresa) {
+    $titulo = isset($_POST['titulo']) ? trim($_POST['titulo']) : '';
+    $descricao = isset($_POST['descricao']) ? trim($_POST['descricao']) : '';
+    $valor = isset($_POST['valor']) && $_POST['valor'] !== ''
+        ? (float) str_replace(['R$', '.', ','], ['', '', '.'], $_POST['valor'])
+        : null;
+
+    // Validação básica
+    if (empty($titulo) || empty($descricao)) {
+        $_SESSION['erro'] = "Campos obrigatórios não preenchidos!";
         header("Location: ../templates/dashboard_empresa.php");
         exit();
     }
-    
-    // Formulário de edição
-    echo "<h2>Editar Vaga</h2>";
-    echo "<form method='POST' action='?acao=editar&id={$id_vaga}'>";
-    echo "<input type='text' name='titulo' value='".htmlspecialchars($vaga['titulo_vaga'])."' required><br>";
-    echo "<textarea name='descricao' required>".htmlspecialchars($vaga['descricao_vaga'])."</textarea><br>";
-    echo "<input type='text' name='valor' value='".htmlspecialchars($vaga['valor_oferta'])."'><br>";
-    echo "<button type='submit'>Salvar Alterações</button>";
-    echo "</form>";
-}
 
-function editarVaga($conn, $id_vaga, $id_empresa) {
-    $titulo = trim($_POST['titulo']);
-    $descricao = trim($_POST['descricao']);
-    $valor = !empty($_POST['valor']) ? (float)str_replace(['R$', '.', ','], ['', '', '.'], $_POST['valor']) : null;
-    
     $sql = "UPDATE Vaga SET 
             titulo_vaga = ?,
             descricao_vaga = ?,
             valor_oferta = ?
             WHERE id_vaga = ? AND id_empresa = ?";
-    
+
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssdii", $titulo, $descricao, $valor, $id_vaga, $id_empresa);
-    
+
     if ($stmt->execute()) {
         $_SESSION['mensagem'] = "Vaga atualizada com sucesso!";
     } else {
         $_SESSION['erro'] = "Erro ao atualizar vaga!";
     }
-    
+
     header("Location: ../templates/dashboard_empresa.php");
     exit();
 }
+
 ?>

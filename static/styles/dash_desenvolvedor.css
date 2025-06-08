@@ -721,7 +721,7 @@ main.expandido {
   align-items: center;
   justify-content: center;
   align-items: center;
-  background: darkred;
+  background: var(--cor-azul-escuro);
   color: white;
   top: 10px;
   left: 20px;
@@ -733,7 +733,7 @@ main.expandido {
 
 .btnfecharmodalsenha:hover {
   transform: scale(1.2);
-  box-shadow: 0 0 25px red;
+  box-shadow: 0 0 25px var(--cor-azul-claro);
 }
 .modaleditarsenha button {
   width: 600px;
