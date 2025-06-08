@@ -211,19 +211,19 @@ if (isset($_SESSION['id'])) {
                 <form class="modaleditarsenha" action="../server/criar_vaga.php" method="POST">
                     <div class="btnfecharmodalsenha">X</div>
                     <h2>ALTERAR SENHA</h2>
-                    <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">
+                    <input type="hidden" name="senhatual" value="<?php echo $_SESSION['id']; ?>">
                     <div class="box-input">
                         <label for="">Senha Atual</label>
                         <input type="text" name="titulo_vaga" placeholder="senha em uso">
                     </div>
                     <div class="box-input">
                         <label for="">Nova senha:</label>
-                        <input type="text" name="descricao_vaga"
-                            placeholder="precisamos de um desenvolvedor php com conhecimentos em laravel...">
+                        <input type="text" name="novasenha"
+                            placeholder="nova senha">
                     </div>
                     <div class="box-input">
                         <label for="">Repetir nova senha</label>
-                        <input type="text" name="valor_oferta" placeholder="R$ 99,99">
+                        <input type="text" name="novasenha" placeholder="repetir a nova senha">
                     </div>
                     <br><br>
                     <button class="btnsubmitvaga" type="submit"> Alterar senha</button>

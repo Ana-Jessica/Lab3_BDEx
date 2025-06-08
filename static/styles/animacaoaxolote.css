@@ -12,7 +12,6 @@
         transform: rotate(0);
     }
 
-
     100% {
         transform: rotate(360deg);
 
@@ -129,14 +128,6 @@
         transform: rotateZ(-25deg);
     }
 }
-@keyframes direita_para_centro {
-    0%{
-        transform: translateX();
-    }
-    100%{
-        transform: translateX();
-    }
-}
 
 
 .axolote {
@@ -191,20 +182,36 @@
     display: flex;
     animation: pernadireita 2s infinite;
 }
+@keyframes esquerda_para_centro {
+    0%{
+        transform: translateX(-5px) rotate(0);
+    }
+    100%{
+        transform: translateX(600px) rotate(-360deg);
+    }
+}
+@keyframes direita_para_centro {
+    0%{
+        transform: translateX(5px) rotate(0);
+    }
+    100%{
+        transform: translateX(-600px) rotate(360deg);
+    }
+}
 
 .setae {
     display: flex;
-    position: relative;
-    left: -100px;
-    animation: axoloteanda 10s infinite;
+    position: absolute;
+    left: -800px;
+    animation:  esquerda_para_centro 2s ease-in-out;
 
 }
 
 .setad {
     display: flex;
-    position: relative;
-    left: 100px;
-    animation: axoloteanda 10s infinite;
+    position: absolute;
+    right: -800px;
+    animation:   direita_para_centro 2s ease-in-out;
 }
 
 .imgcabeca {
