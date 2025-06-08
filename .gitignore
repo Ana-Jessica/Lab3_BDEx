@@ -1,3 +1,5 @@
+# BRANCH PRINCIPAL 
+
 # Ignorar pastas e arquivos de sistema
 node_modules/
 .env
