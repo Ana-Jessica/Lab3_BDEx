@@ -21,7 +21,7 @@ if ($stmt) {
   $stmt->bind_result($nome, $cpf, $endereco, $email, $telefone, $skills);
 
   if (!$stmt->fetch()) {
-    // Se não encontrar o desenvolver, define valores padrão
+    // Se não encontrar o desenvolvedor, define valores padrão
     $nome = "desenvolvedor(a) não encontrado(a)";
   }
   $stmt->close();
