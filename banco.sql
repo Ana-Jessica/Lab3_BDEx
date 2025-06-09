@@ -6,8 +6,8 @@ CREATE TABLE Empresa (
     nome_empresa VARCHAR(255) NOT NULL,
     cnpj VARCHAR(18) NOT NULL,
     endereco VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    telefone_empresa INT NOT NULL,
+    email_empresa VARCHAR(255) NOT NULL,
+    telefone_empresa VARCHAR(20) NOT NULL,
     senha_empresa VARCHAR(255) NOT NULL,
     status_empresa boolean default true
 );
@@ -46,9 +46,11 @@ CREATE TABLE Conexao (
     id_conexao INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     id_empresa INT NOT NULL,
     id_desenvolvedor INT NOT NULL,
+    id_vaga INT NOT NULL,
     data_conexao DATETIME NOT NULL,
     FOREIGN KEY (id_empresa) REFERENCES Empresa(id_empresa),
-    FOREIGN KEY (id_desenvolvedor) REFERENCES Desenvolvedor(id_desenvolvedor)
+    FOREIGN KEY (id_desenvolvedor) REFERENCES Desenvolvedor(id_desenvolvedor),
+    FOREIGN KEY (id_vaga) REFERENCES Vaga(id_vaga)
 );
 
 

@@ -49,7 +49,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid var(--cor-azul-escuro);
+  /* border-bottom: 2px solid white; */
 }
 
 header h3 {
@@ -750,7 +750,6 @@ label {
 
 .artvagas label {
   color: white;
-
 }
 
 .artvagas button {
@@ -818,7 +817,7 @@ label {
   text-align: center;
 }
 
-.btnfecharmodal,.btnfecharmodaleditarsenha {
+.btnfecharmodaleditarsenha {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -826,24 +825,20 @@ label {
   align-items: center;
   justify-content: center;
   align-items: center;
-  background: darkred;
+  background: var(--cor-azul-escuro);
   color: white;
   top: 10px;
   left: 20px;
   cursor: pointer;
   position: absolute;
   transition: .5s linear;
-
 }
 
-.btnfecharmodal:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 25px red;
-}
 
 .btnsubmitvaga {
   width: 400px !important;
   outline: none;
+  border: none;
 }
 
 .vagas-lista {
@@ -857,7 +852,7 @@ label {
   gap: 10px;
 }
 .bi-box-arrow-right{
-  object-fit: contain;
+ object-fit: contain;
  font-size: 30px;
  padding: 2px;
  z-index: 3;
