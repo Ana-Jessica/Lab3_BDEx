@@ -651,7 +651,11 @@ nav ul a:hover {
 
 .artsolicitacoes {
   left: 0;
-
+  flex-direction: column;
+  padding: 30px;
+}
+.artsolicitacoes h2{
+  color: var(--cor-azul-escuro);
 }
 
 .tabela-solicitacoes {
@@ -660,6 +664,7 @@ nav ul a:hover {
   border-collapse: collapse;
   margin-top: 20px;
   font-family: Arial, sans-serif;
+  background: white;
 }
 
 .tabela-solicitacoes th,
@@ -761,11 +766,13 @@ label {
   background: var(--cor-azul-escuro);
   color: white;
   cursor: pointer;
+  transition:  .3s linear;
 }
 
 .artvagas button:hover {
+  border: white;
   background: var(--cor-azul-claro);
-
+ 
 }
 
 .artvagas .modalvaga,.modaleditarsenha {
@@ -919,4 +926,6 @@ flex-wrap: wrap;
 .menubar .ulogado.mover {
   transform: translateX(100px);
 }
-
+.bi-plus{
+  font-size: 20px;
+}

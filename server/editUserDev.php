@@ -10,7 +10,8 @@ if (!isset($_SESSION['id'])) {
 }
 
 // Verifica se o formulário foi enviado
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $id_desenvolvedor = $_SESSION['id'];
     $nome_desenvolvedor = $_POST['nome_desenvolvedor'] ?? '';
     $telefone_desenvolvedor = $_POST['telefone_desenvolvedor'] ?? '';
