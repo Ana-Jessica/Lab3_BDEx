@@ -33,9 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Verifica se o email já existe em empresa ou desenvolvedor
         $stmt = mysqli_prepare($conn, "
-    SELECT email FROM empresa WHERE email = ?
+    SELECT email_empresa FROM empresa WHERE email_empresa = ?
     UNION
-    SELECT email_desenvolvedor AS email FROM desenvolvedor WHERE email_desenvolvedor = ?");
+    SELECT email_desenvolvedor AS email_empresa FROM desenvolvedor WHERE email_desenvolvedor = ?");
         mysqli_stmt_bind_param($stmt, "ss", $email, $email);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_store_result($stmt);
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Cadastro
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-        $stmt = mysqli_prepare($conn, "INSERT INTO empresa (nome_empresa, cnpj, endereco, email, telefone_empresa, senha_empresa) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = mysqli_prepare($conn, "INSERT INTO empresa (nome_empresa, cnpj, endereco, email_empresa, telefone_empresa, senha_empresa) VALUES (?, ?, ?, ?, ?, ?)");
         mysqli_stmt_bind_param($stmt, "ssssss", $nome_empresa, $cnpj, $endereco, $email, $telefone, $senha_hash);
 
         if (mysqli_stmt_execute($stmt)) {
