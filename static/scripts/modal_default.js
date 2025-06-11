@@ -7,12 +7,12 @@
 
   // Quando clica no botão "Editar"
   btnEditar.addEventListener('click', () => {
-    modal.style.display = 'flex'; // Mostra o modal de confirmação
+    modal.style.display = 'flex'; 
   });
 
   // Ao confirmar no modal
   btnConfirmar.addEventListener('click', () => {
-    form.submit(); // Submete o formulário manualmente
+    form.submit();
     modal.style.display = 'none';
   });
 

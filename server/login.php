@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Primeiro tenta encontrar na tabela empresa
-    $stmt = mysqli_prepare($conn, "SELECT id_empresa, senha_empresa FROM empresa WHERE email = ?");
+    $stmt = mysqli_prepare($conn, "SELECT id_empresa, senha_empresa FROM empresa WHERE email_empresa = ?");
     mysqli_stmt_bind_param($stmt, "s", $email);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_store_result($stmt);

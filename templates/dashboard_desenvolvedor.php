@@ -132,7 +132,7 @@ if ($stmt_conexoes) {
   <main>
     <article class="artcadastro">
 
-      <form action="../server/editUserDev.php" method="POST">
+      <form id="formEditar"  action="../server/editUserDev.php" method="POST">
         <box-inputset>
           <legend>
             <h1><b>Editar dados pessoais</b></h1>
@@ -178,9 +178,7 @@ if ($stmt_conexoes) {
             <!-- CRIAR DESATIVAR CONTA -->
             <a href="desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
 
-          <button type="submit" id="update" name="update"
-            onclick="return confirm('Tem certeza de que deseja editar os dados? Verifique se a senha e os dados estão preenchidos corretamente');"
-            class="btneditar">Editar</button>
+          <button type="button" id="update" name="update" class="btneditar">Editar</button>
         </box-inputset>
       </form>
     </article>
@@ -289,7 +287,6 @@ if ($stmt_conexoes) {
         </form>
       </div>
 
-<<<<<<< HEAD
 
       </article>
 
