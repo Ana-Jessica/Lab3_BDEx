@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
 
         // 2. Verifica na tabela Empresa
-        $stmt = $conn->prepare("SELECT id_empresa FROM Empresa WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id_empresa FROM empresa WHERE email_empresa = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
 
         // Verifica se CPF já existe (apenas na tabela Desenvolvedor)
-        $stmt = $conn->prepare("SELECT id_desenvolvedor FROM Desenvolvedor WHERE cpf = ?");
+        $stmt = $conn->prepare("SELECT id_desenvolvedor FROM desenvolvedor WHERE cpf = ?");
         $stmt->bind_param("s", $cpf);
         $stmt->execute();
         $stmt->store_result();
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // CADASTRO DO DESENVOLVEDOR
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("INSERT INTO Desenvolvedor 
+        $stmt = $conn->prepare("INSERT INTO desenvolvedor 
             (nome_desenvolvedor, telefone_desenvolvedor, email_desenvolvedor, endereco_desenvolvedor, cpf, skills, senha_desenvolvedor) 
             VALUES (?, ?, ?, ?, ?, ?, ?)");
         
