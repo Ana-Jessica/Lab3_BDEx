@@ -100,6 +100,7 @@ if ($stmt_conexoes) {
     <title>Página da Empresa</title>
     <link rel="icon" type="image/png" sizes="32x32" href="../static/imgs/logo/simbolo.svg">
     <link rel="stylesheet" href="../static/styles/dash_empresa.css">
+    <link rel="stylesheet" href="../static/styles/modal_default.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
@@ -115,7 +116,6 @@ if ($stmt_conexoes) {
             <div class="ulogado">
                 <h3><?= htmlspecialchars($nome) ?></h3>
             </div>
-<<<<<<< HEAD
           
             <a class="logout-link" href="../server/logout.php">
                 <i class="bi bi-box-arrow-right"></i>
@@ -125,63 +125,37 @@ if ($stmt_conexoes) {
     <div class="ldld">
 
         <nav class="menulateral">
-              <div class="tammenu"><i class="bi bi-list"></i></div>
+            <div class="tammenu"><i class="bi bi-list"></i></div>
             <h2>Área da Empresa</h2>
-        <br />
-       <ul>
-           <li class="item livagas">
-               Gerenciar vagas
-               <i class="brief bi bi-clipboard-data"></i> 
-           </li>
-           <br>
-    <li class="item liddscadastro">
-        Dados de cadastro
-        <i class="brief bi bi-person-lines-fill"></i> 
-    </li>
-    <br />
-    <li class="item lisolicitacoes">
-        Solicitações
-        <i class="brief bi bi-envelope-open-fill"></i> 
-    </li>
-    <br />
-    <li class="item liconexoes">
-        Conexões
-        <i class="brief bi bi-people-fill"></i> 
-    </li>
-    <br />
-</ul>
+            <br />
+            <ul>
+                <li class="item livagas">
+                    Gerenciar vagas
+                    <i class="brief bi bi-clipboard-data"></i>
+                </li>
+                <br>
+                <li class="item liddscadastro">
+                    Dados de cadastro
+                    <i class="brief bi bi-person-lines-fill"></i>
+                </li>
+                <br />
+                <li class="item lisolicitacoes">
+                    Solicitações
+                    <i class="brief bi bi-envelope-open-fill"></i>
+                </li>
+                <br />
+                <li class="item liconexoes">
+                    Conexões
+                    <i class="brief bi bi-people-fill"></i>
+                </li>
+                <br />
+            </ul>
 
     </nav>
     <main>
         <article class="artcadastro" style="display: none;">
-=======
-            <div class="usuarionotificacoes"></div>
-            <a href="../server/logout.php"><i class="bi bi-box-arrow-right"></i></a>
-        </div>
-    </header>
 
-    <!-- Menu lateral -->
-    <nav class="menulateral">
-        <h2>Área da Empresa</h2>
-        <br />
-        <ul>
-            <li class="item liddscadastro">Dados de cadastro</li>
-            <br />
-            <li class="item livagas">Gerenciar vagas</li>
-            <br />
-            <li class="item lisolicitacoes">Solicitações</li>
-            <br />
-            <li class="item liconexoes">Conexões</li>
-            <br />
-        </ul>
-    </nav>
->>>>>>> 088065622bceed42533b02ac5441898352c92eef
-
-    <!-- Conteúdo principal -->
-    <main>
-        <!-- Artigo: Cadastro da empresa -->
-        <article class="artcadastro">
-            <form action="editUserEmpresa.php" method="POST">
+            <form action="edit_dds_empresa.php" method="POST">
                 <box-inputset>
                     <legend>
                         <h1><b>Editar dados da Empresa</b></h1>
@@ -217,14 +191,11 @@ if ($stmt_conexoes) {
                             name="telefone_empresa" required value="<?= htmlspecialchars($telefone) ?>">
                     </div>
                     <br>
-<<<<<<< HEAD
 
 
-                    <br>
+                        <br>
 
 
-=======
->>>>>>> 088065622bceed42533b02ac5441898352c92eef
                     <a href="Desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
                     <br />
                     <button type="submit" id="update" name="update"
@@ -233,22 +204,12 @@ if ($stmt_conexoes) {
                 </box-inputset>
             </form>
         </article>
-<<<<<<< HEAD
         <article class="artvagas" style="display: flex;">
             <h2>gerenciar vagas</h2>
             <button class="criarvaga">criar vaga +</button>
-=======
-
-        <!-- Artigo: Gerenciar Vagas -->
-        <article class="artvagas" style="display: none;">
-            <h2>Gerenciar vagas</h2>
-            <button class="criarvaga">Criar vaga +</button>
->>>>>>> 088065622bceed42533b02ac5441898352c92eef
             <br>
-
-            <!-- Modal Único (reutilizável para criar e editar) -->
-            <div class="modalvaga" style="display: none;">
-                <form id="formVaga" method="POST" action="../server/criar_vaga.php">
+            <div class="modalvaga">
+                <form class="modaleditarvaga" action="../server/criar_vaga.php" method="POST">
                     <div class="btnfecharmodal">X</div>
                     <h2>NOVA VAGA</h2>
                     <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">
@@ -272,16 +233,14 @@ if ($stmt_conexoes) {
                     <button class="btnsubmitvaga" type="submit"> CRIAR VAGA</button>
                 </form>
             </div>
-
-            <!-- Lista de Vagas -->
             <div class="vagas-lista">
                 <?php
                 if ($_SESSION['tipo'] === 'empresa' && isset($_SESSION['id'])) {
                     $id_empresa = $_SESSION['id'];
                     $sql = "SELECT id_vaga, titulo_vaga, data_publicacao, descricao_vaga, valor_oferta 
-                        FROM Vaga 
-                        WHERE id_empresa = ? 
-                        ORDER BY data_publicacao DESC";
+                    FROM Vaga 
+                    WHERE id_empresa = ? 
+                    ORDER BY data_publicacao DESC";
                     $stmt = mysqli_prepare($conn, $sql);
                     mysqli_stmt_bind_param($stmt, "i", $id_empresa);
                     mysqli_stmt_execute($stmt);
@@ -289,19 +248,17 @@ if ($stmt_conexoes) {
 
                     if (mysqli_num_rows($result) > 0) {
                         while ($vaga = mysqli_fetch_assoc($result)) {
-                            $id = $vaga['id_vaga'];
-                            $titulo = htmlspecialchars($vaga['titulo_vaga']);
-                            $descricao = htmlspecialchars($vaga['descricao_vaga']);
-                            $valor = $vaga['valor_oferta'] ? number_format($vaga['valor_oferta'], 2, ',', '.') : '';
-                            $data = $vaga['data_publicacao'];
-
-                            echo "
-                        <div class='card border-primary mb-3' style='width: 300px; margin-left: 10px;'>
+                            echo "<div class='card border-primary mb-3' style='width: 300px;margin-left:10px; '>
                             <div class='card-body'>
-                                <h5 class='card-title text-primary'>{$titulo}</h5>
-                                <h6 class='card-subtitle mb-2 text-muted'>Publicada em: {$data}</h6>
-                                <p class='card-text'>{$descricao}</p>
-                                <p class='card-text'><strong>Oferta Salarial:</strong> R$ {$valor}</p>
+                                <h5 class='card-title text-primary'>" . htmlspecialchars($vaga['titulo_vaga']) . "</h5>
+                                <h6 class='card-subtitle mb-2 text-muted'>Publicada em: " . $vaga['data_publicacao'] . "</h6>
+                                <p class='card-text'>" . htmlspecialchars($vaga['descricao_vaga']) . "</p>
+                                <p class='card-text'>
+                                    <strong>Oferta Salarial:</strong> " .
+                                ($vaga['valor_oferta']
+                                    ? 'R$ ' . number_format($vaga['valor_oferta'], 2, ',', '.')
+                                    : '—') . "
+                                </p>
                                 <div style='display: flex; justify-content: center; gap: 10px;'>
                                     <a href='#' class='btn btn-info bi bi-pencil editarVaga'
                                        data-id='{$id}'
@@ -318,147 +275,61 @@ if ($stmt_conexoes) {
                         </div>";
                         }
                     } else {
-                        echo "<p style='text-align: center;'>Você ainda não criou nenhuma vaga.</p>";
+                        echo "<p style='text-align: center; width: 100%;'>Você ainda não criou nenhuma vaga.</p>";
                     }
                     mysqli_stmt_close($stmt);
                 } else {
-                    echo "<p style='text-align: center;'>Empresa não autenticada.</p>";
+                    echo "<p style='text-align: center; width: 100%;'>Empresa não autenticada.</p>";
                 }
                 ?>
             </div>
         </article>
 
-        <!-- Outros artigos -->
         <article class="artsolicitacoes" style="display: none;">
-            <h2>Solicitacoes para vagas</h2>
-            <?php if (count($solicitacoes) > 0): ?>
-                <!-- tabela como já estava -->
-            <?php else: ?>
-                <div class="alert alert-info mt-4">Nenhuma solicitação recebida até o momento.</div>
-            <?php endif; ?>
-            <table class="table table-striped">
+            <h2>Minhas Solicitações</h2>
+            <table class="tabela-solicitacoes">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Título da Vaga</th>
-                        <th>Nome do Candidato</th>
-                        <th>Email</th>
-                        <th>Telefone</th>
+                        <th>Título</th>
+                        <th>Descrição</th>
+                        <th>Data</th>
+                        <th>Candidatos</th>
+                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($solicitacoes as $solicitacao): ?>
-                        <tr>
-                            <td><?= $solicitacao['id_solicitacao'] ?></td>
-                            <td><?= htmlspecialchars($solicitacao['titulo_vaga']) ?></td>
-                            <td><?= htmlspecialchars($solicitacao['nome_desenvolvedor']) ?></td>
-                            <td><?= htmlspecialchars($solicitacao['email_desenvolvedor']) ?></td>
-                            <td><?= htmlspecialchars($solicitacao['telefone_desenvolvedor']) ?></td>
-                            <td>
-                                <a href="../server/gerenciar_solicitacao.php?acao=aceitar&id=<?= $solicitacao['id_solicitacao'] ?>"
-                                    onclick="return confirm('Deseja aceitar esta solicitação?')"
-                                    class="btn btn-success">Aceitar</a>
-                                <a href="../server/gerenciar_solicitacao.php?acao=recusar&id=<?= $solicitacao['id_solicitacao'] ?>"
-                                    class="btn btn-danger">Recusar</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                    <!-- Exemplo de linha -->
+                    <tr style="text-align: center;">
+                        <td>001</td>
+                        <td>Dev PHP</td>
+                        <td>Preciso de um sistema de agendamento simples em PHP e MySQL.</td>
+                        <td>31/05/2025</td>
+                        <td>2
+                            <button class="btn-ver">Ver Candidatos</button>
+                        </td>
+                        <td><span class="status pendente">Aberta</span></td>
+                        <td>
+                            <button class="btn-editar">Editar</button>
+                            <button class="btn-cancelar">Cancelar</button>
+                        </td>
+                    </tr>
                 </tbody>
-
+            </table>
         </article>
 
         <article class="artconexoes" style="display: none;">
-            <h2>Conexões realizadas</h2>
-            <?php if (count($conexoes) > 0): ?>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID Conexão</th>
-                            <th>Nome do Desenvolvedor</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
-                            <th>Data</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($conexoes as $conexao): ?>
-                            <tr>
-                                <td><?= $conexao['id_conexao'] ?></td>
-                                <td><?= htmlspecialchars($conexao['nome_desenvolvedor']) ?></td>
-                                <td><?= htmlspecialchars($conexao['email_desenvolvedor']) ?></td>
-                                <td><?= htmlspecialchars($conexao['telefone_desenvolvedor']) ?></td>
-                                <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php else: ?>
-                <div class="alert alert-info mt-4">Nenhuma conexão realizada ainda.</div>
-            <?php endif; ?>
+            <!-- Em breve: Minhas conexões -->
         </article>
     </main>
-<<<<<<< HEAD
     
 </div>
-=======
-
-    <!-- Scripts -->
->>>>>>> 088065622bceed42533b02ac5441898352c92eef
     <script src="../static/scripts/dash_empresa.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const modalvaga = document.querySelector(".modalvaga");
-            const form = document.getElementById("formVaga");
-            const tituloModal = document.getElementById("tituloModal");
 
-            // Botão "Criar Vaga"
-            document.querySelector(".criarvaga")?.addEventListener("click", function () {
-                form.reset();
-                form.id_vaga.value = "";
-                form.action = "../server/criar_vaga.php";
-                tituloModal.textContent = "NOVA VAGA";
-                modalvaga.style.display = "flex";
-            });
 
-            // Botões "Editar Vaga"
-            document.querySelectorAll(".editarVaga").forEach(botao => {
-                botao.addEventListener("click", function () {
-                    const card = this.closest('.card');
-                    const idVaga = this.getAttribute("data-id");
-                    const titulo = this.getAttribute("data-titulo");
-                    const descricao = this.getAttribute("data-descricao");
-                    const valor = this.getAttribute("data-valor");
 
-                    form.titulo.value = titulo;
-                    form.descricao.value = descricao;
-                    form.valor_oferta.value = "R$ " + valor.replace('.', ',');
-                    form.id_vaga.value = idVaga;
-                    form.action = `../server/gerenciar_vagas.php?acao=editar&id=${idVaga}`;
-                    tituloModal.textContent = "EDITAR VAGA";
-                    modalvaga.style.display = "flex";
-                });
-            });
 
-            // Fechar modal
-            document.querySelector(".btnfecharmodal")?.addEventListener("click", function () {
-                modalvaga.style.display = "none";
-            });
-
-            // Fechar ao clicar fora
-            window.addEventListener("click", function (e) {
-                if (e.target === modalvaga) {
-                    modalvaga.style.display = "none";
-                }
-            });
-        });
-    </script>
-
-    <script>
-        function confirmarEncerramento() {
-            return confirm("Deseja realmente desativar sua conta?");
-        }
-    </script>
 
 </body>
 

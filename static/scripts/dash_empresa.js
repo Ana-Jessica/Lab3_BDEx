@@ -114,6 +114,7 @@ livagas.addEventListener("click", function () {
   livagas.style.background = "#00DE8A";
   livagas.style.color = "black";
   livagas.classList.add("ativo");
+  });
   
   btnvaga = document.querySelector(".criarvaga");
   modalvaga = document.querySelector(".modalvaga");
@@ -157,7 +158,7 @@ logoutLink.addEventListener("mouseenter", function () {
     });
 
 
-});
+
 
 
  function confirmarEncerramento() {

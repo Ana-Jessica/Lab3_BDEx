@@ -1,7 +1,7 @@
 #toast {
   position: fixed;
-  top: 80px;
-  right: 10px;
+  bottom: 10px;
+  right: 40%;
   transform: translateX(-5%);
   background-color: #d4edda;
   color: #155724;
@@ -16,18 +16,18 @@
 
 @keyframes subirDesaparecer {
   0% {
-    top: 100px;
+    bottom: 20px;
     opacity: 0;
   }
   10% {
     opacity: 1;
   }
   50% {
-    top: 120px;
+    bottom: 100px;
     opacity: 1;
   }
   100% {
     opacity: 0;
-    top: 150px;
+    bottom: 180px;
   }
 }

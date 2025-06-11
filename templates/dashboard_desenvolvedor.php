@@ -74,6 +74,7 @@ if ($stmt_conexoes) {
   <link rel="icon" type="image/png" sizes="32x32" href="../static/imgs/logo/simbolo.svg">
   <link rel="icon" type="image/png" sizes="16x16" href="../static/imgs/logo/simbolo.svg">
   <link rel="stylesheet" href="../static/styles/dash_desenvolvedor.css">
+  <link rel="stylesheet" href="../static/styles/modal_default.css">
   <link rel="stylesheet" href="../static/styles/toast.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -107,31 +108,36 @@ if ($stmt_conexoes) {
           <i class="brief bi bi-briefcase-fill"></i>
         </li>
 
-        <li class="item liddscadastro">Dados de cadastro
-          <i class="person bi bi-person-badge"></i>
-        </li>
+      <li class="item liddscadastro">Dados de cadastro
+        <i class="person bi bi-person-badge"></i>
+      </li>
+      
+      <li class="item lisenha">alterar senha
+        <i class="bikey bi bi-key"></i>
+      </li>
+      
+      
+      <li class="item liconexoes">Minhas conexões
+        <i class="people bi bi-people-fill"></i>
+      </li>
+      
+      <a class="item liconexoes">desativar conta
+        <i class="bi bi-person-x"></i>
+      </a>
+      
 
-        <li class="item lisenha">alterar senha
-          <i class="bikey bi bi-key"></i>
-        </li>
 
+    </ul>
+  </nav>
+  <main>
+    <article class="artcadastro">
 
-        <li class="item liconexoes">Minhas conexões
-          <i class="people bi bi-people-fill"></i>
-        </li>
-
-
-      </ul>
-    </nav>
-    <main>
-      <article class="artcadastro">
-
-        <form action="../server/editUserDev.php" method="POST">
-          <box-inputset>
-            <legend>
-              <h1><b>Editar dados pessoais</b></h1>
-            </legend>
-            <br />
+      <form action="../server/editUserDev.php" method="POST">
+        <box-inputset>
+          <legend>
+            <h1><b>Editar dados pessoais</b></h1>
+          </legend>
+          <br />
 
             <div class="box-input">
               <label for="nome">Nome:</label>
@@ -172,12 +178,12 @@ if ($stmt_conexoes) {
             <!-- CRIAR DESATIVAR CONTA -->
             <a href="desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
 
-            <button type="submit" id="update" name="update"
-              onclick="return confirm('Tem certeza de que deseja editar os dados? Verifique se a senha e os dados estão preenchidos corretamente');"
-              class="btneditar">Editar</button>
-          </box-inputset>
-        </form>
-      </article>
+          <button type="submit" id="update" name="update"
+            onclick="return confirm('Tem certeza de que deseja editar os dados? Verifique se a senha e os dados estão preenchidos corretamente');"
+            class="btneditar">Editar</button>
+        </box-inputset>
+      </form>
+    </article>
 
       <article class="artconectar" style="display: flex;">
         <h2>Vagas Diponiveis</h2>
@@ -225,30 +231,7 @@ if ($stmt_conexoes) {
           }
           ?>
 
-          <h2>Solicitações</h2>
-          <?php
-          $id_dev = $_SESSION['id'];
-          $sql = "SELECT v.titulo_vaga, v.id_vaga, e.nome_empresa 
-        FROM Solicitacao s
-        JOIN Vaga v ON s.id_vaga = v.id_vaga
-        JOIN Empresa e ON v.id_empresa = e.id_empresa
-        WHERE s.id_desenvolvedor = ?";
-          $stmt = $conn->prepare($sql);
-          $stmt->bind_param("i", $id_dev);
-          $stmt->execute();
-          $result = $stmt->get_result();
-
-          if ($result->num_rows > 0): ?>
-            <h3>Vagas que você solicitou</h3>
-            <ul>
-              <?php while ($row = $result->fetch_assoc()): ?>
-                <li><?= htmlspecialchars($row['titulo_vaga']) ?> - <?= htmlspecialchars($row['nome_empresa']) ?></li>
-              <?php endwhile; ?>
-            </ul>
-          <?php else: ?>
-            <p>Você ainda não solicitou nenhuma vaga.</p>
-          <?php endif; ?>
-        </div>
+      </div>
 
 
       </article>
@@ -308,14 +291,14 @@ if ($stmt_conexoes) {
 
 <<<<<<< HEAD
 
-    </article>
+      </article>
 
-    <article class="artconexoes" style="display: none;">
-      <!-- Em breve: Minhas conexões -->
-    </article>
+      <article class="artconexoes" style="display: none;">
+        <!-- Em breve: Minhas conexões -->
+      </article>
 
     <div class="modalsenha">
-                <form class="modaleditarsenha" action="../server/update_password.php" method="POST">
+                <form class="modaleditarsenha" action="../server/criar_vaga.php" method="POST">
                     <div class="btnfecharmodalsenha">X</div>
                     <h2>ALTERAR SENHA</h2>
                     <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">
@@ -339,18 +322,26 @@ if ($stmt_conexoes) {
 
   </main>
 </div>
-=======
-    </main>
-  </div>
->>>>>>> 088065622bceed42533b02ac5441898352c92eef
   <!-- Tost com notificação que os dados foram editados -->
   <?php if ($exibir_toast): ?>
     <div id="toast">os dados de <?= htmlspecialchars($nome) ?> foram alterados</div>
   <?php endif; ?>
 
+  <!-- modal editar -->
+  <div class="modal_default">
+    <div class="modal-content">
+      <p>Tem certeza de que deseja editar os dados?<br>Verifique se estão corretos.</p>
+      <div class="modal-buttons">
+        <button id="btnconfirmar" onclick="confirmarModal(true)">Confirmar</button>
+        <button id="btncancelar" onclick="confirmarModal(false)">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <script src="../static/scripts/toast.js"></script>
   <!--  Fim toast -->
   <script src="../static/scripts/dash_desenvolvedor.js"></script>
+  <script src="../static/scripts/modal_default.js"></script>
 </body>
 
 </html>
