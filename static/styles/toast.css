@@ -13,6 +13,21 @@
   animation: subirDesaparecer 5s ease forwards;
   z-index: 9999;
 }
+#toast_aviso {
+  position: fixed;
+  bottom: 10px;
+  right: 40%;
+  transform: translateX(-5%);
+  background-color: yellow;
+  color: #211557;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  font-size: 16px;
+  opacity: 0;
+  animation: subirDesaparecer 5s ease forwards;
+  z-index: 9999;
+}
 
 @keyframes subirDesaparecer {
   0% {

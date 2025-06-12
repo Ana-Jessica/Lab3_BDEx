@@ -4,10 +4,23 @@ include_once("../server/conexao.php");
 include_once("../server/auth.php");
 
 // Para aparecer o toast de sucesso
-$exibir_toast = false; // garante que sempre existe
+$exibir_toast_editar = false; // 
+$exibir_toast_solicitar = false; 
+$exibir_toast_solicitar_aviso = false; 
+
 if (isset($_SESSION['editado_sucesso'])) {
-  $exibir_toast = true;
+  $exibir_toast_editar = true;
   unset($_SESSION['editado_sucesso']); // evita repetição
+}
+
+if (isset($_SESSION['solicitado_sucesso'])) {
+  $exibir_toast_solicitar = true;
+  unset($_SESSION['solicitado_sucesso']); // evita repetição
+}
+
+if (isset($_SESSION['solicitado_aviso'])) {
+  $exibir_toast_solicitar_aviso = true;
+  unset($_SESSION['solicitado_aviso']); // evita repetição
 }
 
 // Buscar dados do desenvolvedor
@@ -215,6 +228,7 @@ if ($stmt_conexoes) {
                             <a href='../server/candidatar.php?id=" . $vaga['id_vaga'] . "' class='btn btn-success'>
                                 <i class='bi bi-person-check'></i> Candidatar-se
                             </a>
+                            
                         </div>
                     </div>
                 </div>";
@@ -271,16 +285,16 @@ if ($stmt_conexoes) {
           <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">
           <div class="box-input">
             <label for="">Senha Atual</label>
-            <input type="text" name="titulo_vaga" placeholder="senha em uso">
+            <input type="password" name="titulo_vaga" placeholder="senha em uso">
           </div>
           <div class="box-input">
             <label for="">Nova senha:</label>
-            <input type="text" name="descricao_vaga"
+            <input type="password" name="descricao_vaga"
               placeholder="precisamos de um desenvolvedor php com conhecimentos em laravel...">
           </div>
           <div class="box-input">
             <label for="">Repetir nova senha</label>
-            <input type="text" name="valor_oferta" placeholder="R$ 99,99">
+            <input type="password" name="valor_oferta" placeholder="R$ 99,99">
           </div>
           <br><br>
           <button class="btnsubmitvaga" type="submit"> Alterar senha</button>
@@ -320,14 +334,20 @@ if ($stmt_conexoes) {
   </main>
 </div>
   <!-- Tost com notificação que os dados foram editados -->
-  <?php if ($exibir_toast): ?>
+  <?php if ($exibir_toast_editar): ?>
     <div id="toast">os dados de <?= htmlspecialchars($nome) ?> foram alterados</div>
+  <?php endif; ?>
+  <?php if ($exibir_toast_solicitar): ?>
+    <div id="toast">foi realizada uma solicitacao de vaga</div>
+  <?php endif; ?>
+  <?php if ($exibir_toast_solicitar_aviso): ?>
+    <div  id="toast_aviso" >essa vaga ja recebeu sua solicitacao</div>
   <?php endif; ?>
 
   <!-- modal editar -->
   <div class="modal_default">
     <div class="modal-content">
-      <p>Tem certeza de que deseja editar os dados?<br>Verifique se estão corretos.</p>
+      <p id="modalMensagem">Tem certeza de que deseja editar os dados?<br>Verifique se estão corretos.</p>
       <div class="modal-buttons">
         <button id="btnconfirmar" onclick="confirmarModal(true)">Confirmar</button>
         <button id="btncancelar" onclick="confirmarModal(false)">Cancelar</button>
