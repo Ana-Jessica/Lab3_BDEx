@@ -249,7 +249,6 @@ if ($stmt_conexoes) {
       </article>
 
       <article class="artconexoes" style="display: none;">
-        <h2>Conexões realizadas</h2>
         <?php if (count($conexoes) > 0): ?>
           <table class="table table-striped">
             <thead>
@@ -257,7 +256,6 @@ if ($stmt_conexoes) {
                 <th>ID Conexão</th>
                 <th>Nome da empresa</th>
                 <th>Email</th>
-                <th>Telefone</th>
                 <th>Data</th>
               </tr>
             </thead>
@@ -267,7 +265,6 @@ if ($stmt_conexoes) {
                   <td><?= $conexao['id_conexao'] ?></td>
                   <td><?= htmlspecialchars($conexao['nome_empresa']) ?></td>
                   <td><?= htmlspecialchars($conexao['email_empresa']) ?></td>
-                  <td><?= htmlspecialchars($conexao['telefone_empresa']) ?></td>
                   <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
                 </tr>
               <?php endforeach; ?>
@@ -290,11 +287,11 @@ if ($stmt_conexoes) {
           <div class="box-input">
             <label for="">Nova senha:</label>
             <input type="password" name="descricao_vaga"
-              placeholder="precisamos de um desenvolvedor php com conhecimentos em laravel...">
+              placeholder="Digite a nova senha">
           </div>
           <div class="box-input">
             <label for="">Repetir nova senha</label>
-            <input type="password" name="valor_oferta" placeholder="R$ 99,99">
+            <input type="password" name="valor_oferta" placeholder="Repita a nova senha">
           </div>
           <br><br>
           <button class="btnsubmitvaga" type="submit"> Alterar senha</button>

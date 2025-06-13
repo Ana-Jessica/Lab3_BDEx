@@ -4,35 +4,40 @@ include_once("../server/conexao.php");
 include_once("../server/autenticacao/auth.php");
 
 // Verifica se está logado e se é uma empresa
+// Verifica se está logado e se é uma empresa
 if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'empresa') {
     header("Location: templates/pglogin.html");
     exit();
 }
 
-// Buscar dados da empresa
 $id_empresa = $_SESSION['id'];
-$nome_empresa = $cnpj_empresa = $endereco_empresa = $email_empresa = $telefone_empresa = ''; // Inicializa as variáveis
+
+// Inicializa variáveis
+$nome_empresa = $cnpj_empresa = $endereco_empresa = $email_empresa = $telefone_empresa = '';
+
+// Corrigido: uso dos nomes de coluna atualizados
 $stmt = $conn->prepare("SELECT nome_empresa, cnpj_empresa, endereco_empresa, email_empresa, telefone_empresa FROM empresa WHERE id_empresa = ?");
 if ($stmt) {
     $stmt->bind_param("i", $id_empresa);
     $stmt->execute();
     $stmt->bind_result($nome_empresa, $cnpj_empresa, $endereco_empresa, $email_empresa, $telefone_empresa);
     if (!$stmt->fetch()) {
-        $nome = "Empresa não encontrada";
+        $nome_empresa = "Empresa não encontrada";
     }
     $stmt->close();
 } else {
-    $nome = "Erro ao carregar dados";
+    $nome_empresa = "Erro ao carregar dados";
     error_log("Erro na preparação da query: " . $conn->error);
 }
 
-// Buscar solicitações de candidatos para as vagas da empresa
+// Buscar solicitações
 $solicitacoes = [];
 
 $sql = "
 SELECT 
     s.id_solicitacao,
     s.data_solicitacao,
+    s.status_solicitacao,
     v.id_vaga,
     v.titulo_vaga,
     d.id_desenvolvedor,
@@ -44,7 +49,6 @@ INNER JOIN vaga v ON s.id_vaga = v.id_vaga
 INNER JOIN desenvolvedor d ON s.id_desenvolvedor = d.id_desenvolvedor
 WHERE v.id_empresa = ?
 ORDER BY s.id_solicitacao DESC
-
 ";
 
 $stmt = $conn->prepare($sql);
@@ -52,28 +56,29 @@ if ($stmt) {
     $stmt->bind_param("i", $id_empresa);
     $stmt->execute();
     $result = $stmt->get_result();
-
     while ($row = $result->fetch_assoc()) {
         $solicitacoes[] = $row;
     }
-
     $stmt->close();
 } else {
     error_log("Erro ao buscar solicitações: " . $conn->error);
 }
 
-// Buscar conexões da empresa
+// Buscar conexões
 $conexoes = [];
 
 $sql_conexoes = "
 SELECT 
     c.id_conexao,
+    c.data_conexao,
+    c.status_conexao,
     d.nome_desenvolvedor,
     d.email_desenvolvedor,
     d.skills_desenvolvedor,
-    c.data_conexao
+    v.titulo_vaga
 FROM conexao c
 INNER JOIN desenvolvedor d ON c.id_desenvolvedor = d.id_desenvolvedor
+INNER JOIN vaga v ON c.id_vaga = v.id_vaga
 WHERE c.id_empresa = ?
 ORDER BY c.data_conexao DESC
 ";
@@ -83,17 +88,13 @@ if ($stmt_conexoes) {
     $stmt_conexoes->bind_param("i", $id_empresa);
     $stmt_conexoes->execute();
     $result_conexoes = $stmt_conexoes->get_result();
-
     while ($row = $result_conexoes->fetch_assoc()) {
         $conexoes[] = $row;
     }
-
     $stmt_conexoes->close();
 } else {
     error_log("Erro ao buscar conexões: " . $conn->error);
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -159,7 +160,7 @@ if ($stmt_conexoes) {
         <main>
             <article class="artcadastro" style="display: none;">
 
-            <!-- EDITAREI AINDA - RLX - PS.: BIRA -->
+                <!-- EDITAREI AINDA - RLX - PS.: BIRA -->
                 <form action="edit_dds_empresa.php" method="POST">
                     <box-inputset>
                         <legend>
@@ -243,10 +244,10 @@ if ($stmt_conexoes) {
                     <?php
                     if ($_SESSION['tipo'] === 'empresa' && isset($_SESSION['id'])) {
                         $id_empresa = $_SESSION['id'];
-                        $sql = "SELECT id_vaga, titulo_vaga, data_publicacao, descricao_vaga, valor_oferta 
-                    FROM vaga 
-                    WHERE id_empresa = ? 
-                    ORDER BY data_publicacao DESC";
+                        $sql = "SELECT id_vaga, titulo_vaga, data_publicacao, descricao_vaga, valor_oferta, status_vaga 
+            FROM vaga 
+            WHERE id_empresa = ? 
+            ORDER BY data_publicacao DESC";
                         $stmt = mysqli_prepare($conn, $sql);
                         mysqli_stmt_bind_param($stmt, "i", $id_empresa);
                         mysqli_stmt_execute($stmt);
@@ -254,33 +255,72 @@ if ($stmt_conexoes) {
 
                         if (mysqli_num_rows($result) > 0) {
                             while ($vaga = mysqli_fetch_assoc($result)) {
-                                echo "<div class='card border-primary mb-3' style='width: 300px;margin-left:10px; '>
-                            <div class='card-body'>
-                                <h5 class='card-title text-primary'>" . htmlspecialchars($vaga['titulo_vaga']) . "</h5>
-                                <h6 class='card-subtitle mb-2 text-muted'>Publicada em: " . $vaga['data_publicacao'] . "</h6>
-                                <p class='card-text'>" . htmlspecialchars($vaga['descricao_vaga']) . "</p>
-                                <p class='card-text'>
-                                    <strong>Oferta Salarial:</strong> " .
-                                    ($vaga['valor_oferta']
-                                        ? 'R$ ' . number_format($vaga['valor_oferta'], 2, ',', '.')
-                                        : '—') . "
-                                </p>
-                                <div style='display: flex; justify-content: center; gap: 10px;'>
-                                    <a href='#' class='btn btn-info bi bi-pencil editarVaga'
-   data-id='{$vaga['id_vaga']}'
-   data-titulo='" . htmlspecialchars($vaga['titulo_vaga'], ENT_QUOTES) . "'
-   data-descricao='" . htmlspecialchars($vaga['descricao_vaga'], ENT_QUOTES) . "'
-   data-valor='{$vaga['valor_oferta']}'></a>
+                                $id = $vaga['id_vaga'];
+                                $titulo = htmlspecialchars($vaga['titulo_vaga']);
+                                $descricao = htmlspecialchars($vaga['descricao_vaga']);
+                                $valor = $vaga['valor_oferta'] ? number_format($vaga['valor_oferta'], 2, ',', '.') : '';
+                                $status = htmlspecialchars($vaga['status_vaga']);
+                                $data = htmlspecialchars($vaga['data_publicacao']);
 
-<a href='../server/conexao/gerenciar_vagas.php?acao=excluir&id={$vaga['id_vaga']}'
-   onclick=\"return confirm('Deseja excluir esta vaga?')\"
-   class='btn btn-danger'>
-   <i class='bi bi-trash3'></i>
-</a>
+                                // Card da vaga
+                                echo "
+            <div class='card border-primary mb-3' style='width: 300px; margin-left: 10px;'>
+                <div class='card-body'>
+                    <h5 class='card-title text-primary'>{$titulo}</h5>
+                    <h6 class='card-subtitle mb-2 text-muted'>Publicada em: {$data}</h6>
+                    <p class='card-text'>{$descricao}</p>
+                    <p class='card-text'><strong>Oferta Salarial:</strong> R$ {$valor}</p>
+                    <p class='card-text'><strong>Status:</strong> {$status}</p>
+                    <div style='display: flex; justify-content: center; gap: 10px;'>
+                        <a href='#' class='btn btn-info criarvaga' data-modal='modal-editar-{$id}'><i class='bi bi-pencil'></i></a>
+                        <a href='../server/conexao/gerenciar_vagas.php?acao=excluir&id={$id}' 
+                           onclick=\"return confirm('Deseja excluir esta vaga?')\" 
+                           class='btn btn-danger'>
+                           <i class='bi bi-trash3'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-                                </div>
-                            </div>
-                        </div>";
+            <!-- Modal de edição -->
+            <div class='modalvaga' id='modal-editar-{$id}' style='display: none;'>
+                <form class='modaleditarvaga' method='POST' action='../server/conexao/gerenciar_vagas.php?acao=editar&id={$id}'>
+                    <div class='btnfecharmodal'>X</div>
+                    <h2>Editar Vaga</h2>
+                    <input type='hidden' name='id_empresa' value='" . intval($_SESSION['id']) . "'>
+                    
+                    <div class='box-input'>
+                        <label for='titulo{$id}'>Título</label>
+                        <input type='text' name='titulo' id='titulo{$id}' value='{$titulo}' required>
+                    </div>
+                    
+                    <div class='box-input'>
+                        <label for='descricao{$id}'>Descrição</label>
+                        <input type='text' name='descricao' id='descricao{$id}' value='{$descricao}' required>
+                    </div>
+                    
+                    <div class='box-input'>
+                        <label for='valor{$id}'>Valor de Oferta</label>
+                        <input type='text' name='valor' id='valor{$id}' value='{$valor}'>
+                    </div>
+
+                    <div class='box-input'>
+                        <label for='status{$id}'>Status da Vaga</label>
+                        <select name='status_vaga' id='status{$id}'>
+                            <option value='ativa'" . ($status === 'ativa' ? ' selected' : '') . ">Ativa</option>
+                            <option value='fechada'" . ($status === 'fechada' ? ' selected' : '') . ">Fechada</option>
+                            <option value='conectada'" . ($status === 'conectada' ? ' selected' : '') . ">Conectada</option>
+                        </select>
+                    </div>
+
+                    <div class='box-input'>
+                        <label>Empresa: " . htmlspecialchars($nome_empresa) . "</label>
+                    </div>
+
+                    <button class='btnsubmitvaga' type='submit'>Salvar Alterações</button>
+                </form>
+            </div>
+            ";
                             }
                         } else {
                             echo "<p style='text-align: center; width: 100%;'>Você ainda não criou nenhuma vaga.</p>";
@@ -291,6 +331,7 @@ if ($stmt_conexoes) {
                     }
                     ?>
                 </div>
+
             </article>
 
             <article class="artsolicitacoes" style="display: none;">
@@ -317,15 +358,18 @@ if ($stmt_conexoes) {
                                 <td>
                                     <button class="btn-ver">Ver Candidato</button>
                                 </td>
-                                <td><span class="status pendente">Aberta</span></td>
+                                <td><span class="status pendente"><?= htmlspecialchars($sol['status_solicitacao']) ?></span>
+                                </td>
                                 <td>
                                     <button class="btn-conectar" data-id-vaga="<?= $sol['id_vaga'] ?>"
                                         data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
                                         Conectar
                                     </button>
+                                    <button class="btn-cancelar" data-id-vaga="<?= $sol['id_vaga'] ?>"
+                                        data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
+                                        Rejeitar
+                                    </button>
 
-
-                                    <button class="btn-cancelar">Excluir</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -348,7 +392,30 @@ if ($stmt_conexoes) {
             </article>
 
             <article class="artconexoes" style="display: none;">
-                <!-- Em breve: Minhas conexões -->
+                <?php if (count($conexoes) > 0): ?>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID Conexão</th>
+                                <th>Nome da empresa</th>
+                                <th>Email</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($conexoes as $conexao): ?>
+                                <tr>
+                                    <td><?= $conexao['id_conexao'] ?></td>
+                                    <td><?= htmlspecialchars($conexao['nome_desenvolvedor']) ?></td>
+                                    <td><?= htmlspecialchars($conexao['email_desenvolvedor']) ?></td>
+                                    <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <div class="alert alert-info mt-4">Nenhuma conexão realizada ainda.</div>
+                <?php endif; ?>
             </article>
         </main>
 

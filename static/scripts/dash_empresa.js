@@ -56,31 +56,76 @@ document.querySelectorAll(".btn-ver").forEach(btn => {
     });
 });
 
-document.querySelectorAll('.btn-conectar').forEach(button => {
-    button.addEventListener('click', function () {
-        const idVaga = this.getAttribute('data-id-vaga');
-        const idDesenvolvedor = this.getAttribute('data-id-desenvolvedor');
+document.querySelectorAll(".btn-conectar").forEach(button => {
+  button.addEventListener("click", () => {
+      const idVaga = button.getAttribute("data-id-vaga");
+      const idDev = button.getAttribute("data-id-desenvolvedor");
 
-        fetch('../server/criar_conexao.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `id_vaga=${idVaga}&id_desenvolvedor=${idDesenvolvedor}`
-        })
-        .then(response => response.text())
-        .then(data => {
-            alert(data); // Alerta de sucesso ou erro
-            window.location.reload(); // Atualiza para mostrar nova conexão
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-            alert("Erro ao conectar.");
-        });
-    });
+      fetch("../server/conexao/criar_conexao.php", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: `id_vaga=${idVaga}&id_desenvolvedor=${idDev}`
+      })
+      .then(response => response.text())
+      .then(data => {
+          alert(data);
+          location.reload(); // recarrega para atualizar status, ou modifique dinamicamente
+      })
+      .catch(error => {
+          alert("Erro ao conectar: " + error);
+      });
+  });
+});
+
+document.querySelectorAll('.btn-cancelar').forEach(botao => {
+  botao.addEventListener('click', function() {
+      const idVaga = this.getAttribute('data-id-vaga');
+      const idDesenvolvedor = this.getAttribute('data-id-desenvolvedor');
+
+      if (!confirm('Tem certeza que deseja rejeitar esta solicitação?')) return;
+
+      const formData = new FormData();
+      formData.append('id_vaga', idVaga);
+      formData.append('id_desenvolvedor', idDesenvolvedor);
+
+      fetch('../server/conexao/rejeitar_solicitacao.php', {
+          method: 'POST',
+          body: formData,
+          credentials: 'same-origin'
+      })
+      .then(response => response.text())
+      .then(data => {
+          alert(data);
+          // Opcional: remover a linha da tabela ou desabilitar o botão
+          this.closest('tr').remove(); // remove a linha da tabela
+      })
+      .catch(error => {
+          alert('Erro ao rejeitar: ' + error);
+      });
+  });
 });
 
 
+document.querySelectorAll('.criarvaga').forEach(botao => {
+  botao.addEventListener('click', () => {
+    const targetId = botao.getAttribute('data-modal');
+    const modal = document.getElementById(targetId);
+    if (modal) {
+      modal.style.display = 'flex';
+    }
+  });
+});
+
+document.querySelectorAll('.btnfecharmodal').forEach(botao => {
+  botao.addEventListener('click', () => {
+    const modal = botao.closest('.modalvaga');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  });
+});
 
 function fecharModal() {
     document.getElementById("modalCandidatos").style.display = "none";

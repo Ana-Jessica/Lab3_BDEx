@@ -17,7 +17,7 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $_SESSION['solicitado_aviso'] = true;
-    header("Location: ../templates/dashboard_desenvolvedor.php");
+    header("Location: ../../templates/dashboard_desenvolvedor.php");
     exit();
 }
 
@@ -33,5 +33,5 @@ if ($stmt->execute()) {
     $_SESSION['solicitado_sucesso'] = false;
 }
 
-header("Location: ../templates/dashboard_desenvolvedor.php");
+header("Location: ../../templates/dashboard_desenvolvedor.php");
 exit();
