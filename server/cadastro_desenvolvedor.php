@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $telefone = filter_input(INPUT_POST, 'telefone_desenvolvedor', FILTER_SANITIZE_STRING);
         $email = filter_input(INPUT_POST, 'email_desenvolvedor', FILTER_SANITIZE_EMAIL);
         $endereco = filter_input(INPUT_POST, 'endereco_desenvolvedor', FILTER_SANITIZE_STRING);
-        $cpf = filter_input(INPUT_POST, 'cpf', FILTER_SANITIZE_STRING);
-        $skills = filter_input(INPUT_POST, 'skills', FILTER_SANITIZE_STRING);
+        $cpf = filter_input(INPUT_POST, 'cpf_desenvolvedor', FILTER_SANITIZE_STRING);
+        $skills = filter_input(INPUT_POST, 'skills_desenvolvedor', FILTER_SANITIZE_STRING);
         $senha = $_POST['senha_desenvolvedor'];
 
         // Validações básicas
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // VERIFICAÇÃO DO EMAIL EM AMBAS AS TABELAS
         // 1. Verifica na tabela Desenvolvedor
-        $stmt = $conn->prepare("SELECT id_desenvolvedor FROM Desenvolvedor WHERE email_desenvolvedor = ?");
+        $stmt = $conn->prepare("SELECT id_desenvolvedor FROM desenvolvedor WHERE email_desenvolvedor = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
 
         // Verifica se CPF já existe (apenas na tabela Desenvolvedor)
-        $stmt = $conn->prepare("SELECT id_desenvolvedor FROM desenvolvedor WHERE cpf = ?");
+        $stmt = $conn->prepare("SELECT id_desenvolvedor FROM desenvolvedor WHERE cpf_desenvolvedor = ?");
         $stmt->bind_param("s", $cpf);
         $stmt->execute();
         $stmt->store_result();
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // CADASTRO DO DESENVOLVEDOR
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
         $stmt = $conn->prepare("INSERT INTO desenvolvedor 
-            (nome_desenvolvedor, telefone_desenvolvedor, email_desenvolvedor, endereco_desenvolvedor, cpf, skills, senha_desenvolvedor) 
+            (nome_desenvolvedor, telefone_desenvolvedor, email_desenvolvedor, endereco_desenvolvedor, cpf_desenvolvedor, skills_desenvolvedor, senha_desenvolvedor) 
             VALUES (?, ?, ?, ?, ?, ?, ?)");
         
         $stmt->bind_param("sssssss", $nome, $telefone, $email, $endereco, $cpf, $skills, $senha_hash);

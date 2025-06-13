@@ -86,13 +86,24 @@
 
  .form-inner form .field {
    margin-bottom: 20px;
+   position: relative;
  }
-
+.form-inner form .field input:focus~label,
+.form-inner form .field input:valid~label {
+    top: -18px;
+    font-size: 13px;
+    color: var(--cor-azul-escuro);
+}
  .form-inner form .field label {
    display: block;
-   color: black;
+   color: rgba(0, 0, 0, 0.637);
    font-family: var(--fonte-BDEx);
    font-size: 16px;
+    position: absolute;
+    top: 7px;
+    left: 20px;
+    pointer-events: none;
+    transition: .5s;
  }
 
  .form-inner form .field input {
@@ -104,7 +115,16 @@
    border: 1px solid lightgrey;
    font-size: 16px;
    transition: all 0.3s ease;
- }
+  
+    font-size: 15px;
+    left: 5px;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px;
+}
+ 
 
  .form-inner form .field input:focus {
    border-color: var(--cor-azul-escuro);

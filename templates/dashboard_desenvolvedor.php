@@ -5,8 +5,8 @@ include_once("../server/auth.php");
 
 // Para aparecer o toast de sucesso
 $exibir_toast_editar = false; // 
-$exibir_toast_solicitar = false; 
-$exibir_toast_solicitar_aviso = false; 
+$exibir_toast_solicitar = false;
+$exibir_toast_solicitar_aviso = false;
 
 if (isset($_SESSION['editado_sucesso'])) {
   $exibir_toast_editar = true;
@@ -27,7 +27,7 @@ if (isset($_SESSION['solicitado_aviso'])) {
 $id_desenvolvedor = $_SESSION['id'];
 $nome = $cpf = $endereco = $email = $telefone = $skills = ''; // Inicializa as variáveis
 
-$stmt = $conn->prepare("SELECT nome_desenvolvedor, cpf, endereco_desenvolvedor, email_desenvolvedor, telefone_desenvolvedor, skills FROM desenvolvedor WHERE id_desenvolvedor = ?");
+$stmt = $conn->prepare("SELECT nome_desenvolvedor, cpf_desenvolvedor, endereco_desenvolvedor, email_desenvolvedor, telefone_desenvolvedor, skills_desenvolvedor FROM desenvolvedor WHERE id_desenvolvedor = ?");
 if ($stmt) {
   $stmt->bind_param("i", $id_desenvolvedor);
   $stmt->execute();
@@ -121,36 +121,36 @@ if ($stmt_conexoes) {
           <i class="brief bi bi-briefcase-fill"></i>
         </li>
 
-      <li class="item liddscadastro">Dados de cadastro
-        <i class="person bi bi-person-badge"></i>
-      </li>
-      
-      <li class="item lisenha">alterar senha
-        <i class="bikey bi bi-key"></i>
-      </li>
-      
-      
-      <li class="item liconexoes">Minhas conexões
-        <i class="people bi bi-people-fill"></i>
-      </li>
-      
-      <a class="item liconexoes">desativar conta
-        <i class="bi bi-person-x"></i>
-      </a>
-      
+        <li class="item liddscadastro">Dados de cadastro
+          <i class="person bi bi-person-badge"></i>
+        </li>
+
+        <li class="item lisenha">alterar senha
+          <i class="bikey bi bi-key"></i>
+        </li>
 
 
-    </ul>
-  </nav>
-  <main>
-    <article class="artcadastro">
+        <li class="item liconexoes">Minhas conexões
+          <i class="people bi bi-people-fill"></i>
+        </li>
 
-      <form id="formEditar"  action="../server/editUserDev.php" method="POST">
-        <box-inputset>
-          <legend>
-            <h1><b>Editar dados pessoais</b></h1>
-          </legend>
-          <br />
+        <a class="item liconexoes">desativar conta
+          <i class="bi bi-person-x"></i>
+        </a>
+
+
+
+      </ul>
+    </nav>
+    <main>
+      <article class="artcadastro">
+
+        <form id="formEditar" action="../server/editUserDev.php" method="POST">
+          <box-inputset>
+            <legend>
+              <h1><b>Editar dados pessoais</b></h1>
+            </legend>
+            <br />
 
             <div class="box-input">
               <label for="nome">Nome:</label>
@@ -171,15 +171,15 @@ if ($stmt_conexoes) {
             </div>
             <br>
             <div class="box-input">
-              <label for="cpf">CPF:</label>
-              <input value="<?= htmlspecialchars($cpf) ?>" type="text" placeholder="Digite seu CPF:" id="cpf" name="cpf"
-                required>
+              <label for="cpf_desenvolvedor">CPF:</label>
+              <input value="<?= htmlspecialchars($cpf) ?>" type="text" placeholder="Digite seu CPF:"
+                id="cpf_desenvolvedor" name="cpf_desenvolvedor" required>
             </div>
             <br>
 
             <div class="box-input">
-              <label for="skills">Skills:</label>
-              <textarea placeholder="Digite seus conhecimentos:" id="skills" name="skills" required>
+              <label for="skills_desenvolvedor">Skills:</label>
+              <textarea placeholder="Digite seus conhecimentos:" id="skills_desenvolvedor" name="skills_desenvolvedor" required>
               <?= htmlspecialchars($skills) ?>
               </textarea>
             </div>
@@ -191,10 +191,10 @@ if ($stmt_conexoes) {
             <!-- CRIAR DESATIVAR CONTA -->
             <a href="desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
 
-          <button type="button" id="update" name="update" class="btneditar">Editar</button>
-        </box-inputset>
-      </form>
-    </article>
+            <button type="button" id="update" name="update" class="btneditar">Editar</button>
+          </box-inputset>
+        </form>
+      </article>
 
       <article class="artconectar" style="display: flex;">
         <h2>Vagas Diponiveis</h2>
@@ -243,7 +243,7 @@ if ($stmt_conexoes) {
           }
           ?>
 
-      </div>
+        </div>
 
 
       </article>
@@ -308,31 +308,31 @@ if ($stmt_conexoes) {
         <!-- Em breve: Minhas conexões -->
       </article>
 
-    <div class="modalsenha">
-                <form class="modaleditarsenha" action="../server/criar_vaga.php" method="POST">
-                    <div class="btnfecharmodalsenha">X</div>
-                    <h2>ALTERAR SENHA</h2>
-                    <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">
-                    <div class="box-input">
-                        <label for="">Senha Atual</label>
-                        <input type="text" name="titulo_vaga" placeholder="senha em uso">
-                    </div>
-                    <div class="box-input">
-                        <label for="">Nova senha:</label>
-                        <input type="text" name="descricao_vaga"
-                            placeholder="precisamos de um desenvolvedor php com conhecimentos em laravel...">
-                    </div>
-                    <div class="box-input">
-                        <label for="">Repetir nova senha</label>
-                        <input type="text" name="valor_oferta" placeholder="R$ 99,99">
-                    </div>
-                    <br><br>
-                    <button class="btnsubmitvaga" type="submit"> Alterar senha</button>
-                </form>
-            </div>
+      <div class="modalsenha">
+        <form class="modaleditarsenha" action="../server/criar_vaga.php" method="POST">
+          <div class="btnfecharmodalsenha">X</div>
+          <h2>ALTERAR SENHA</h2>
+          <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">
+          <div class="box-input">
+            <label for="">Senha Atual</label>
+            <input type="text" name="titulo_vaga" placeholder="senha em uso">
+          </div>
+          <div class="box-input">
+            <label for="">Nova senha:</label>
+            <input type="text" name="descricao_vaga"
+              placeholder="precisamos de um desenvolvedor php com conhecimentos em laravel...">
+          </div>
+          <div class="box-input">
+            <label for="">Repetir nova senha</label>
+            <input type="text" name="valor_oferta" placeholder="R$ 99,99">
+          </div>
+          <br><br>
+          <button class="btnsubmitvaga" type="submit"> Alterar senha</button>
+        </form>
+      </div>
 
-  </main>
-</div>
+    </main>
+  </div>
   <!-- Tost com notificação que os dados foram editados -->
   <?php if ($exibir_toast_editar): ?>
     <div id="toast">os dados de <?= htmlspecialchars($nome) ?> foram alterados</div>
@@ -341,7 +341,7 @@ if ($stmt_conexoes) {
     <div id="toast">foi realizada uma solicitacao de vaga</div>
   <?php endif; ?>
   <?php if ($exibir_toast_solicitar_aviso): ?>
-    <div  id="toast_aviso" >essa vaga ja recebeu sua solicitacao</div>
+    <div id="toast_aviso">essa vaga ja recebeu sua solicitacao</div>
   <?php endif; ?>
 
   <!-- modal editar -->

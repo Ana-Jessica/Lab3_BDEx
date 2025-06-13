@@ -38,34 +38,35 @@
             <span id="tipoUsuario" class="tipo-usuario-text">Empresa</span>
          </label>
       </div>
-
+      <br><br>
       <div class="form-container">
          <!-- Formulário de Empresa (mostrado por padrão) -->
          <div id="empresaForm" class="form-inner active">
             <form action="../server/cadastro_empresa.php" method="POST" class="login">
                <div class="field">
-                  <label for="nome_empresa">Nome:</label>
-                  <input type="text" placeholder="Digite seu nome" id="nome_empresa" name="nome_empresa" required>
+                  <input type="text"  id="nome_empresa" name="nome_empresa" maxlength="200" required>
+                  <label for="nome_empresa">Nome da Empresa/Razão social:</label>
                </div>
                <div class="field">
-                  <label for="cnpj_empresa">CNPJ</label>
-                  <input type="text" placeholder="Digite a CNPJ da empresa" id="cnpj_empresa" name="cnpj_empresa" required>
+                  <input type="text"  id="cnpj_empresa" name="cnpj_empresa" maxlength="18" required>
+                  <label for="cnpj">CNPJ:</label>
                </div>
                <div class="field">
+                  <input type="text"  id="endereco_empresa" name="endereco_empresa" maxlength="250" required>
                   <label for="endereco">Endereço:</label>
-                  <input type="text" placeholder="Digite seu endereço" id="endereco_empresa" name="endereco_empresa" required>
                </div>
                <div class="field">
+                  <input type="text"  id="email_empresa" name="email_empresa" maxlength="100" required>
                   <label for="email">Email:</label>
-                  <input type="text" placeholder="Digite seu e-mail" id="email_empresa" name="email_empresa" required>
                </div>
                <div class="field">
+                  <input type="text"  id="telefone_empresa" name="telefone_empresa" maxlength="11"
+                  required>
                   <label for="telefone_empresa">Telefone:</label>
-                  <input type="text" placeholder="Digite seu telefone" id="telefone_empresa" name="telefone_empresa" required>
                </div>
                <div class="field">
+                  <input type="password"  id="senha_empresa" name="senha_empresa" required>
                   <label for="senha_empresa">Senha:</label>
-                  <input type="password" placeholder="Digite sua senha" id="senha_empresa" name="senha_empresa" required>
                </div>
                <div class="field btn">
                   <div class="btn-layer"></div>
@@ -78,37 +79,37 @@
          <div id="desenvolvedorForm" class="form-inner">
             <form action="../server/cadastro_desenvolvedor.php" method="POST" class="login">
                <div class="field">
+                  <input type="text"  id="nome_desenvolvedor" name="nome_desenvolvedor" maxlength="254"
+                  required>
                   <label for="nome_desenvolvedor">Nome:</label>
-                  <input type="text" placeholder="Digite seu nome" id="nome_desenvolvedor" name="nome_desenvolvedor"
-                     required>
                </div>
                <div class="field">
+                  <input type="text"  id="telefone_desenvolvedor"
+                  name="telefone_desenvolvedor" maxlength="20" required>
                   <label for="telefone_desenvolvedor">Telefone:</label>
-                  <input type="text" placeholder="Digite seu telefone" id="telefone_desenvolvedor"
-                     name="telefone_desenvolvedor" required>
                </div>
                <div class="field">
+                  <input type="email" id="email_desenvolvedor" name="email_desenvolvedor" maxlength="254"
+                  required>
                   <label for="email_desenvolvedor">Email:</label>
-                  <input type="email" placeholder="Digite seu e-mail" id="email_desenvolvedor" name="email_desenvolvedor"
-                     required>
                </div>
                <div class="field">
+                  <input type="text"  id="endereco_desenvolvedor" name="endereco_desenvolvedor" maxlength="254"
+                  required>
                   <label for="endereco_desenvolvedor">Endereço:</label>
-                  <input type="text" placeholder="Digite seu endereço" id="endereco_desenvolvedor" name="endereco_desenvolvedor"
-                     required>
                </div>
                <div class="field">
-                  <label for="cpf_desenvolvedor">CPF:</label>
-                  <input type="text" placeholder="Digite seu CPF:" id="cpf_desenvolvedor" name="cpf_desenvolvedor" required>
+                  <input type="text"  id="cpf_desenvolvedor" name="cpf_desenvolvedor" maxlength="14" required>
+                  <label for="cpf">CPF:</label>
                </div>
                <div class="field">
-                  <label for="skills_desenvolvedor">Skills:</label>
-                  <input type="text" placeholder="Digite seus conhecimentos:" id="skills_desenvolvedor"
-                     name="skills_desenvolvedor" required>
+                  <input type="text"  id="skills_desenvolvedor"
+                  name="skills_desenvolvedor" maxlength="254" required>
+                  <label for="skills">Skills:</label>
                </div>
                <div class="field">
+                  <input type="password"  id="senha_desenvolvedor" name="senha_desenvolvedor" maxlength="15" required>
                   <label for="senha_desenvolvedor">Senha:</label>
-                  <input type="password" placeholder="Digite sua senha" id="senha_desenvolvedor" name="senha_desenvolvedor" required>
                </div>
                <div class="field btn">
                   <div class="btn-layer"></div>
