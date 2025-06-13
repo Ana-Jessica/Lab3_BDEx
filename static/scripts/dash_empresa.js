@@ -3,9 +3,8 @@ function preencherFormulario(id) {
   const nome = document.querySelector("#nome_empresa");
   const telefone = document.querySelector("#telefone_empresa");
   const email = document.querySelector("#email_empresa");
-  const cnpj = document.querySelector("#cnpj");
-  const linguagens = document.querySelector("#linguagens_de_programacao");
-  const tecnologias = document.querySelector("#tecnologias");
+  const cnpj = document.querySelector("#cnpj_empresa");
+  const skills = document.querySelector("#skills");
   const senha = document.querySelector("#senha");
 
   const xhr = new XMLHttpRequest();
@@ -16,14 +15,82 @@ function preencherFormulario(id) {
       nome.value = user.nome_empresa || "";
       telefone.value = user.telefone_empresa || "";
       email.value = user.email_empresa || "";
-      cnpj.value = user.cnpj || "";
-      linguagens.value = user.linguagens_de_programacao || "";
-      tecnologias.value = user.tecnologias || "";
+      cnpj.value_empresa = user.cnpj_empresa || "";
+      skills.value = user.skills_desenvolvedor || "";
       senha.value = ""; // por segurança
     }
   };
   xhr.send();
 }
+
+document.querySelectorAll(".btn-ver").forEach(btn => {
+    btn.addEventListener("click", function () {
+        const idVaga = this.closest("tr").querySelector("td").innerText;
+
+        fetch(`../server/ver_candidatos.php?id_vaga=${idVaga}`)
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById("conteudoCandidatos");
+                container.innerHTML = "";
+
+                if (data.length === 0) {
+                    container.innerHTML = "<p>Nenhum candidato encontrado para esta vaga.</p>";
+                } else {
+                    data.forEach(candidato => {
+                        const bloco = document.createElement("div");
+                        bloco.innerHTML = `
+                            <strong>Nome:</strong> ${candidato.nome_desenvolvedor}<br>
+                            <strong>Email:</strong> ${candidato.email_desenvolvedor}<br>
+                            <strong>Skills:</strong> ${candidato.skills || "Não informado"}<hr>
+                        `;
+                        container.appendChild(bloco);
+                    });
+                }
+
+                document.getElementById("modalCandidatos").style.display = "block";
+            })
+            .catch(err => {
+                alert("Erro ao carregar candidatos");
+                console.error(err);
+            });
+    });
+});
+
+document.querySelectorAll('.btn-conectar').forEach(button => {
+    button.addEventListener('click', function () {
+        const idVaga = this.getAttribute('data-id-vaga');
+        const idDesenvolvedor = this.getAttribute('data-id-desenvolvedor');
+
+        fetch('../server/criar_conexao.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `id_vaga=${idVaga}&id_desenvolvedor=${idDesenvolvedor}`
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data); // Alerta de sucesso ou erro
+            window.location.reload(); // Atualiza para mostrar nova conexão
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert("Erro ao conectar.");
+        });
+    });
+});
+
+
+
+function fecharModal() {
+    document.getElementById("modalCandidatos").style.display = "none";
+}
+
+
+// Fecha o modal
+document.querySelector('.close-modal').addEventListener('click', function () {
+  document.getElementById('modalCandidatos').style.display = 'none';
+});
 
 // Seletores dos itens de menu
 const liddscadastro = document.querySelector(".liddscadastro");
@@ -42,40 +109,40 @@ function resetarBackground() {
   liddscadastro.style.background = "";
   lisolicitacoes.style.background = "";
   liconexoes.style.background = "";
-  
+
   liddscadastro.style.color = "";
   lisolicitacoes.style.color = "";
   liconexoes.style.color = "";
-  
+
   livagas.style.background = "";
   livagas.style.color = "";
 
-  
-    liddscadastro.classList.remove("ativo");
-    liconexoes.classList.remove("ativo");
-    lisolicitacoes.classList.remove("ativo");
-    livagas.classList.remove("ativo");
-  }
- const botaoToggle = document.querySelector(".tammenu");
-  const menuLateral = document.querySelector(".menulateral");
-  const mainContent = document.querySelector("main");
 
-  botaoToggle.addEventListener("click", function () {
-    menuLateral.classList.toggle("escondido");
-    mainContent.classList.toggle("expandido");
-    menuLateral.classList.toggle("fechar");
-  });  
-  // Mostrar seção Cadastro
-  liddscadastro.addEventListener("click", function () {
-    artcadastro.style.display = "flex";
-    artsolicitacoes.style.display = "none";
-    artconexoes.style.display = "none";
-    artvagas.style.display = "none";
-    
-    resetarBackground();
-    liddscadastro.style.background = "#00DE8A";
-    liddscadastro.style.color = "black"
-    liddscadastro.classList.add("ativo");
+  liddscadastro.classList.remove("ativo");
+  liconexoes.classList.remove("ativo");
+  lisolicitacoes.classList.remove("ativo");
+  livagas.classList.remove("ativo");
+}
+const botaoToggle = document.querySelector(".tammenu");
+const menuLateral = document.querySelector(".menulateral");
+const mainContent = document.querySelector("main");
+
+botaoToggle.addEventListener("click", function () {
+  menuLateral.classList.toggle("escondido");
+  mainContent.classList.toggle("expandido");
+  menuLateral.classList.toggle("fechar");
+});
+// Mostrar seção Cadastro
+liddscadastro.addEventListener("click", function () {
+  artcadastro.style.display = "flex";
+  artsolicitacoes.style.display = "none";
+  artconexoes.style.display = "none";
+  artvagas.style.display = "none";
+
+  resetarBackground();
+  liddscadastro.style.background = "#00DE8A";
+  liddscadastro.style.color = "black"
+  liddscadastro.classList.add("ativo");
 });
 
 // Mostrar seção Conectar
@@ -87,8 +154,8 @@ lisolicitacoes.addEventListener("click", function () {
 
   resetarBackground();
   lisolicitacoes.style.background = "#00DE8A";
-lisolicitacoes.style.color = "black"
-lisolicitacoes.classList.add("ativo");
+  lisolicitacoes.style.color = "black"
+  lisolicitacoes.classList.add("ativo");
 });
 
 // Mostrar seção Conexões
@@ -109,58 +176,58 @@ livagas.addEventListener("click", function () {
   artcadastro.style.display = "none";
   artsolicitacoes.style.display = "none";
   artconexoes.style.display = "none";
-  
+
   resetarBackground();
   livagas.style.background = "#00DE8A";
   livagas.style.color = "black";
   livagas.classList.add("ativo");
-  });
-  
-  btnvaga = document.querySelector(".criarvaga");
-  modalvaga = document.querySelector(".modalvaga");
-  btnfecharmodal = document.querySelector(".btnfecharmodal");
-  
-  btnvaga.addEventListener("click", function () {
+});
+
+btnvaga = document.querySelector(".criarvaga");
+modalvaga = document.querySelector(".modalvaga");
+btnfecharmodal = document.querySelector(".btnfecharmodal");
+
+btnvaga.addEventListener("click", function () {
   modalvaga.style.display = "flex";
-  });
-  btnfecharmodal.addEventListener("click", function () {
+});
+btnfecharmodal.addEventListener("click", function () {
   modalvaga.style.display = "none";
-  });
+});
 
 
-  
-  const btneditvaga = document.querySelector(".editvaga");
-  const modaleditvaga = document.querySelector(".modaleditvaga");
-  const btnfechareditmodal = document.querySelector(".btnfechareditmodal");
+
+const btneditvaga = document.querySelector(".editvaga");
+const modaleditvaga = document.querySelector(".modaleditvaga");
+const btnfechareditmodal = document.querySelector(".btnfechareditmodal");
 
 // Abrir modal editar vaga
-  if (btneditvaga && modaleditvaga) {
-    btneditvaga.onclick = () => modaleditvaga.style.display = "flex";
-  }
+if (btneditvaga && modaleditvaga) {
+  btneditvaga.onclick = () => modaleditvaga.style.display = "flex";
+}
 
-  // Fechar modal editar vaga
-  if (btnfechareditmodal && modaleditvaga) {
-    btnfechareditmodal.onclick = () => modaleditvaga.style.display = "none";
-  }
-
-   
+// Fechar modal editar vaga
+if (btnfechareditmodal && modaleditvaga) {
+  btnfechareditmodal.onclick = () => modaleditvaga.style.display = "none";
+}
 
 
-   const logoutLink = document.querySelector('.logout-link');
+
+
+const logoutLink = document.querySelector('.logout-link');
 const ulogado = document.querySelector('.ulogado');
 
 logoutLink.addEventListener("mouseenter", function () {
-      ulogado.classList.add(".mover");
-    });
+  ulogado.classList.add(".mover");
+});
 
-    logoutLink.addEventListener("mouseleave", function () {
-      ulogado.classList.remove(".mover");
-    });
-
-
+logoutLink.addEventListener("mouseleave", function () {
+  ulogado.classList.remove(".mover");
+});
 
 
 
- function confirmarEncerramento() {
-    return confirm("Deseja realmente desativar sua conta?");
-  }
+
+
+function confirmarEncerramento() {
+  return confirm("Deseja realmente desativar sua conta?");
+}

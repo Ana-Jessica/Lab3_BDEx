@@ -16,13 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome_desenvolvedor = $_POST['nome_desenvolvedor'] ?? '';
     $telefone_desenvolvedor = $_POST['telefone_desenvolvedor'] ?? '';
     $email_desenvolvedor = $_POST['email_desenvolvedor'] ?? '';
-    $cpf = $_POST['cpf'] ?? '';
-    $skills = $_POST['skills'] ?? ''; 
+    $cpf_desenvolvedor = $_POST['cpf_desenvolvedor'] ?? '';
+    $skills_desenvolvedor = $_POST['skills_desenvolvedor'] ?? ''; 
    
 
 
     // Validações básicas
-    if (empty($nome_desenvolvedor) || empty($telefone_desenvolvedor) || empty($email_desenvolvedor) || empty($cpf) || empty($skills)) {
+    if (empty($nome_desenvolvedor) || empty($telefone_desenvolvedor) || empty($email_desenvolvedor) || empty($cpf_desenvolvedor) || empty($skills_desenvolvedor)) {
         header("Location: dash_desenvolvedor.php?erro=campos_vazios");
         exit();
     }
@@ -41,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             `nome_desenvolvedor` = ?, 
             `telefone_desenvolvedor` = ?, 
             `email_desenvolvedor` = ?, 
-            `cpf` = ?, 
-            `skills` = ? 
+            `cpf_desenvolvedor` = ?, 
+            `skills_desenvolvedor` = ? 
             WHERE `id_desenvolvedor` = ?";
     
     $stmt = $conn->prepare($sql);
@@ -51,8 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nome_desenvolvedor, 
             $telefone_desenvolvedor, 
             $email_desenvolvedor, 
-            $cpf, 
-            $skills, 
+            $cpf_desenvolvedor, 
+            $skills_desenvolvedor, 
             $id_desenvolvedor
         );
 

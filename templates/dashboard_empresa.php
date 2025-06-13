@@ -11,12 +11,12 @@ if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'empresa') {
 
 // Buscar dados da empresa
 $id_empresa = $_SESSION['id'];
-$nome = $cnpj = $endereco = $email = $telefone = ''; // Inicializa as variáveis
-$stmt = $conn->prepare("SELECT nome_empresa, cnpj, endereco, email_empresa, telefone_empresa FROM empresa WHERE id_empresa = ?");
+$nome_empresa = $cnpj_empresa = $endereco_empresa = $email_empresa = $telefone_empresa = ''; // Inicializa as variáveis
+$stmt = $conn->prepare("SELECT nome_empresa, cnpj_empresa, endereco_empresa, email_empresa, telefone_empresa FROM empresa WHERE id_empresa = ?");
 if ($stmt) {
     $stmt->bind_param("i", $id_empresa);
     $stmt->execute();
-    $stmt->bind_result($nome, $cnpj, $endereco, $email, $telefone);
+    $stmt->bind_result($nome_empresa, $cnpj_empresa, $endereco_empresa, $email_empresa, $telefone_empresa);
     if (!$stmt->fetch()) {
         $nome = "Empresa não encontrada";
     }
@@ -32,15 +32,19 @@ $solicitacoes = [];
 $sql = "
 SELECT 
     s.id_solicitacao,
+    s.data_solicitacao,
+    v.id_vaga,
     v.titulo_vaga,
+    d.id_desenvolvedor,
     d.nome_desenvolvedor,
     d.email_desenvolvedor,
-    d.telefone_desenvolvedor
+    d.skills_desenvolvedor
 FROM solicitacao s
 INNER JOIN vaga v ON s.id_vaga = v.id_vaga
 INNER JOIN desenvolvedor d ON s.id_desenvolvedor = d.id_desenvolvedor
 WHERE v.id_empresa = ?
 ORDER BY s.id_solicitacao DESC
+
 ";
 
 $stmt = $conn->prepare($sql);
@@ -66,7 +70,7 @@ SELECT
     c.id_conexao,
     d.nome_desenvolvedor,
     d.email_desenvolvedor,
-    d.telefone_desenvolvedor,
+    d.skills_desenvolvedor,
     c.data_conexao
 FROM conexao c
 INNER JOIN desenvolvedor d ON c.id_desenvolvedor = d.id_desenvolvedor
@@ -114,7 +118,7 @@ if ($stmt_conexoes) {
                 <img src="../static/imgs/bdexsemfundo.png" alt="" width="150px" height="68px" />
             </div>
             <div class="ulogado">
-                <h3><?= htmlspecialchars($nome) ?></h3>
+                <h3><?= htmlspecialchars($nome_empresa) ?></h3>
             </div>
 
             <a class="logout-link" href="../server/logout.php">
@@ -164,31 +168,31 @@ if ($stmt_conexoes) {
                         <div class="box-input">
                             <label for="nome_empresa">Nome:</label>
                             <input type="text" placeholder="Digite seu nome" id="nome_empresa" name="nome_empresa"
-                                required value="<?= htmlspecialchars($nome) ?>">
+                                required value="<?= htmlspecialchars($nome_empresa) ?>">
                         </div>
                         <br>
                         <div class="box-input">
-                            <label for="cnpj">CNPJ</label>
-                            <input type="text" placeholder="Digite..." id="cnpj" name="cnpj" required
-                                value="<?= htmlspecialchars($cnpj) ?>">
+                            <label for="cnpj_empresa">CNPJ</label>
+                            <input type="text" placeholder="Digite..." id="cnpj_empresa" name="cnpj_empresa" required
+                                value="<?= htmlspecialchars($cnpj_empresa) ?>">
                         </div>
                         <br>
                         <div class="box-input">
-                            <label for="endereco">Endereço:</label>
-                            <input type="text" placeholder="Digite seu endereço" id="endereco" name="endereco" required
-                                value="<?= htmlspecialchars($endereco) ?>">
+                            <label for="endereco_empresa">Endereço:</label>
+                            <input type="text" placeholder="Digite seu endereço" id="endereco_empresa"
+                                name="endereco_empresa" required value="<?= htmlspecialchars($endereco_empresa) ?>">
                         </div>
                         <br>
                         <div class="box-input">
-                            <label for="email">Email:</label>
-                            <input type="text" placeholder="Digite seu e-mail" id="email" name="email" required
-                                value="<?= htmlspecialchars($email) ?>">
+                            <label for="email_empresa">Email:</label>
+                            <input type="text" placeholder="Digite seu e-mail" id="email_empresa" name="email_empresa"
+                                required value="<?= htmlspecialchars($email_empresa) ?>">
                         </div>
                         <br>
                         <div class="box-input">
                             <label for="telefone_empresa">Telefone:</label>
                             <input type="text" placeholder="Digite seu telefone" id="telefone_empresa"
-                                name="telefone_empresa" required value="<?= htmlspecialchars($telefone) ?>">
+                                name="telefone_empresa" required value="<?= htmlspecialchars($telefone_empresa) ?>">
                         </div>
                         <br>
 
@@ -227,7 +231,7 @@ if ($stmt_conexoes) {
                             <input type="text" name="valor_oferta" placeholder="R$ 99,99">
                         </div>
                         <div class="box-input">
-                            <label for="">Empresa: <?php echo htmlspecialchars($nome); ?></label>
+                            <label for="">Empresa: <?php echo htmlspecialchars($nome_empresa); ?></label>
 
                         </div>
                         <button class="btnsubmitvaga" type="submit"> CRIAR VAGA</button>
@@ -302,23 +306,43 @@ if ($stmt_conexoes) {
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Exemplo de linha -->
-                        <tr style="text-align: center;">
-                            <td>001</td>
-                            <td>Dev PHP</td>
-                            <td>Preciso de um sistema de agendamento simples em PHP e MySQL.</td>
-                            <td>31/05/2025</td>
-                            <td>2
-                                <button class="btn-ver">Ver Candidatos</button>
-                            </td>
-                            <td><span class="status pendente">Aberta</span></td>
-                            <td>
-                                <button class="btn-editar">Editar</button>
-                                <button class="btn-cancelar">Cancelar</button>
-                            </td>
-                        </tr>
+                        <?php foreach ($solicitacoes as $sol): ?>
+                            <tr style="text-align: center;">
+                                <td><?= htmlspecialchars($sol['id_solicitacao']) ?></td>
+                                <td><?= htmlspecialchars($sol['titulo_vaga']) ?></td>
+                                <td>Candidatura de <?= htmlspecialchars($sol['nome_desenvolvedor']) ?></td>
+                                <td><?= htmlspecialchars($sol['data_solicitacao'] ?? 'Data indefinida') ?></td>
+                                <td>
+                                    <button class="btn-ver">Ver Candidato</button>
+                                </td>
+                                <td><span class="status pendente">Aberta</span></td>
+                                <td>
+                                    <button class="btn-conectar" data-id-vaga="<?= $sol['id_vaga'] ?>"
+                                        data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
+                                        Conectar
+                                    </button>
+
+
+                                    <button class="btn-cancelar">Excluir</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
+                <div class="modal-candidatos" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close-modal">&times;</span>
+                        <h3>Candidatos</h3>
+                        <ul class="lista-candidatos">
+                            <?php foreach ($solicitacoes as $sol): ?>
+                                <li>
+                                    <strong><?= htmlspecialchars($sol['nome_desenvolvedor']) ?></strong> -
+                                    Email: <?= htmlspecialchars($sol['email_desenvolvedor']) ?> -
+                                    Conhecimentos: <?= htmlspecialchars($sol['skills_desenvolvedor']) ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
             </article>
 
             <article class="artconexoes" style="display: none;">
