@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->execute()) {
             $_SESSION['editado_sucesso'] = true;
-            header("Location: ../templates/dashboard_desenvolvedor.php");
+            header("Location: ../../templates/dashboard_desenvolvedor.php");
             exit();
 
 

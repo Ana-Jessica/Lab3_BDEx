@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 setcookie('id', $id_empresa, time() + (30 * 24 * 60 * 60), "/");
                 setcookie('tipo', 'empresa', time() + (30 * 24 * 60 * 60), "/");
             }
-
+             
             header("Location: ../../templates/dashboard_empresa.php");
             exit();
         } else {
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     setcookie('id', $id_desenvolvedor, time() + (30 * 24 * 60 * 60), "/");
                     setcookie('tipo', 'desenvolvedor', time() + (30 * 24 * 60 * 60), "/");
                 }
-
+                     $_SESSION['bem_vindo'] = true;
                 header("Location: ../../templates/dashboard_desenvolvedor.php");
                 exit();
             } else {

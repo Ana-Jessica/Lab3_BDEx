@@ -7,6 +7,7 @@ include_once("../server/autenticacao/auth.php");
 $exibir_toast_editar = false; // 
 $exibir_toast_solicitar = false;
 $exibir_toast_solicitar_aviso = false;
+$exibir_toast_bem_vindo = false;
 
 if (isset($_SESSION['editado_sucesso'])) {
   $exibir_toast_editar = true;
@@ -21,6 +22,10 @@ if (isset($_SESSION['solicitado_sucesso'])) {
 if (isset($_SESSION['solicitado_aviso'])) {
   $exibir_toast_solicitar_aviso = true;
   unset($_SESSION['solicitado_aviso']); // evita repetição
+}
+if (isset($_SESSION['bem_vindo'])) {
+  $exibir_toast_bem_vindo = true;
+  unset($_SESSION['bem_vindo']); // evita repetição
 }
 
 // Buscar dados do desenvolvedor
@@ -100,7 +105,7 @@ if ($stmt_conexoes) {
         <img src="../static/imgs/bdexsemfundo.png" alt="" width="150px" height="68px" style="object-fit: contain;" />
       </div>
       <div class="usuarionotificacoes">
-        <h3>Bem vindo <?= htmlspecialchars($nome) ?></h3>
+        <h3> <?= htmlspecialchars($nome) ?></h3>
       </div>
       <a href="../server/autenticacao/logout.php">
         <i class="bi bi-box-arrow-right"></i>
@@ -339,6 +344,10 @@ if ($stmt_conexoes) {
   <?php endif; ?>
   <?php if ($exibir_toast_solicitar_aviso): ?>
     <div id="toast_aviso">essa vaga ja recebeu sua solicitacao</div>
+  <?php endif; ?>
+
+  <?php if ($exibir_toast_bem_vindo): ?>
+    <div id="toast_bemvindo"> Seja bem vindo <?= htmlspecialchars($nome) ?> </div>
   <?php endif; ?>
 
   <!-- modal editar -->
