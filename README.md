@@ -44,7 +44,7 @@ Ser a principal plataforma de intermediação entre novos programadores e empres
 ## Contato
 - **Equipe:**
   - Ana Jéssica
-  - João Bellino
+  - João Henrique Bellino
   - Mateus Jorge
   - Roberto Eduardo
   - Ubiratã Rodrigues
