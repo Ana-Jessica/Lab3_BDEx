@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once("../server/conexao.php");
-include_once("../server/auth.php");
+include_once("../server/autenticacao/auth.php");
 
 // Para aparecer o toast de sucesso
 $exibir_toast_editar = false; // 
@@ -102,7 +102,7 @@ if ($stmt_conexoes) {
       <div class="usuarionotificacoes">
         <h3>Bem vindo <?= htmlspecialchars($nome) ?></h3>
       </div>
-      <a href="../server/logout.php">
+      <a href="../server/autenticacao/logout.php">
         <i class="bi bi-box-arrow-right"></i>
       </a>
     </div>
@@ -145,7 +145,7 @@ if ($stmt_conexoes) {
     <main>
       <article class="artcadastro">
 
-        <form id="formEditar" action="../server/editUserDev.php" method="POST">
+        <form id="formEditar" action="../server/desenvolvedor/editUserDev.php" method="POST">
           <box-inputset>
             <legend>
               <h1><b>Editar dados pessoais</b></h1>
@@ -225,7 +225,7 @@ if ($stmt_conexoes) {
                     : '—') . "
                         </p>
                         <div style='display: flex; justify-content: center; gap: 10px;'>
-                            <a href='../server/candidatar.php?id=" . $vaga['id_vaga'] . "' class='btn btn-success'>
+                            <a href='../server/conexao/candidatar.php?id=" . $vaga['id_vaga'] . "' class='btn btn-success'>
                                 <i class='bi bi-person-check'></i> Candidatar-se
                             </a>
                             
@@ -279,7 +279,7 @@ if ($stmt_conexoes) {
       </article>
 
       <div class="modalsenha">
-        <form class="modaleditarsenha" action="../server/criar_vaga.php" method="POST">
+        <form class="modaleditarsenha" action="../server/conexao/criar_vaga.php" method="POST">
           <div class="btnfecharmodalsenha">X</div>
           <h2>ALTERAR SENHA</h2>
           <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">
@@ -309,7 +309,7 @@ if ($stmt_conexoes) {
       </article>
 
       <div class="modalsenha">
-        <form class="modaleditarsenha" action="../server/criar_vaga.php" method="POST">
+        <form class="modaleditarsenha" action="../server/conexao/criar_vaga.php" method="POST">
           <div class="btnfecharmodalsenha">X</div>
           <h2>ALTERAR SENHA</h2>
           <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">

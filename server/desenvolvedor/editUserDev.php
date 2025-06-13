@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once ("conexao.php"); // Inclui o arquivo de conexão com o banco
-include_once ("auth.php"); // Verifica autenticação
+include_once("../conexao.php"); // Inclui o arquivo de conexão com o banco
+include_once ("../autenticacao/auth.php"); // Verifica autenticação
 
 // Verifica se o usuário está logado
 if (!isset($_SESSION['id'])) {

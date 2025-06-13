@@ -1,11 +1,11 @@
 <?php
 session_start();
 include_once("../server/conexao.php");
-include_once("../server/auth.php");
+include_once("../server/autenticacao/auth.php");
 
 // Verifica se está logado e se é uma empresa
 if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'empresa') {
-    header("Location: ../templates/pglogin.html");
+    header("Location: templates/pglogin.html");
     exit();
 }
 
@@ -121,7 +121,7 @@ if ($stmt_conexoes) {
                 <h3><?= htmlspecialchars($nome_empresa) ?></h3>
             </div>
 
-            <a class="logout-link" href="../server/logout.php">
+            <a class="logout-link" href="../server/autenticacao/logout.php">
                 <i class="bi bi-box-arrow-right"></i>
             </a>
         </div>
@@ -159,6 +159,7 @@ if ($stmt_conexoes) {
         <main>
             <article class="artcadastro" style="display: none;">
 
+            <!-- EDITAREI AINDA - RLX - PS.: BIRA -->
                 <form action="edit_dds_empresa.php" method="POST">
                     <box-inputset>
                         <legend>
@@ -208,12 +209,13 @@ if ($stmt_conexoes) {
                     </box-inputset>
                 </form>
             </article>
+
             <article class="artvagas" style="display: flex;">
                 <h2>gerenciar vagas</h2>
                 <button class="criarvaga">criar vaga +</button>
                 <br>
                 <div class="modalvaga">
-                    <form class="modaleditarvaga" action="../server/criar_vaga.php" method="POST">
+                    <form class="modaleditarvaga" action="../server/conexao/criar_vaga.php" method="POST">
                         <div class="btnfecharmodal">X</div>
                         <h2>NOVA VAGA</h2>
                         <input type="hidden" name="id_empresa" value="<?php echo $_SESSION['id']; ?>">
@@ -270,7 +272,7 @@ if ($stmt_conexoes) {
    data-descricao='" . htmlspecialchars($vaga['descricao_vaga'], ENT_QUOTES) . "'
    data-valor='{$vaga['valor_oferta']}'></a>
 
-<a href='../server/gerenciar_vagas.php?acao=excluir&id={$vaga['id_vaga']}'
+<a href='../server/conexao/gerenciar_vagas.php?acao=excluir&id={$vaga['id_vaga']}'
    onclick=\"return confirm('Deseja excluir esta vaga?')\"
    class='btn btn-danger'>
    <i class='bi bi-trash3'></i>
