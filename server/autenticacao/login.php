@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 setcookie('id', $id_empresa, time() + (30 * 24 * 60 * 60), "/");
                 setcookie('tipo', 'empresa', time() + (30 * 24 * 60 * 60), "/");
             }
-             
+             $_SESSION['bem_vindoo'] = true;
             header("Location: ../../templates/dashboard_empresa.php");
             exit();
         } else {

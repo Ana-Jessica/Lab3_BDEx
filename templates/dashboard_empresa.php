@@ -3,6 +3,14 @@ session_start();
 include_once("../server/conexao.php");
 include_once("../server/autenticacao/auth.php");
 
+  $exibir_toast_bem_vindo = false;
+
+if (isset($_SESSION['bem_vindoo'])) {
+  $exibir_toast_bem_vindo = true;
+  unset($_SESSION['bem_vindoo']); // evita repetição
+}
+ 
+
 // Verifica se está logado e se é uma empresa
 // Verifica se está logado e se é uma empresa
 if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'empresa') {
@@ -106,6 +114,7 @@ if ($stmt_conexoes) {
     <link rel="icon" type="image/png" sizes="32x32" href="../static/imgs/logo/simbolo.svg">
     <link rel="stylesheet" href="../static/styles/dash_empresa.css">
     <link rel="stylesheet" href="../static/styles/modal_default.css">
+    <link rel="stylesheet" href="../static/styles/toast.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
@@ -418,10 +427,13 @@ if ($stmt_conexoes) {
                 <?php endif; ?>
             </article>
         </main>
+        <?php if ($exibir_toast_bem_vindo): ?>
+           <div id="toast_bemvindo"> Seja bem vindo <?= htmlspecialchars($nome_empresa) ?> </div>
+         <?php endif; ?>
 
     </div>
     <script src="../static/scripts/dash_empresa.js"></script>
-
+    <script src="../static/scripts/toast.js"></script>
 
 
 
