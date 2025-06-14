@@ -3,7 +3,16 @@ session_start();
 include_once("../server/conexao.php");
 include_once("../server/autenticacao/auth.php");
 
-  $exibir_toast_bem_vindo = false;
+// Para aparecer o toast de sucesso
+$exibir_toast_editar = false;
+$exibir_toast_bem_vindo = false;
+
+
+if (isset($_SESSION['editado_sucesso'])) {
+  $exibir_toast_editar = true;
+  unset($_SESSION['editado_sucesso']); // evita repetição
+}
+
 
 if (isset($_SESSION['bem_vindoo'])) {
   $exibir_toast_bem_vindo = true;
@@ -11,7 +20,6 @@ if (isset($_SESSION['bem_vindoo'])) {
 }
  
 
-// Verifica se está logado e se é uma empresa
 // Verifica se está logado e se é uma empresa
 if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'empresa') {
     header("Location: templates/pglogin.html");
@@ -23,7 +31,7 @@ $id_empresa = $_SESSION['id'];
 // Inicializa variáveis
 $nome_empresa = $cnpj_empresa = $endereco_empresa = $email_empresa = $telefone_empresa = '';
 
-// Corrigido: uso dos nomes de coluna atualizados
+// Preparar a consulta para buscar os dados da empresa
 $stmt = $conn->prepare("SELECT nome_empresa, cnpj_empresa, endereco_empresa, email_empresa, telefone_empresa FROM empresa WHERE id_empresa = ?");
 if ($stmt) {
     $stmt->bind_param("i", $id_empresa);
@@ -168,56 +176,51 @@ if ($stmt_conexoes) {
         </nav>
         <main>
             <article class="artcadastro" style="display: none;">
+                <!-- Editar dados da empresa -->
+                <form id="formEditar" action="../server/empresa/EditUserEmpresa.php" method="POST">
+                <box-inputset>
+                    <legend>
+                        <h1><b>Editar dados da Empresa</b></h1>
+                    </legend>
+                    <br />
 
-                <!-- EDITAREI AINDA - RLX - PS.: BIRA -->
-                <form action="edit_dds_empresa.php" method="POST">
-                    <box-inputset>
-                        <legend>
-                            <h1><b>Editar dados da Empresa</b></h1>
-                        </legend>
-                        <br />
-                        <div class="box-input">
-                            <label for="nome_empresa">Nome:</label>
-                            <input type="text" placeholder="Digite seu nome" id="nome_empresa" name="nome_empresa"
-                                required value="<?= htmlspecialchars($nome_empresa) ?>">
-                        </div>
-                        <br>
-                        <div class="box-input">
-                            <label for="cnpj_empresa">CNPJ</label>
-                            <input type="text" placeholder="Digite..." id="cnpj_empresa" name="cnpj_empresa" required
-                                value="<?= htmlspecialchars($cnpj_empresa) ?>">
-                        </div>
-                        <br>
-                        <div class="box-input">
-                            <label for="endereco_empresa">Endereço:</label>
-                            <input type="text" placeholder="Digite seu endereço" id="endereco_empresa"
-                                name="endereco_empresa" required value="<?= htmlspecialchars($endereco_empresa) ?>">
-                        </div>
-                        <br>
-                        <div class="box-input">
-                            <label for="email_empresa">Email:</label>
-                            <input type="text" placeholder="Digite seu e-mail" id="email_empresa" name="email_empresa"
-                                required value="<?= htmlspecialchars($email_empresa) ?>">
-                        </div>
-                        <br>
-                        <div class="box-input">
-                            <label for="telefone_empresa">Telefone:</label>
-                            <input type="text" placeholder="Digite seu telefone" id="telefone_empresa"
-                                name="telefone_empresa" required value="<?= htmlspecialchars($telefone_empresa) ?>">
-                        </div>
-                        <br>
+                    <div class="box-input">
+                        <label for="nome_empresa">Nome:</label>
+                        <input type="text" placeholder="Digite o nome da Empresa" id="nome_empresa" name="nome_empresa"
+                            required value="<?= htmlspecialchars($nome_empresa) ?>">
+                    </div>
+                    <br>
+
+                    <div class="box-input">
+                        <label for="endereco_empresa">Endereço:</label>
+                        <input type="text" placeholder="Digite seu endereço" id="endereco_empresa"
+                            name="endereco_empresa" required value="<?= htmlspecialchars($endereco_empresa) ?>">
+                    </div>
+                    <br>
+
+                    <div class="box-input">
+                        <label for="email_empresa">Email:</label>
+                        <input type="email" placeholder="Digite seu e-mail" id="email_empresa" name="email_empresa"
+                            required value="<?= htmlspecialchars($email_empresa) ?>">
+                    </div>
+                    <br>
+
+                    <div class="box-input">
+                        <label for="telefone_empresa">Telefone:</label>
+                        <input type="text" placeholder="Digite seu telefone" id="telefone_empresa"
+                            name="telefone_empresa" required value="<?= htmlspecialchars($telefone_empresa) ?>">
+                    </div>
+                    <br>
 
 
-                        <br>
+                    <a href="Desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
+                    <br />
 
-
-                        <a href="Desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
-                        <br />
-                        <button type="submit" id="update" name="update"
-                            onclick="return confirm('Tem certeza de que deseja editar os dados? Verifique se a senha e os dados estão preenchidos corretamente');"
-                            class="btneditar">Editar</button>
-                    </box-inputset>
-                </form>
+                    <!-- CRIAR MODAL SOBRE -->
+                    <button type="button" id="update" name="update"
+                        class="btneditar">Editar</button>
+                </box-inputset>
+            </form>
             </article>
 
             <article class="artvagas" style="display: flex;">
@@ -427,13 +430,31 @@ if ($stmt_conexoes) {
                 <?php endif; ?>
             </article>
         </main>
+
+          <!-- Tost com notificação que os dados foram editados -->
+        <?php if ($exibir_toast_editar): ?>
+            <div id="toast">os dados de <?= htmlspecialchars($nome_empresa) ?> foram alterados</div>
+        <?php endif; ?>
+
         <?php if ($exibir_toast_bem_vindo): ?>
            <div id="toast_bemvindo"> Seja bem vindo <?= htmlspecialchars($nome_empresa) ?> </div>
          <?php endif; ?>
 
+           <!-- modal editar -->
+        <div class="modal_default">
+            <div class="modal-content">
+            <p id="modalMensagem">Tem certeza de que deseja editar os dados?<br>Verifique se estão corretos.</p>
+            <div class="modal-buttons">
+                <button id="btnconfirmar" onclick="confirmarModal(true)">Confirmar</button>
+                <button id="btncancelar" onclick="confirmarModal(false)">Cancelar</button>
+            </div>
+            </div>
+        </div>
+
     </div>
     <script src="../static/scripts/dash_empresa.js"></script>
     <script src="../static/scripts/toast.js"></script>
+    <script src="../static/scripts/modal_default.js"></script>
 
 
 

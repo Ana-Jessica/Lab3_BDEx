@@ -32,6 +32,7 @@ if (isset($_SESSION['bem_vindo'])) {
 $id_desenvolvedor = $_SESSION['id'];
 $nome = $cpf = $endereco = $email = $telefone = $skills = ''; // Inicializa as variáveis
 
+// Prepara a consulta para buscar os dados do desenvolvedor
 $stmt = $conn->prepare("SELECT nome_desenvolvedor, cpf_desenvolvedor, endereco_desenvolvedor, email_desenvolvedor, telefone_desenvolvedor, skills_desenvolvedor FROM desenvolvedor WHERE id_desenvolvedor = ?");
 if ($stmt) {
   $stmt->bind_param("i", $id_desenvolvedor);
@@ -99,6 +100,8 @@ if ($stmt_conexoes) {
 </head>
 
 <body>
+
+  <!-- Cabeçalho -->
   <header>
     <div class="menubar">
       <div class="logo">
@@ -339,9 +342,11 @@ if ($stmt_conexoes) {
   <?php if ($exibir_toast_editar): ?>
     <div id="toast">os dados de <?= htmlspecialchars($nome) ?> foram alterados</div>
   <?php endif; ?>
+
   <?php if ($exibir_toast_solicitar): ?>
     <div id="toast">foi realizada uma solicitacao de vaga</div>
   <?php endif; ?>
+  
   <?php if ($exibir_toast_solicitar_aviso): ?>
     <div id="toast_aviso">essa vaga ja recebeu sua solicitacao</div>
   <?php endif; ?>
