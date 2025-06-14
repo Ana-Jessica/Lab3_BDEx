@@ -6,6 +6,8 @@ include_once("../server/autenticacao/auth.php");
 // Para aparecer o toast de sucesso
 $exibir_toast_editar = false;
 $exibir_toast_bem_vindo = false;
+$exibir_toast_conexao_criada = false;
+$exibir_toast_conexao_jaexiste = false;
 
 
 if (isset($_SESSION['editado_sucesso'])) {
@@ -17,6 +19,16 @@ if (isset($_SESSION['editado_sucesso'])) {
 if (isset($_SESSION['bem_vindoo'])) {
   $exibir_toast_bem_vindo = true;
   unset($_SESSION['bem_vindoo']); // evita repetição
+}
+
+if (isset($_SESSION['conexao_criada'])) {
+  $exibir_toast_conexao_criada = true;
+  unset($_SESSION['conexao_criada']); // evita repetição
+}
+ 
+if (isset($_SESSION['conexao_jaexiste'])) {
+  $exibir_toast_conexao_jaexiste = true;
+  unset($_SESSION['conexao_jaexiste']); // evita repetição
 }
  
 
@@ -90,6 +102,7 @@ SELECT
     c.status_conexao,
     d.nome_desenvolvedor,
     d.email_desenvolvedor,
+    d.telefone_desenvolvedor,
     d.skills_desenvolvedor,
     v.titulo_vaga
 FROM conexao c
@@ -352,10 +365,11 @@ if ($stmt_conexoes) {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Título</th>
-                            <th>Descrição</th>
-                            <th>Data</th>
-                            <th>Candidatos</th>
+                            <th>Título da vaga</th>
+                            <th>Nome do Candidato</th>
+                            <th>Skills do Candidato</th>
+                            <th>Data da solicitação</th>
+                           
                             <th>Status</th>
                             <th>Ações</th>
                         </tr>
@@ -364,22 +378,21 @@ if ($stmt_conexoes) {
                         <?php foreach ($solicitacoes as $sol): ?>
                             <tr style="text-align: center;">
                                 <td><?= htmlspecialchars($sol['id_solicitacao']) ?></td>
-                                <td><?= htmlspecialchars($sol['titulo_vaga']) ?></td>
-                                <td>Candidatura de <?= htmlspecialchars($sol['nome_desenvolvedor']) ?></td>
+                                <td><b><?= htmlspecialchars($sol['titulo_vaga']) ?></b></td>
+                                <td> <?= htmlspecialchars($sol['nome_desenvolvedor']) ?></td>
+                                <td> <?= htmlspecialchars($sol['skills_desenvolvedor']) ?></td>
                                 <td><?= htmlspecialchars($sol['data_solicitacao'] ?? 'Data indefinida') ?></td>
-                                <td>
-                                    <button class="btn-ver">Ver Candidato</button>
-                                </td>
+                              
                                 <td><span class="status pendente"><?= htmlspecialchars($sol['status_solicitacao']) ?></span>
                                 </td>
-                                <td>
+                                <td class="ldld">
                                     <button class="btn-conectar" data-id-vaga="<?= $sol['id_vaga'] ?>"
                                         data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
-                                        Conectar
+                                        Conectar <i class="bi bi-person-fill-add"></i>
                                     </button>
                                     <button class="btn-cancelar" data-id-vaga="<?= $sol['id_vaga'] ?>"
                                         data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
-                                        Rejeitar
+                                        Rejeitar <i class="bi bi-person-fill-dash"></i>
                                     </button>
 
                                 </td>
@@ -396,6 +409,7 @@ if ($stmt_conexoes) {
                                 <li>
                                     <strong><?= htmlspecialchars($sol['nome_desenvolvedor']) ?></strong> -
                                     Email: <?= htmlspecialchars($sol['email_desenvolvedor']) ?> -
+                                    Telefone: <?= htmlspecialchars($sol['telefone_desenvolvedor']) ?> -
                                     Conhecimentos: <?= htmlspecialchars($sol['skills_desenvolvedor']) ?>
                                 </li>
                             <?php endforeach; ?>
@@ -411,6 +425,7 @@ if ($stmt_conexoes) {
                                 <th>ID Conexão</th>
                                 <th>Nome da empresa</th>
                                 <th>Email</th>
+                                <th>Telefone</th>
                                 <th>Data</th>
                             </tr>
                         </thead>
@@ -420,6 +435,7 @@ if ($stmt_conexoes) {
                                     <td><?= $conexao['id_conexao'] ?></td>
                                     <td><?= htmlspecialchars($conexao['nome_desenvolvedor']) ?></td>
                                     <td><?= htmlspecialchars($conexao['email_desenvolvedor']) ?></td>
+                                    <td><?= htmlspecialchars($conexao['telefone_desenvolvedor']) ?></td>
                                     <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
                                 </tr>
                             <?php endforeach; ?>
@@ -436,8 +452,13 @@ if ($stmt_conexoes) {
             <div id="toast">os dados de <?= htmlspecialchars($nome_empresa) ?> foram alterados</div>
         <?php endif; ?>
 
-        <?php if ($exibir_toast_bem_vindo): ?>
-           <div id="toast_bemvindo"> Seja bem vindo <?= htmlspecialchars($nome_empresa) ?> </div>
+ 
+        <?php if ($exibir_toast_conexao_criada): ?>
+           <div id="toast"> foi criada uma conexão  </div>
+         <?php endif; ?>
+
+        <?php if ($exibir_toast_conexao_jaexiste): ?>
+           <div id="toast_aviso">essa conexao já foi aceita </div>
          <?php endif; ?>
 
            <!-- modal editar -->

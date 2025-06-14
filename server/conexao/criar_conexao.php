@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION['id']) && $_SESSION
     $check->store_result();
 
     if ($check->num_rows > 0) {
-        echo "Esta conexão já existe.";
+         $_SESSION['conexao_jaexiste'] = true;
         exit();
     }
 
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION['id']) && $_SESSION
             // (Opcional) Atualiza o status da vaga também
             $conn->query("UPDATE vaga SET status_vaga = 'conectada' WHERE id_vaga = $id_vaga");
 
-            echo "Conexão criada com sucesso!";
+            $_SESSION['conexao_criada'] = true;
         } else {
             http_response_code(500);
             echo "Erro ao inserir: " . $stmt->error;
