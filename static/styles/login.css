@@ -197,51 +197,42 @@
  .logado {
    font-size: 0.8pc;
  }
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  margin-right: 8px;
+  vertical-align: middle;
+}
 
- input[type="checkbox"],
- input[type="radio"] {
-   -webkit-appearance: none;
-   -moz-appearance: none;
-   appearance: none;
-   width: 20px;
-   height: 20px;
-   border: 3px solid #ccc;
-   border-radius: 50%;
-   
-   outline: none;
-   cursor: pointer;
-   margin-right: 8px;
-   vertical-align: middle;
-   position: relative;
-   transition: all 0.2s ease;
- }
+input[type="checkbox"]:checked {
+  border-color: var(--cor-azul-escuro);
+}
 
- input[type="checkbox"]:checked,
- input[type="radio"]:checked {
-   border-color: var(--cor-azul-escuro);
-   /* verde para o estado selecionado */
-   background-color: #fff;
- }
+input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: var(--cor-azul-escuro);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
 
- input[type="checkbox"]:checked::after,
- input[type="radio"]:checked::after {
-   content: "✓";
-   position: absolute;
-   top: 50%;
-   left: 50%;
-    background: #2A5EAC;
-   border-radius: 50%;
-   transform: translate(-50%, -50%);
-   color: #4CAF50;
-   font-size: 14px;
-   font-weight: bold;
- }
-
- /* Efeito hover opcional */
- input[type="checkbox"]:hover,
- input[type="radio"]:hover {
-   border-color: #4CAF50;
- }
+/* Hover opcional */
+input[type="checkbox"]:hover {
+  border-color: var(--cor-azul-escuro);
+}
 
  ::-webkit-scrollbar {
    background: #00DE8A;
