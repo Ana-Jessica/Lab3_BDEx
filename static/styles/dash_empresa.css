@@ -966,3 +966,21 @@ flex-wrap: wrap;
 .bi-plus{
   font-size: 20px;
 }
+.brief{
+  position: relative;
+}
+.conexao-qtd{
+  top: 5px;
+  right: -18px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  
+  border-radius: 50%;
+  background: var(--cor-verde-escuro);
+  color: white;
+  font-size: 18px;
+}
