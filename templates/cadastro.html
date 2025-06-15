@@ -1,130 +1,235 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cadastre-se</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../static/imgs/logo/simbolo.svg"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../static/imgs/logo/simbolo.svg"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../static/imgs/logo/simbolo.svg"
+    />
+    <link rel="stylesheet" href="../static/styles/login.css" />
+    <link rel="stylesheet" href="../static/styles/cadastro.css" />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
 
-<head>
-   <meta charset="utf-8">
-   <title>Cadastre-se</title>
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="apple-touch-icon" sizes="180x180" href="../static/imgs/logo/simbolo.svg">
-   <link rel="icon" type="image/png" sizes="32x32" href="../static/imgs/logo/simbolo.svg">
-   <link rel="icon" type="image/png" sizes="16x16" href="../static/imgs/logo/simbolo.svg">
-   <link rel="stylesheet" href="../static/styles/login.css">
-   <link rel="stylesheet" href="../static/styles/cadastro.css">
-   <meta name="theme-color" content="#ffffff">
-   
-
-</head>
-
-<body>
-   <div class="wrapper">
+  <body>
+    <div class="wrapper">
       <div class="title-text">
-         <div class="logo-container">
-            <img src="../static/imgs/logo/simbolo.svg" alt="logo BDEx">
-         </div>
-         <div class="title-container">
-            <h1>Cadastro</h1>
-         </div>
+        <div class="logo-container">
+          <img src="../static/imgs/logo/simbolo.svg" alt="logo BDEx" />
+        </div>
+        <div class="title-container">
+          <h1>Cadastro</h1>
+        </div>
       </div>
       <div class="ldld">
-         <label>CADASTRAR COMO:</label>
-         <div class="toggle-container">
-      </div>
+        <label>CADASTRAR COMO:</label>
+        <div class="toggle-container"></div>
 
-         <label class="custom-switch">
-            <input type="checkbox" id="toggleCadastro">
-            <span class="custom-slider custom-round"></span>
-            <span class="custom-label left"></span>
-            <span class="custom-label right"></span>
-            <span id="tipoUsuario" class="tipo-usuario-text">Empresa</span>
-         </label>
+        <label class="custom-switch">
+          <input type="checkbox" id="toggleCadastro" />
+          <span class="custom-slider custom-round"></span>
+          <span class="custom-label left"></span>
+          <span class="custom-label right"></span>
+          <span id="tipoUsuario" class="tipo-usuario-text">Empresa</span>
+        </label>
       </div>
-      <br><br>
+      <br /><br />
       <div class="form-container">
-         <!-- Formulário de Empresa (mostrado por padrão) -->
-         <div id="empresaForm" class="form-inner active">
-            <form action="../server/empresa/cadastro_empresa.php" method="POST" class="login">
-               <div class="field">
-                  <input type="text"  id="nome_empresa" name="nome_empresa" maxlength="200" required>
-                  <label for="nome_empresa">Nome da Empresa/Razão social:</label>
-               </div>
-               <div class="field">
-                  <input type="text"  id="cnpj_empresa" name="cnpj_empresa" maxlength="18" required>
-                  <label for="cnpj">CNPJ:</label>
-               </div>
-               <div class="field">
-                  <input type="text"  id="endereco_empresa" name="endereco_empresa" maxlength="250" required>
-                  <label for="endereco">Endereço:</label>
-               </div>
-               <div class="field">
-                  <input type="text"  id="email_empresa" name="email_empresa" maxlength="100" required>
-                  <label for="email">Email:</label>
-               </div>
-               <div class="field">
-                  <input type="text"  id="telefone_empresa" name="telefone_empresa" maxlength="11"
-                  required>
-                  <label for="telefone_empresa">Telefone:</label>
-               </div>
-               <div class="field">
-                  <input type="password"  id="senha_empresa" name="senha_empresa" required>
-                  <label for="senha_empresa">Senha:</label>
-               </div>
-               <div class="field btn">
-                  <div class="btn-layer"></div>
-                  <input type="submit" value="Cadastrar Empresa">
-               </div>
-            </form>
-         </div>
+        <!-- Formulário de Empresa (mostrado por padrão) -->
+        <div id="empresaForm" class="form-inner active">
+          <form
+            action="../server/empresa/cadastro_empresa.php"
+            method="POST"
+            class="login"
+          >
+            <div class="field">
+              <input
+                type="text"
+                id="nome_empresa"
+                name="nome_empresa"
+                maxlength="200"
+                required
+              />
+              <label for="nome_empresa">Nome da Empresa/Razão social:</label>
+            </div>
+            <div class="field">
+              <input
+                type="text"
+                id="cnpj_empresa"
+                name="cnpj_empresa"
+                maxlength="18"
+                required
+              />
+              <label for="cnpj">CNPJ:</label>
+            </div>
+            <div class="field">
+              <input
+                type="text"
+                id="endereco_empresa"
+                name="endereco_empresa"
+                maxlength="250"
+                required
+              />
+              <label for="endereco">Endereço:</label>
+            </div>
+            <div class="field">
+              <input
+                type="text"
+                id="email_empresa"
+                name="email_empresa"
+                maxlength="100"
+                required
+              />
+              <label for="email">Email:</label>
+            </div>
+            <div class="field">
+              <input
+                type="text"
+                id="telefone_empresa"
+                name="telefone_empresa"
+                maxlength="11"
+                required
+              />
+              <label for="telefone_empresa">Telefone:</label>
+            </div>
+            <div class="field">
+              <input
+                type="password"
+                id="senha_empresa"
+                name="senha_empresa"
+                required
+              />
+              <label for="senha_empresa">Senha:</label>
+            </div>
+            <div class="field btn">
+              <div class="btn-layer"></div>
+              <input type="submit" value="Cadastrar Empresa" />
+            </div>
+          </form>
+        </div>
 
-         <!-- Formulário de Desenvolvedor (escondido por padrão) -->
-         <div id="desenvolvedorForm" class="form-inner">
-            <form action="../server/desenvolvedor/cadastro_desenvolvedor.php" method="POST" class="login">
-               <div class="field">
-                  <input type="text"  id="nome_desenvolvedor" name="nome_desenvolvedor" maxlength="254"
-                  required>
-                  <label for="nome_desenvolvedor">Nome:</label>
-               </div>
-               <div class="field">
-                  <input type="text"  id="telefone_desenvolvedor"
-                  name="telefone_desenvolvedor" maxlength="20" required>
-                  <label for="telefone_desenvolvedor">Telefone:</label>
-               </div>
-               <div class="field">
-                  <input type="email" id="email_desenvolvedor" name="email_desenvolvedor" maxlength="254"
-                  required>
-                  <label for="email_desenvolvedor">Email:</label>
-               </div>
-               <div class="field">
-                  <input type="text"  id="endereco_desenvolvedor" name="endereco_desenvolvedor" maxlength="254"
-                  required>
-                  <label for="endereco_desenvolvedor">Endereço:</label>
-               </div>
-               <div class="field">
-                  <input type="text"  id="cpf_desenvolvedor" name="cpf_desenvolvedor" maxlength="14" required>
-                  <label for="cpf">CPF:</label>
-               </div>
-               <div class="field">
-                  <input type="text"  id="skills_desenvolvedor"
-                  name="skills_desenvolvedor" maxlength="254" required>
-                  <label for="skills">Skills:</label>
-               </div>
-               <div class="field">
-                  <input type="password"  id="senha_desenvolvedor" name="senha_desenvolvedor" maxlength="15" required>
-                  <label for="senha_desenvolvedor">Senha:</label>
-               </div>
-               <div class="field btn">
-                  <div class="btn-layer"></div>
-                  <input type="submit" value="Cadastrar Desenvolvedor">
-               </div>
-            </form>
-         </div>
+        <!-- Formulário de Desenvolvedor (escondido por padrão) -->
+        <div id="desenvolvedorForm" class="form-inner">
+          <form
+            action="../server/desenvolvedor/cadastro_desenvolvedor.php"
+            method="POST"
+            class="login"
+          >
+            <div class="field">
+              <input
+                type="text"
+                id="nome_desenvolvedor"
+                name="nome_desenvolvedor"
+                maxlength="254"
+                required
+              />
+              <label for="nome_desenvolvedor">Nome:</label>
+            </div>
+            <div class="field">
+              <input
+                type="text"
+                id="telefone_desenvolvedor"
+                name="telefone_desenvolvedor"
+                maxlength="20"
+                required
+              />
+              <label for="telefone_desenvolvedor">Telefone:</label>
+            </div>
+            <div class="field">
+              <input
+                type="email"
+                id="email_desenvolvedor"
+                name="email_desenvolvedor"
+                maxlength="254"
+                required
+              />
+              <label for="email_desenvolvedor">Email:</label>
+            </div>
+            <div class="field">
+              <input
+                type="text"
+                id="endereco_desenvolvedor"
+                name="endereco_desenvolvedor"
+                maxlength="254"
+                required
+              />
+              <label for="endereco_desenvolvedor">Endereço:</label>
+            </div>
+            <div class="field">
+              <input
+                type="text"
+                id="cpf_desenvolvedor"
+                name="cpf_desenvolvedor"
+                maxlength="14"
+                required
+              />
+              <label for="cpf">CPF:</label>
+            </div>
+            <div class="field">
+              <input
+                type="text"
+                id="skills_desenvolvedor"
+                name="skills_desenvolvedor"
+                maxlength="254"
+                required
+              />
+              <label for="skills">Skills:</label>
+            </div>
+            <div class="field">
+              <input
+                type="password"
+                id="senha_desenvolvedor"
+                name="senha_desenvolvedor"
+                maxlength="15"
+                required
+              />
+              <label for="senha_desenvolvedor">Senha:</label>
+            </div>
+            <div class="ldld">
+              <input
+                class="radio"
+                type="checkbox"
+                name="info"
+                id="info"
+                required
+              />
+              <label for="info"
+                >Concordo com os termos de uso do BDEx sabendo que esta
+                plataforma realiza apenas conexões entre empresas e
+                desenvolvedores, todas as intereções entre os desenvolvedores e
+                as empresas serão de resposabilidade dos envolvidos não nos
+                responsabilizamos pela perda de dados ou rejeições entre as
+                conexões; os dados de contato como email, telefone somente serão
+                exibidos para as empresas que se conectarem a mim</label
+              >
+            </div>
+            <div class="field btn">
+              <div class="btn-layer"></div>
+              <input type="submit" value="Cadastrar Desenvolvedor" />
+            </div>
+          </form>
+        </div>
 
-         <div class="signup-link">
-            Já tem conta? <a href="pglogin.html">Entrar</a>
-         </div>
+        <div class="signup-link">
+          Já tem conta? <a href="pglogin.html">Entrar</a>
+        </div>
       </div>
-   </div>
-   <script src="../static/scripts/cadastro.js"></script>
-  
-</body>
-
+    </div>
+    <script src="../static/scripts/cadastro.js"></script>
+  </body>
 </html>

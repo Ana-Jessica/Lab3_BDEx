@@ -21,7 +21,7 @@ if ($acao === 'aceitar') {
     // 1. Recuperar os dados da solicitação
     $stmt = $conn->prepare("
         SELECT s.id_desenvolvedor, s.id_vaga
-        FROM Solicitacao s
+        FROM solicitacao s
         INNER JOIN Vaga v ON s.id_vaga = v.id_vaga
         WHERE s.id_solicitacao = ? AND v.id_empresa = ?
     ");

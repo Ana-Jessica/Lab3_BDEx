@@ -4,12 +4,17 @@ include_once("../server/conexao.php");
 include_once("../server/autenticacao/auth.php");
 
 // Para aparecer o toast de sucesso
+$exibir_toast_vagacriada = false;
 $exibir_toast_editar = false;
 $exibir_toast_bem_vindo = false;
 $exibir_toast_conexao_criada = false;
 $exibir_toast_conexao_jaexiste = false;
 
 
+if (isset($_SESSION['vagacriada'])) {
+  $exibir_toast_vagacriada = true;
+  unset($_SESSION['vagacriada']); // evita repetição
+}
 if (isset($_SESSION['editado_sucesso'])) {
   $exibir_toast_editar = true;
   unset($_SESSION['editado_sucesso']); // evita repetição
@@ -448,6 +453,10 @@ if ($stmt_conexoes) {
         </main>
 
           <!-- Tost com notificação que os dados foram editados -->
+        <?php if ($exibir_toast_vagacriada): ?>
+            <div id="toast_bemvindo">uma vaga foi criada</div>
+        <?php endif; ?>
+
         <?php if ($exibir_toast_editar): ?>
             <div id="toast">os dados de <?= htmlspecialchars($nome_empresa) ?> foram alterados</div>
         <?php endif; ?>

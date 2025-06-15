@@ -70,7 +70,7 @@ document.querySelectorAll(".btn-conectar").forEach(button => {
       })
       .then(response => response.text())
       .then(data => {
-          alert(data);
+          
           location.reload(); // recarrega para atualizar status, ou modifique dinamicamente
       })
       .catch(error => {
@@ -84,7 +84,7 @@ document.querySelectorAll('.btn-cancelar').forEach(botao => {
       const idVaga = this.getAttribute('data-id-vaga');
       const idDesenvolvedor = this.getAttribute('data-id-desenvolvedor');
 
-      if (!confirm('Tem certeza que deseja rejeitar esta solicitação?')) return;
+      
 
       const formData = new FormData();
       formData.append('id_vaga', idVaga);
