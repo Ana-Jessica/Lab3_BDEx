@@ -76,7 +76,7 @@ if ($stmt_conexoes) {
   while ($row = $result_conexoes->fetch_assoc()) {
     $conexoes[] = $row;
   }
- $qtd_conexoes = count($conexoes);
+  $qtd_conexoes = count($conexoes);
   $stmt_conexoes->close();
 } else {
   error_log("Erro ao buscar conexões: " . $conn->error);
@@ -142,10 +142,10 @@ if ($stmt_conexoes) {
         <li class="item liconexoes">Minhas conexões
           <i class="people bi bi-people-fill">
             <?php if ($qtd_conexoes > 0): ?>
-                            <div class="conexao-qtd">
-                                <?= $qtd_conexoes ?>
-                            </div>
-                        <?php endif; ?>
+              <div class="conexao-qtd">
+                <?= $qtd_conexoes ?>
+              </div>
+            <?php endif; ?>
           </i>
         </li>
 
@@ -194,7 +194,8 @@ if ($stmt_conexoes) {
 
             <div class="box-input">
               <label for="skills_desenvolvedor">Skills:</label>
-              <textarea placeholder="Digite seus conhecimentos:" id="skills_desenvolvedor" name="skills_desenvolvedor" required>
+              <textarea placeholder="Digite seus conhecimentos:" id="skills_desenvolvedor" name="skills_desenvolvedor"
+                required>
               <?= htmlspecialchars($skills) ?>
               </textarea>
             </div>
@@ -219,7 +220,8 @@ if ($stmt_conexoes) {
             // Consulta todas as vagas com os nomes das empresas
             $sql = "SELECT vaga.*, empresa.nome_empresa 
             FROM vaga 
-            INNER JOIN empresa ON vaga.id_empresa = empresa.id_empresa";
+            INNER JOIN empresa ON vaga.id_empresa = empresa.id_empresa
+            WHERE vaga.status_vaga = 'ativa'";
 
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_execute($stmt);
@@ -264,33 +266,45 @@ if ($stmt_conexoes) {
       </article>
 
       <article class="artconexoes" style="display: none;">
-        <?php if (count($conexoes) > 0): ?>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>ID Conexão</th>
-                <th>Status da Conexão</th>
-                <th>Nome da empresa</th>
-                <th>Email</th>
-                <th>Data</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($conexoes as $conexao): ?>
-                <tr>
-                  <td><?= $conexao['id_conexao'] ?></td>
-                  <td><?= $conexao['status_conexao'] ?></td>
-                  <td><?= htmlspecialchars($conexao['nome_empresa']) ?></td>
-                  <td><?= htmlspecialchars($conexao['email_empresa']) ?></td>
-                  <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-        <?php else: ?>
-          <div class="alert alert-info mt-4">Nenhuma conexão realizada ainda.</div>
-        <?php endif; ?>
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Conexões Realizadas</h5>
+          </div>
+          <div class="card-body">
+            <?php if (count($conexoes) > 0): ?>
+              <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                  <thead class="table-light">
+                    <tr>
+                      <th>ID Conexão</th>
+                      <th>Status da Conexão</th>
+                      <th>Nome da Empresa</th>
+                      <th>Email</th>
+                      <th>Telefone</th>
+                      <th>Data</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($conexoes as $conexao): ?>
+                      <tr>
+                        <td><?= $conexao['id_conexao'] ?></td>
+                        <td><?= htmlspecialchars($conexao['status_conexao']) ?></td>
+                        <td><?= htmlspecialchars($conexao['nome_empresa']) ?></td>
+                        <td><?= htmlspecialchars($conexao['email_empresa']) ?></td>
+                        <td><?= htmlspecialchars($conexao['telefone_empresa']) ?></td>
+                        <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            <?php else: ?>
+              <div class="alert alert-info mt-3">Nenhuma conexão realizada ainda.</div>
+            <?php endif; ?>
+          </div>
+        </div>
       </article>
+
 
       <div class="modalsenha">
         <form class="modaleditarsenha" action="../server/conexao/criar_vaga.php" method="POST">
@@ -303,8 +317,7 @@ if ($stmt_conexoes) {
           </div>
           <div class="box-input">
             <label for="">Nova senha:</label>
-            <input type="password" name="descricao_vaga"
-              placeholder="Digite a nova senha">
+            <input type="password" name="descricao_vaga" placeholder="Digite a nova senha">
           </div>
           <div class="box-input">
             <label for="">Repetir nova senha</label>
@@ -355,7 +368,7 @@ if ($stmt_conexoes) {
   <?php if ($exibir_toast_solicitar): ?>
     <div id="toast">foi realizada uma solicitacao de vaga</div>
   <?php endif; ?>
-  
+
   <?php if ($exibir_toast_solicitar_aviso): ?>
     <div id="toast_aviso">essa vaga ja recebeu sua solicitacao</div>
   <?php endif; ?>

@@ -64,6 +64,7 @@ if ($stmt) {
 }
 
 // Buscar solicitações
+// Buscar solicitações
 $solicitacoes = [];
 
 $sql = "
@@ -80,7 +81,7 @@ SELECT
 FROM solicitacao s
 INNER JOIN vaga v ON s.id_vaga = v.id_vaga
 INNER JOIN desenvolvedor d ON s.id_desenvolvedor = d.id_desenvolvedor
-WHERE v.id_empresa = ?
+WHERE v.id_empresa = ? AND s.status_solicitacao = 'pendente'
 ORDER BY s.id_solicitacao DESC
 ";
 
@@ -380,45 +381,41 @@ if ($stmt_conexoes) {
             </article>
 
             <article class="artsolicitacoes" style="display: none;">
-                <h2>Minhas Solicitações</h2>
-                <table class="tabela-solicitacoes">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Título da vaga</th>
-                            <th>Nome do Candidato</th>
-                            <th>Skills do Candidato</th>
-                            <th>Data da solicitação</th>
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Solicitações Recebidas</h5>
+                    </div>
+                    <div class="card-body">
+                        <?php if (count($solicitacoes) > 0): ?>
+                            <ul class="list-group">
+                                <?php foreach ($solicitacoes as $sol): ?>
+                                    <li
+                                        class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                                        <div>
+                                            <strong><?= htmlspecialchars($sol['nome_desenvolvedor']) ?></strong><br>
+                                            <small>Email: <?= htmlspecialchars($sol['email_desenvolvedor']) ?> |
+                                                Conhecimentos: <?= htmlspecialchars($sol['skills_desenvolvedor']) ?></small>
+                                        </div>
+                                        <div class="mt-2 mt-md-0 d-flex gap-2">
+                                            <button class="btn btn-success btn-conectar" data-id-vaga="<?= $sol['id_vaga'] ?>"
+                                                data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
+                                                Conectar <i class="bi bi-person-check-fill"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-cancelar" data-id-vaga="<?= $sol['id_vaga'] ?>"
+                                                data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>"
+                                                data-id-solicitacao="<?= $sol['id_solicitacao'] ?>">
+                                                Rejeitar <i class="bi bi-person-dash-fill"></i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else: ?>
+                            <div class="alert alert-info mt-3">Nenhuma solicitação recebida no momento.</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
 
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($solicitacoes as $sol): ?>
-                            <tr style="text-align: center;">
-                                <td><?= htmlspecialchars($sol['id_solicitacao']) ?></td>
-                                <td><b><?= htmlspecialchars($sol['titulo_vaga']) ?></b></td>
-                                <td> <?= htmlspecialchars($sol['nome_desenvolvedor']) ?></td>
-                                <td> <?= htmlspecialchars($sol['skills_desenvolvedor']) ?></td>
-                                <td><?= htmlspecialchars($sol['data_solicitacao'] ?? 'Data indefinida') ?></td>
-
-                                </td>
-                                <td class="ldld">
-                                    <button class="btn-conectar" data-id-vaga="<?= $sol['id_vaga'] ?>"
-                                        data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
-                                        Conectar <i class="bi bi-person-fill-add"></i>
-                                    </button>
-                                    <button class="btn-cancelar" data-id-vaga="<?= $sol['id_vaga'] ?>"
-                                        data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>"
-                                        data-id-solicitacao="<?= $sol['id_solicitacao'] ?>">
-                                        Rejeitar <i class="bi bi-person-fill-dash"></i>
-                                    </button>
-
-
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
                 </table>
                 <div class="modal-candidatos" style="display: none;">
                     <div class="modal-content">
@@ -438,32 +435,42 @@ if ($stmt_conexoes) {
             </article>
 
             <article class="artconexoes" style="display: none;">
-                <?php if (count($conexoes) > 0): ?>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID Conexão</th>
-                                <th>Nome da empresa</th>
-                                <th>Email</th>
-                                <th>Telefone</th>
-                                <th>Data</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($conexoes as $conexao): ?>
-                                <tr>
-                                    <td><?= $conexao['id_conexao'] ?></td>
-                                    <td><?= htmlspecialchars($conexao['nome_desenvolvedor']) ?></td>
-                                    <td><?= htmlspecialchars($conexao['email_desenvolvedor']) ?></td>
-                                    <td><?= htmlspecialchars($conexao['telefone_desenvolvedor']) ?></td>
-                                    <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php else: ?>
-                    <div class="alert alert-info mt-4">Nenhuma conexão realizada ainda.</div>
-                <?php endif; ?>
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Conexões Realizadas</h5>
+                    </div>
+                    <div class="card-body">
+                        <?php if (count($conexoes) > 0): ?>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>ID Conexão</th>
+                                            <th>Nome do Desenvolvedor</th>
+                                            <th>Email</th>
+                                            <th>Telefone</th>
+                                            <th>Data</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($conexoes as $conexao): ?>
+                                            <tr>
+                                                <td><?= $conexao['id_conexao'] ?></td>
+                                                <td><?= htmlspecialchars($conexao['nome_desenvolvedor']) ?></td>
+                                                <td><?= htmlspecialchars($conexao['email_desenvolvedor']) ?></td>
+                                                <td><?= htmlspecialchars($conexao['telefone_desenvolvedor']) ?></td>
+                                                <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php else: ?>
+                            <div class="alert alert-info mt-3">Nenhuma conexão realizada ainda.</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </article>
         </main>
 
