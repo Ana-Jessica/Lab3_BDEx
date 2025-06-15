@@ -212,46 +212,99 @@ if ($stmt_conexoes) {
         </form>
       </article>
 
-      <article class="artconectar" style="display: flex;">
-        <h2>Vagas Diponiveis</h2>
+      <article class="artconectar" style="display: flex; flex-direction: column;">
+        <h2>Vagas Disponíveis</h2>
+        <form method="GET" action="" class="mb-4" style="width: 100%;">
+          <div class="input-group">
+            <input type="text" name="skills" class="form-control" placeholder="Filtrar por skills (separar com vírgula)"
+              value="<?= htmlspecialchars($_GET['skills'] ?? '') ?>">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+            <button type="button" onclick="window.location.href='?'" class="btn btn-secondary">
+              Limpar
+            </button>
+          </div>
+        </form>
+
         <div class="vagas-lista">
           <?php
           if (isset($_SESSION['id'])) {
-            // Consulta todas as vagas com os nomes das empresas
+            $where = "WHERE vaga.status_vaga = 'ativa'";
+            $params = [];
+            $types = '';
+
+            if (!empty($_GET['skills'])) {
+              $skills = trim($_GET['skills']);
+              $keywords = preg_split('/[,;]\s*/', $skills);
+
+              if (!empty($keywords)) {
+                $skillConditions = [];
+                foreach ($keywords as $keyword) {
+                  $skillConditions[] = "vaga.descricao_vaga LIKE ?";
+                  $params[] = '%' . $keyword . '%';
+                  $types .= 's';
+                }
+                $where .= " AND (" . implode(' OR ', $skillConditions) . ")";
+              }
+            }
+
             $sql = "SELECT vaga.*, empresa.nome_empresa 
-            FROM vaga 
-            INNER JOIN empresa ON vaga.id_empresa = empresa.id_empresa
-            WHERE vaga.status_vaga = 'ativa'";
+                    FROM vaga 
+                    INNER JOIN empresa ON vaga.id_empresa = empresa.id_empresa
+                    $where
+                    ORDER BY vaga.data_publicacao DESC";
 
             $stmt = mysqli_prepare($conn, $sql);
+
+            if (!empty($params)) {
+              mysqli_stmt_bind_param($stmt, $types, ...$params);
+            }
+
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
 
-            if (mysqli_num_rows($result) > 0) {
-              while ($vaga = mysqli_fetch_assoc($result)) {
+            // Primeiro armazenamos todas as vagas em um array
+            $vagas = [];
+            while ($vaga = mysqli_fetch_assoc($result)) {
+              $vagas[] = $vaga;
+            }
+
+            $total_vagas = count($vagas);
+
+            echo "<p style='text-align: center; width: 100%; margin-bottom: 20px;'>";
+            echo $total_vagas . " vaga(s) encontrada(s)";
+            if (!empty($_GET['skills'])) {
+              echo " para: " . htmlspecialchars($_GET['skills']);
+            }
+            echo "</p>";
+
+            if ($total_vagas > 0) {
+              foreach ($vagas as $vaga) {
                 echo "<div class='card border-primary mb-3' style='width: 300px; margin: 10px; display: inline-block;'>
-                    <div class='card-body'>
-                        <h5 class='card-title text-primary'>" . htmlspecialchars($vaga['titulo_vaga']) . "</h5></br>
-                        <h6 class='card-subtitle mb-2 text-muted'>Empresa:<b> " . htmlspecialchars($vaga['nome_empresa']) . "</b></h6>
-                        <h6 class='card-subtitle mb-2 text-muted'>Publicada em: " . htmlspecialchars($vaga['data_publicacao']) . "</h6>
-                        <p class='card-text'>" . htmlspecialchars($vaga['descricao_vaga']) . "</p>
-                        <p class='card-text'>
-                            <strong>Oferta Salarial:</strong> " .
+                        <div class='card-body'>
+                            <h5 class='card-title text-primary'>" . htmlspecialchars($vaga['titulo_vaga']) . "</h5></br>
+                            <h6 class='card-subtitle mb-2 text-muted'>Empresa:<b> " . htmlspecialchars($vaga['nome_empresa']) . "</b></h6>
+                            <h6 class='card-subtitle mb-2 text-muted'>Publicada em: " . htmlspecialchars($vaga['data_publicacao']) . "</h6>
+                            <p class='card-text'>" . htmlspecialchars($vaga['descricao_vaga']) . "</p>
+                            <p class='card-text'>
+                                <strong>Oferta Salarial:</strong> " .
                   ($vaga['valor_oferta']
                     ? 'R$ ' . number_format($vaga['valor_oferta'], 2, ',', '.')
                     : '—') . "
-                        </p>
-                        <div style='display: flex; justify-content: center; gap: 10px;'>
-                            <a href='../server/conexao/candidatar.php?id=" . $vaga['id_vaga'] . "' class='btn btn-success'>
-                                <i class='bi bi-person-check'></i> Candidatar-se
-                            </a>
-                            
+                            </p>
+                            <div style='display: flex; justify-content: center; gap: 10px;'>
+                                <a href='../server/conexao/candidatar.php?id=" . $vaga['id_vaga'] . "' class='btn btn-success'>
+                                    <i class='bi bi-person-check'></i> Candidatar-se
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                </div>";
+                    </div>";
               }
             } else {
-              echo "<p style='text-align: center; width: 100%;'>Nenhuma vaga disponível no momento.</p>";
+              $mensagem = "Nenhuma vaga disponível no momento.";
+              if (!empty($_GET['skills'])) {
+                $mensagem = "Nenhuma vaga encontrada com os filtros aplicados.";
+              }
+              echo "<p style='text-align: center; width: 100%;'>$mensagem</p>";
             }
 
             mysqli_stmt_close($stmt);
@@ -259,10 +312,7 @@ if ($stmt_conexoes) {
             echo "<p style='text-align: center; width: 100%;'>Usuário não autenticado.</p>";
           }
           ?>
-
         </div>
-
-
       </article>
 
       <article class="artconexoes" style="display: none;">
