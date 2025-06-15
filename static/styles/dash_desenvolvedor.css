@@ -157,7 +157,7 @@ nav ul li:hover {
   top: 10px;
   color: var(--cor-azul-escuro);
   transition: .3s linear;
-  opacity: 0;
+  opacity: 1;
   font-size: 30px;
 }
 .menulateral ul li i:hover {
@@ -180,7 +180,7 @@ nav ul li:hover {
   top: 10px;
   color: darkred;
   transition: .3s linear;
-  opacity: 0;
+  opacity: 1;
 }
 .menulateral ul a i:hover {
   color: var(--cor-verde-escuro);
@@ -822,4 +822,22 @@ button:active .modalvaga {
 .lisenha:hover {
   background: rgb(247, 193, 17);
   color: var(--cor-azul-escuro);
+}
+.people{
+  position: relative;
+}
+.conexao-qtd{
+  top: 5px;
+  right: -18px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  
+  border-radius: 50%;
+  background: var(--cor-verde-escuro);
+  color: white;
+  font-size: 18px;
 }

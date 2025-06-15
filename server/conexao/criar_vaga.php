@@ -31,7 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_stmt_bind_param($stmt, "isssd", $id_empresa, $titulo, $data_publicacao, $descricao, $valor_oferta);
 
         if (mysqli_stmt_execute($stmt)) {
-            echo "<script>alert('Vaga criada com sucesso!'); window.location.href = '../../templates/dashboard_empresa.php';</script>";
+            $_SESSION['vagacriada']= true;
+             header("Location: ../../templates/dashboard_empresa.php");
+              
         } else {
             echo "<script>alert('Erro ao executar a inserção: " . mysqli_error($conn) . "'); window.history.back();</script>";
         }

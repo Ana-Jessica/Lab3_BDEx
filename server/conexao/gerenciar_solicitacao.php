@@ -21,7 +21,7 @@ if ($acao === 'aceitar') {
     // 1. Recuperar os dados da solicitação
     $stmt = $conn->prepare("
         SELECT s.id_desenvolvedor, s.id_vaga
-        FROM Solicitacao s
+        FROM solicitacao s
         INNER JOIN Vaga v ON s.id_vaga = v.id_vaga
         WHERE s.id_solicitacao = ? AND v.id_empresa = ?
     ");
@@ -49,11 +49,12 @@ if ($acao === 'aceitar') {
 }
 
 // Agora, deletamos a solicitação (tanto ao aceitar quanto recusar)
-$stmt = $conn->prepare("DELETE FROM Solicitacao WHERE id_solicitacao = ?");
+$stmt = $conn->prepare("DELETE FROM solicitacao WHERE id_solicitacao = ?");
 $stmt->bind_param("i", $id_solicitacao);
 
 if ($stmt->execute()) {
-    $_SESSION['mensagem'] = "Solicitação " . ($acao === 'aceitar' ? "aceita" : "recusada") . " com sucesso.";
+    $_SESSION['mensagem'] = "solicitação " . ($acao === 'aceitar' ? "aceita" : "recusada") . " com sucesso.";
+    
 } else {
     $_SESSION['erro'] = "Erro ao processar a solicitação.";
 }

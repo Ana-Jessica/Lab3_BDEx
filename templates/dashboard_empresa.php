@@ -4,21 +4,38 @@ include_once("../server/conexao.php");
 include_once("../server/autenticacao/auth.php");
 
 // Para aparecer o toast de sucesso
+$exibir_toast_vagacriada = false;
 $exibir_toast_editar = false;
 $exibir_toast_bem_vindo = false;
+$exibir_toast_conexao_criada = false;
+$exibir_toast_conexao_jaexiste = false;
 
 
+if (isset($_SESSION['vagacriada'])) {
+    $exibir_toast_vagacriada = true;
+    unset($_SESSION['vagacriada']); // evita repetição
+}
 if (isset($_SESSION['editado_sucesso'])) {
-  $exibir_toast_editar = true;
-  unset($_SESSION['editado_sucesso']); // evita repetição
+    $exibir_toast_editar = true;
+    unset($_SESSION['editado_sucesso']); // evita repetição
 }
 
 
 if (isset($_SESSION['bem_vindoo'])) {
-  $exibir_toast_bem_vindo = true;
-  unset($_SESSION['bem_vindoo']); // evita repetição
+    $exibir_toast_bem_vindo = true;
+    unset($_SESSION['bem_vindoo']); // evita repetição
 }
- 
+
+if (isset($_SESSION['conexao_criada'])) {
+    $exibir_toast_conexao_criada = true;
+    unset($_SESSION['conexao_criada']); // evita repetição
+}
+
+if (isset($_SESSION['conexao_jaexiste'])) {
+    $exibir_toast_conexao_jaexiste = true;
+    unset($_SESSION['conexao_jaexiste']); // evita repetição
+}
+
 
 // Verifica se está logado e se é uma empresa
 if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'empresa') {
@@ -90,6 +107,7 @@ SELECT
     c.status_conexao,
     d.nome_desenvolvedor,
     d.email_desenvolvedor,
+    d.telefone_desenvolvedor,
     d.skills_desenvolvedor,
     v.titulo_vaga
 FROM conexao c
@@ -107,6 +125,8 @@ if ($stmt_conexoes) {
     while ($row = $result_conexoes->fetch_assoc()) {
         $conexoes[] = $row;
     }
+    $qtd_conexoes = count($conexoes);
+
     $stmt_conexoes->close();
 } else {
     error_log("Erro ao buscar conexões: " . $conn->error);
@@ -168,7 +188,14 @@ if ($stmt_conexoes) {
                 <br />
                 <li class="item liconexoes">
                     Conexões
-                    <i class="brief bi bi-people-fill"></i>
+                    <i class="brief bi bi-people-fill"><?php if ($qtd_conexoes > 0): ?>
+                            <div class="conexao-qtd">
+                                <?= $qtd_conexoes ?>
+                            </div>
+                        <?php endif; ?>
+                    </i>
+
+
                 </li>
                 <br />
             </ul>
@@ -178,49 +205,48 @@ if ($stmt_conexoes) {
             <article class="artcadastro" style="display: none;">
                 <!-- Editar dados da empresa -->
                 <form id="formEditar" action="../server/empresa/EditUserEmpresa.php" method="POST">
-                <box-inputset>
-                    <legend>
-                        <h1><b>Editar dados da Empresa</b></h1>
-                    </legend>
-                    <br />
+                    <box-inputset>
+                        <legend>
+                            <h1><b>Editar dados da Empresa</b></h1>
+                        </legend>
+                        <br />
 
-                    <div class="box-input">
-                        <label for="nome_empresa">Nome:</label>
-                        <input type="text" placeholder="Digite o nome da Empresa" id="nome_empresa" name="nome_empresa"
-                            required value="<?= htmlspecialchars($nome_empresa) ?>">
-                    </div>
-                    <br>
+                        <div class="box-input">
+                            <label for="nome_empresa">Nome:</label>
+                            <input type="text" placeholder="Digite o nome da Empresa" id="nome_empresa"
+                                name="nome_empresa" required value="<?= htmlspecialchars($nome_empresa) ?>">
+                        </div>
+                        <br>
 
-                    <div class="box-input">
-                        <label for="endereco_empresa">Endereço:</label>
-                        <input type="text" placeholder="Digite seu endereço" id="endereco_empresa"
-                            name="endereco_empresa" required value="<?= htmlspecialchars($endereco_empresa) ?>">
-                    </div>
-                    <br>
+                        <div class="box-input">
+                            <label for="endereco_empresa">Endereço:</label>
+                            <input type="text" placeholder="Digite seu endereço" id="endereco_empresa"
+                                name="endereco_empresa" required value="<?= htmlspecialchars($endereco_empresa) ?>">
+                        </div>
+                        <br>
 
-                    <div class="box-input">
-                        <label for="email_empresa">Email:</label>
-                        <input type="email" placeholder="Digite seu e-mail" id="email_empresa" name="email_empresa"
-                            required value="<?= htmlspecialchars($email_empresa) ?>">
-                    </div>
-                    <br>
+                        <div class="box-input">
+                            <label for="email_empresa">Email:</label>
+                            <input type="email" placeholder="Digite seu e-mail" id="email_empresa" name="email_empresa"
+                                required value="<?= htmlspecialchars($email_empresa) ?>">
+                        </div>
+                        <br>
 
-                    <div class="box-input">
-                        <label for="telefone_empresa">Telefone:</label>
-                        <input type="text" placeholder="Digite seu telefone" id="telefone_empresa"
-                            name="telefone_empresa" required value="<?= htmlspecialchars($telefone_empresa) ?>">
-                    </div>
-                    <br>
+                        <div class="box-input">
+                            <label for="telefone_empresa">Telefone:</label>
+                            <input type="text" placeholder="Digite seu telefone" id="telefone_empresa"
+                                name="telefone_empresa" required value="<?= htmlspecialchars($telefone_empresa) ?>">
+                        </div>
+                        <br>
 
 
-                    <a href="Desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
-                    <br />
+                        <a href="Desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
+                        <br />
 
-                    <!-- CRIAR MODAL SOBRE -->
-                    <button type="button" id="update" name="update"
-                        class="btneditar">Editar</button>
-                </box-inputset>
-            </form>
+                        <!-- CRIAR MODAL SOBRE -->
+                        <button type="button" id="update" name="update" class="btneditar">Editar</button>
+                    </box-inputset>
+                </form>
             </article>
 
             <article class="artvagas" style="display: flex;">
@@ -352,11 +378,11 @@ if ($stmt_conexoes) {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Título</th>
-                            <th>Descrição</th>
-                            <th>Data</th>
-                            <th>Candidatos</th>
-                            <th>Status</th>
+                            <th>Título da vaga</th>
+                            <th>Nome do Candidato</th>
+                            <th>Skills do Candidato</th>
+                            <th>Data da solicitação</th>
+
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -364,22 +390,20 @@ if ($stmt_conexoes) {
                         <?php foreach ($solicitacoes as $sol): ?>
                             <tr style="text-align: center;">
                                 <td><?= htmlspecialchars($sol['id_solicitacao']) ?></td>
-                                <td><?= htmlspecialchars($sol['titulo_vaga']) ?></td>
-                                <td>Candidatura de <?= htmlspecialchars($sol['nome_desenvolvedor']) ?></td>
+                                <td><b><?= htmlspecialchars($sol['titulo_vaga']) ?></b></td>
+                                <td> <?= htmlspecialchars($sol['nome_desenvolvedor']) ?></td>
+                                <td> <?= htmlspecialchars($sol['skills_desenvolvedor']) ?></td>
                                 <td><?= htmlspecialchars($sol['data_solicitacao'] ?? 'Data indefinida') ?></td>
-                                <td>
-                                    <button class="btn-ver">Ver Candidato</button>
+
                                 </td>
-                                <td><span class="status pendente"><?= htmlspecialchars($sol['status_solicitacao']) ?></span>
-                                </td>
-                                <td>
+                                <td class="ldld">
                                     <button class="btn-conectar" data-id-vaga="<?= $sol['id_vaga'] ?>"
                                         data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
-                                        Conectar
+                                        Conectar <i class="bi bi-person-fill-add"></i>
                                     </button>
                                     <button class="btn-cancelar" data-id-vaga="<?= $sol['id_vaga'] ?>"
                                         data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
-                                        Rejeitar
+                                        Rejeitar <i class="bi bi-person-fill-dash"></i>
                                     </button>
 
                                 </td>
@@ -396,6 +420,7 @@ if ($stmt_conexoes) {
                                 <li>
                                     <strong><?= htmlspecialchars($sol['nome_desenvolvedor']) ?></strong> -
                                     Email: <?= htmlspecialchars($sol['email_desenvolvedor']) ?> -
+                                    Telefone: <?= htmlspecialchars($sol['telefone_desenvolvedor']) ?> -
                                     Conhecimentos: <?= htmlspecialchars($sol['skills_desenvolvedor']) ?>
                                 </li>
                             <?php endforeach; ?>
@@ -411,6 +436,7 @@ if ($stmt_conexoes) {
                                 <th>ID Conexão</th>
                                 <th>Nome da empresa</th>
                                 <th>Email</th>
+                                <th>Telefone</th>
                                 <th>Data</th>
                             </tr>
                         </thead>
@@ -420,6 +446,7 @@ if ($stmt_conexoes) {
                                     <td><?= $conexao['id_conexao'] ?></td>
                                     <td><?= htmlspecialchars($conexao['nome_desenvolvedor']) ?></td>
                                     <td><?= htmlspecialchars($conexao['email_desenvolvedor']) ?></td>
+                                    <td><?= htmlspecialchars($conexao['telefone_desenvolvedor']) ?></td>
                                     <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
                                 </tr>
                             <?php endforeach; ?>
@@ -431,23 +458,32 @@ if ($stmt_conexoes) {
             </article>
         </main>
 
-          <!-- Tost com notificação que os dados foram editados -->
+        <!-- Tost com notificação que os dados foram editados -->
+        <?php if ($exibir_toast_vagacriada): ?>
+            <div id="toast_bemvindo">uma vaga foi criada</div>
+        <?php endif; ?>
+
         <?php if ($exibir_toast_editar): ?>
             <div id="toast">os dados de <?= htmlspecialchars($nome_empresa) ?> foram alterados</div>
         <?php endif; ?>
 
-        <?php if ($exibir_toast_bem_vindo): ?>
-           <div id="toast_bemvindo"> Seja bem vindo <?= htmlspecialchars($nome_empresa) ?> </div>
-         <?php endif; ?>
 
-           <!-- modal editar -->
+        <?php if ($exibir_toast_conexao_criada): ?>
+            <div id="toast"> foi criada uma conexão </div>
+        <?php endif; ?>
+
+        <?php if ($exibir_toast_conexao_jaexiste): ?>
+            <div id="toast_aviso">essa conexao já foi aceita </div>
+        <?php endif; ?>
+
+        <!-- modal editar -->
         <div class="modal_default">
             <div class="modal-content">
-            <p id="modalMensagem">Tem certeza de que deseja editar os dados?<br>Verifique se estão corretos.</p>
-            <div class="modal-buttons">
-                <button id="btnconfirmar" onclick="confirmarModal(true)">Confirmar</button>
-                <button id="btncancelar" onclick="confirmarModal(false)">Cancelar</button>
-            </div>
+                <p id="modalMensagem">Tem certeza de que deseja editar os dados?<br>Verifique se estão corretos.</p>
+                <div class="modal-buttons">
+                    <button id="btnconfirmar" onclick="confirmarModal(true)">Confirmar</button>
+                    <button id="btncancelar" onclick="confirmarModal(false)">Cancelar</button>
+                </div>
             </div>
         </div>
 
@@ -455,9 +491,6 @@ if ($stmt_conexoes) {
     <script src="../static/scripts/dash_empresa.js"></script>
     <script src="../static/scripts/toast.js"></script>
     <script src="../static/scripts/modal_default.js"></script>
-
-
-
 
 </body>
 

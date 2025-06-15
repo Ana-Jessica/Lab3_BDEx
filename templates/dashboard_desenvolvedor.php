@@ -56,12 +56,13 @@ $conexoes = [];
 $sql_conexoes = "
 SELECT 
     c.id_conexao,
+    c.status_conexao,
     e.nome_empresa,
     e.email_empresa,
     e.telefone_empresa,
     c.data_conexao
 FROM Conexao c
-INNER JOIN Empresa e ON c.id_empresa = e.id_empresa
+INNER JOIN empresa e ON c.id_empresa = e.id_empresa
 WHERE c.id_desenvolvedor = ?
 ORDER BY c.data_conexao DESC
 ";
@@ -75,7 +76,7 @@ if ($stmt_conexoes) {
   while ($row = $result_conexoes->fetch_assoc()) {
     $conexoes[] = $row;
   }
-
+ $qtd_conexoes = count($conexoes);
   $stmt_conexoes->close();
 } else {
   error_log("Erro ao buscar conexões: " . $conn->error);
@@ -139,7 +140,13 @@ if ($stmt_conexoes) {
 
 
         <li class="item liconexoes">Minhas conexões
-          <i class="people bi bi-people-fill"></i>
+          <i class="people bi bi-people-fill">
+            <?php if ($qtd_conexoes > 0): ?>
+                            <div class="conexao-qtd">
+                                <?= $qtd_conexoes ?>
+                            </div>
+                        <?php endif; ?>
+          </i>
         </li>
 
         <a class="item liconexoes">desativar conta
@@ -262,6 +269,7 @@ if ($stmt_conexoes) {
             <thead>
               <tr>
                 <th>ID Conexão</th>
+                <th>Status da Conexão</th>
                 <th>Nome da empresa</th>
                 <th>Email</th>
                 <th>Data</th>
@@ -271,6 +279,7 @@ if ($stmt_conexoes) {
               <?php foreach ($conexoes as $conexao): ?>
                 <tr>
                   <td><?= $conexao['id_conexao'] ?></td>
+                  <td><?= $conexao['status_conexao'] ?></td>
                   <td><?= htmlspecialchars($conexao['nome_empresa']) ?></td>
                   <td><?= htmlspecialchars($conexao['email_empresa']) ?></td>
                   <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>

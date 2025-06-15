@@ -730,14 +730,56 @@ nav ul a:hover {
   color: black;
 }
 
-.btn-cancelar {
+.btn-cancelar, .btnfecharmodal {
   background-color: darkred;
   color: white;
+  transition: .3s ease-in-out;
+  outline: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 5px;
+  border-radius: 20px;
+  cursor: pointer;
 }
-
+.btnfecharmodal{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btnfecharmodal:hover{
+  transform: scale(1.2);
+}
 .btn-cancelar:hover {
+  transform: scale(1.2);
   background-color: red;
   color: white;
+  z-index: 99;
+}
+.btn-conectar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 5px;
+  border-radius: 20px;
+  outline: none;
+  background-color: var(--cor-azul-escuro);
+  color: white;
+  transition: .3s ease-in-out;
+  border: none;
+}
+
+.btn-conectar:hover {
+  transform: scale(1.2);
+  background-color: var(--cor-verde-escuro);
+  color: white;
+  z-index: 99;
 }
 
 .artvagas {
@@ -923,4 +965,22 @@ flex-wrap: wrap;
 }
 .bi-plus{
   font-size: 20px;
+}
+.brief{
+  position: relative;
+}
+.conexao-qtd{
+  top: 5px;
+  right: -18px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  
+  border-radius: 50%;
+  background: var(--cor-verde-escuro);
+  color: white;
+  font-size: 18px;
 }
