@@ -79,33 +79,41 @@ document.querySelectorAll(".btn-conectar").forEach(button => {
   });
 });
 
-document.querySelectorAll('.btn-cancelar').forEach(botao => {
-  botao.addEventListener('click', function() {
-      const idVaga = this.getAttribute('data-id-vaga');
-      const idDesenvolvedor = this.getAttribute('data-id-desenvolvedor');
 
-      
+document.addEventListener("DOMContentLoaded", function () {
+    const botoesCancelar = document.querySelectorAll(".btn-cancelar");
 
-      const formData = new FormData();
-      formData.append('id_vaga', idVaga);
-      formData.append('id_desenvolvedor', idDesenvolvedor);
+    botoesCancelar.forEach(btn => {
+        btn.addEventListener("click", function () {
+            if (!confirm("Deseja realmente rejeitar esta solicitação?")) return;
 
-      fetch('../server/conexao/rejeitar_solicitacao.php', {
-          method: 'POST',
-          body: formData,
-          credentials: 'same-origin'
-      })
-      .then(response => response.text())
-      .then(data => {
-          alert(data);
-          // Opcional: remover a linha da tabela ou desabilitar o botão
-          this.closest('tr').remove(); // remove a linha da tabela
-      })
-      .catch(error => {
-          alert('Erro ao rejeitar: ' + error);
-      });
-  });
+            const idVaga = btn.dataset.idVaga;
+            const idDesenvolvedor = btn.dataset.idDesenvolvedor;
+
+            // Aqui você precisa buscar o ID da solicitação (recomendado já vir no botão como data-id-solicitacao)
+            const idSolicitacao = btn.dataset.idSolicitacao;
+
+            if (!idSolicitacao) {
+                alert("ID da solicitação não encontrado.");
+                return;
+            }
+
+            fetch(`../server/conexao/gerenciar_solicitacao.php?acao=recusar&id=${idSolicitacao}`)
+                .then(res => res.text())
+                .then(response => {
+                    // Aqui você pode atualizar a interface, exibir mensagem etc
+                    alert("Solicitação rejeitada com sucesso.");
+                    location.reload(); // ou remove o elemento da tela
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Erro ao processar a solicitação.");
+                });
+        });
+    });
 });
+
+
 
 
 document.querySelectorAll('.criarvaga').forEach(botao => {
