@@ -177,12 +177,12 @@ if ($stmt_conexoes) {
               <input value="<?= htmlspecialchars($email) ?>" type="text" placeholder="Digite seu e-mail"
                 id="email_desenvolvedor" name="email_desenvolvedor" required>
             </div>
-            <br>
-            <div class="box-input">
+            <!-- <br> -->
+            <!-- <div class="box-input">
               <label for="cpf_desenvolvedor">CPF:</label>
               <input value="<?= htmlspecialchars($cpf) ?>" type="text" placeholder="Digite seu CPF:"
                 id="cpf_desenvolvedor" name="cpf_desenvolvedor" required>
-            </div>
+            </div> -->
             <br>
 
             <div class="box-input">

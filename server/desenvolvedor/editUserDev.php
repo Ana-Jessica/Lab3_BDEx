@@ -16,13 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome_desenvolvedor = $_POST['nome_desenvolvedor'] ?? '';
     $telefone_desenvolvedor = $_POST['telefone_desenvolvedor'] ?? '';
     $email_desenvolvedor = $_POST['email_desenvolvedor'] ?? '';
-    $cpf_desenvolvedor = $_POST['cpf_desenvolvedor'] ?? '';
+    // NÃO SERÁ ALTERADO - - $cpf_desenvolvedor = $_POST['cpf_desenvolvedor'] ?? '';
     $skills_desenvolvedor = $_POST['skills_desenvolvedor'] ?? ''; 
    
 
 
     // Validações básicas
-    if (empty($nome_desenvolvedor) || empty($telefone_desenvolvedor) || empty($email_desenvolvedor) || empty($cpf_desenvolvedor) || empty($skills_desenvolvedor)) {
+    if (empty($nome_desenvolvedor) || empty($telefone_desenvolvedor) || empty($email_desenvolvedor) || empty($skills_desenvolvedor)) {
         header("Location: dash_desenvolvedor.php?erro=campos_vazios");
         exit();
     }
@@ -40,18 +40,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "UPDATE `banco_bdex`.`desenvolvedor` SET 
             `nome_desenvolvedor` = ?, 
             `telefone_desenvolvedor` = ?, 
-            `email_desenvolvedor` = ?, 
-            `cpf_desenvolvedor` = ?, 
+            `email_desenvolvedor` = ?,  
             `skills_desenvolvedor` = ? 
             WHERE `id_desenvolvedor` = ?";
     
     $stmt = $conn->prepare($sql);
     if ($stmt) {
-        $stmt->bind_param("sssssi", 
+        $stmt->bind_param("ssssi", 
             $nome_desenvolvedor, 
             $telefone_desenvolvedor, 
             $email_desenvolvedor, 
-            $cpf_desenvolvedor, 
             $skills_desenvolvedor, 
             $id_desenvolvedor
         );
