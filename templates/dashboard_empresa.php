@@ -450,6 +450,7 @@ if ($stmt_conexoes) {
                                             <th>Email</th>
                                             <th>Telefone</th>
                                             <th>Data</th>
+                                            <th>Ação</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -461,7 +462,47 @@ if ($stmt_conexoes) {
                                                 <td><?= htmlspecialchars($conexao['telefone_desenvolvedor']) ?></td>
                                                 <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?>
                                                 </td>
+                                                <!-- Botão concluir -->
+                                                <td>
+                                                   <?php if ($conexao['status_conexao'] === 'aceita'): ?>
+                                                        <button class="btn btn-danger btn-encerrar"
+                                                            data-id="<?= $conexao['id_conexao'] ?>">
+                                                            Encerrar
+                                                        </button>
+                                                        <button class="btn btn-success btn-concluir"
+                                                            data-id="<?= $conexao['id_conexao'] ?>">
+                                                            Concluir
+                                                        </button>
+                                                    <?php else: ?>
+                                                        <span
+                                                            class="badge bg-secondary"><?= ucfirst($conexao['status_conexao']) ?></span>
+                                                    <?php endif; ?>
+                                                </td>
                                             </tr>
+                                            <!-- Modal Encerramento -->
+                                            <div class="modal fade" id="modalEncerrar" tabindex="-1">
+                                                <div class="modal-dialog">
+                                                    <form method="POST" action="gerenciar_conexao.php">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header bg-danger text-white">
+                                                                <h5 class="modal-title">Encerrar Conexão</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input type="hidden" name="id_conexao" id="encerrarId">
+                                                                <input type="hidden" name="acao" value="encerrar">
+                                                                <label>Justificativa</label>
+                                                                <textarea class="form-control" name="justificativa"
+                                                                    required></textarea>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-danger">Encerrar</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>

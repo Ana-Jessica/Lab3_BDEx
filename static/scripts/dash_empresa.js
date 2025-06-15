@@ -24,93 +24,135 @@ function preencherFormulario(id) {
 }
 
 document.querySelectorAll(".btn-ver").forEach(btn => {
-    btn.addEventListener("click", function () {
-        const idVaga = this.closest("tr").querySelector("td").innerText;
+  btn.addEventListener("click", function () {
+    const idVaga = this.closest("tr").querySelector("td").innerText;
 
-        fetch(`../server/ver_candidatos.php?id_vaga=${idVaga}`)
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById("conteudoCandidatos");
-                container.innerHTML = "";
+    fetch(`../server/ver_candidatos.php?id_vaga=${idVaga}`)
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById("conteudoCandidatos");
+        container.innerHTML = "";
 
-                if (data.length === 0) {
-                    container.innerHTML = "<p>Nenhum candidato encontrado para esta vaga.</p>";
-                } else {
-                    data.forEach(candidato => {
-                        const bloco = document.createElement("div");
-                        bloco.innerHTML = `
+        if (data.length === 0) {
+          container.innerHTML = "<p>Nenhum candidato encontrado para esta vaga.</p>";
+        } else {
+          data.forEach(candidato => {
+            const bloco = document.createElement("div");
+            bloco.innerHTML = `
                             <strong>Nome:</strong> ${candidato.nome_desenvolvedor}<br>
                             <strong>Email:</strong> ${candidato.email_desenvolvedor}<br>
                             <strong>Skills:</strong> ${candidato.skills || "Não informado"}<hr>
                         `;
-                        container.appendChild(bloco);
-                    });
-                }
+            container.appendChild(bloco);
+          });
+        }
 
-                document.getElementById("modalCandidatos").style.display = "block";
-            })
-            .catch(err => {
-                alert("Erro ao carregar candidatos");
-                console.error(err);
-            });
-    });
-});
-
-document.querySelectorAll(".btn-conectar").forEach(button => {
-  button.addEventListener("click", () => {
-      const idVaga = button.getAttribute("data-id-vaga");
-      const idDev = button.getAttribute("data-id-desenvolvedor");
-
-      fetch("../server/conexao/criar_conexao.php", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-          },
-          body: `id_vaga=${idVaga}&id_desenvolvedor=${idDev}`
+        document.getElementById("modalCandidatos").style.display = "block";
       })
-      .then(response => response.text())
-      .then(data => {
-          
-          location.reload(); // recarrega para atualizar status, ou modifique dinamicamente
-      })
-      .catch(error => {
-          alert("Erro ao conectar: " + error);
+      .catch(err => {
+        alert("Erro ao carregar candidatos");
+        console.error(err);
       });
   });
 });
 
+document.querySelectorAll(".btn-conectar").forEach(button => {
+  button.addEventListener("click", () => {
+    const idVaga = button.getAttribute("data-id-vaga");
+    const idDev = button.getAttribute("data-id-desenvolvedor");
+
+    fetch("../server/conexao/criar_conexao.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: `id_vaga=${idVaga}&id_desenvolvedor=${idDev}`
+    })
+      .then(response => response.text())
+      .then(data => {
+
+        location.reload(); // recarrega para atualizar status, ou modifique dinamicamente
+      })
+      .catch(error => {
+        alert("Erro ao conectar: " + error);
+      });
+  });
+});
+// Script para gerenciar o modal de encerramento de conexões
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.btn-encerrar').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const id = this.getAttribute('data-id');
+      const confirmar = confirm("Tem certeza que deseja marcar esta conexão como encerrada?");
+      if (confirmar) {
+        // Criar e enviar formulário via JavaScript
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '../server/conexao/gerenciar_conexao.php';
+
+        form.innerHTML = `
+            <input type="hidden" name="id_conexao" value="${id}">
+            <input type="hidden" name="acao" value="encerrar">
+          `;
+        document.body.appendChild(form);
+        form.submit();
+      }
+    });
+  });
+
+  // Concluir
+  document.querySelectorAll('.btn-concluir').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const id = this.getAttribute('data-id');
+      const confirmar = confirm("Tem certeza que deseja marcar esta conexão como CONCLUÍDA?");
+      if (confirmar) {
+        // Criar e enviar formulário via JavaScript
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '../server/conexao/gerenciar_conexao.php';
+
+        form.innerHTML = `
+            <input type="hidden" name="id_conexao" value="${id}">
+            <input type="hidden" name="acao" value="concluir">
+          `;
+        document.body.appendChild(form);
+        form.submit();
+      }
+    });
+  });
+});
 
 document.addEventListener("DOMContentLoaded", function () {
-    const botoesCancelar = document.querySelectorAll(".btn-cancelar");
+  const botoesCancelar = document.querySelectorAll(".btn-cancelar");
 
-    botoesCancelar.forEach(btn => {
-        btn.addEventListener("click", function () {
-            if (!confirm("Deseja realmente rejeitar esta solicitação?")) return;
+  botoesCancelar.forEach(btn => {
+    btn.addEventListener("click", function () {
+      if (!confirm("Deseja realmente rejeitar esta solicitação?")) return;
 
-            const idVaga = btn.dataset.idVaga;
-            const idDesenvolvedor = btn.dataset.idDesenvolvedor;
+      const idVaga = btn.dataset.idVaga;
+      const idDesenvolvedor = btn.dataset.idDesenvolvedor;
 
-            // Aqui você precisa buscar o ID da solicitação (recomendado já vir no botão como data-id-solicitacao)
-            const idSolicitacao = btn.dataset.idSolicitacao;
+      // Aqui você precisa buscar o ID da solicitação (recomendado já vir no botão como data-id-solicitacao)
+      const idSolicitacao = btn.dataset.idSolicitacao;
 
-            if (!idSolicitacao) {
-                alert("ID da solicitação não encontrado.");
-                return;
-            }
+      if (!idSolicitacao) {
+        alert("ID da solicitação não encontrado.");
+        return;
+      }
 
-            fetch(`../server/conexao/gerenciar_solicitacao.php?acao=recusar&id=${idSolicitacao}`)
-                .then(res => res.text())
-                .then(response => {
-                    // Aqui você pode atualizar a interface, exibir mensagem etc
-                    alert("Solicitação rejeitada com sucesso.");
-                    location.reload(); // ou remove o elemento da tela
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert("Erro ao processar a solicitação.");
-                });
+      fetch(`../server/conexao/gerenciar_solicitacao.php?acao=recusar&id=${idSolicitacao}`)
+        .then(res => res.text())
+        .then(response => {
+          // Aqui você pode atualizar a interface, exibir mensagem etc
+          alert("Solicitação rejeitada com sucesso.");
+          location.reload(); // ou remove o elemento da tela
+        })
+        .catch(err => {
+          console.error(err);
+          alert("Erro ao processar a solicitação.");
         });
     });
+  });
 });
 
 
@@ -136,7 +178,7 @@ document.querySelectorAll('.btnfecharmodal').forEach(botao => {
 });
 
 function fecharModal() {
-    document.getElementById("modalCandidatos").style.display = "none";
+  document.getElementById("modalCandidatos").style.display = "none";
 }
 
 

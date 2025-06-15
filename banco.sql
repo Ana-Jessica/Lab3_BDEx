@@ -79,7 +79,8 @@ CREATE TABLE IF NOT EXISTS conexao (
     id_desenvolvedor INT NOT NULL,
     id_vaga INT NOT NULL,
     data_conexao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status_conexao ENUM('aceita', 'encerrada') DEFAULT 'aceita',
+    status_conexao ENUM('aceita', 'encerrada', 'concluida') DEFAULT 'aceita',
+    justificativa TEXT NULL,
     FOREIGN KEY (id_empresa) REFERENCES empresa(id_empresa) ON DELETE CASCADE,
     FOREIGN KEY (id_desenvolvedor) REFERENCES desenvolvedor(id_desenvolvedor) ON DELETE CASCADE,
     FOREIGN KEY (id_vaga) REFERENCES vaga(id_vaga) ON DELETE CASCADE
