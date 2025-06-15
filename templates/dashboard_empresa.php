@@ -92,6 +92,7 @@ if ($stmt) {
     while ($row = $result->fetch_assoc()) {
         $solicitacoes[] = $row;
     }
+    $qtd_solicitacoes = count($solicitacoes);
     $stmt->close();
 } else {
     error_log("Erro ao buscar solicitações: " . $conn->error);
@@ -183,7 +184,13 @@ if ($stmt_conexoes) {
                 <br />
                 <li class="item lisolicitacoes">
                     Solicitações
-                    <i class="brief bi bi-envelope-open-fill"></i>
+                    <i class="brief bi bi-envelope-open-fill">
+                        <?php if ($qtd_solicitacoes > 0): ?>
+                            <div class="conexao-qtd">
+                                <?= $qtd_solicitacoes ?>
+                            </div>
+                        <?php endif; ?>
+                    </i>
                 </li>
                 <br />
                 <li class="item liconexoes">
