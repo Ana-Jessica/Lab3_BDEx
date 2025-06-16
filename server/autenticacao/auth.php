@@ -53,6 +53,6 @@ if (isset($_COOKIE['id']) && isset($_COOKIE['tipo'])) {
 // Se não tiver sessão nem cookie válido, ou a conta estiver desativada, redireciona para login
 session_unset();
 session_destroy();
-header("Location: ../../templates/pglogin.html?erro=conta_desativada_ou_sessao_expirada");
+header("Location: ../templates/pglogin.html");
 exit();
 ?>

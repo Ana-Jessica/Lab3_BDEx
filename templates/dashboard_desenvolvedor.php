@@ -60,8 +60,8 @@ SELECT
     e.email_empresa,
     e.telefone_empresa,
     c.data_conexao
-FROM Conexao c
-INNER JOIN Empresa e ON c.id_empresa = e.id_empresa
+FROM conexao c
+INNER JOIN empresa e ON c.id_empresa = e.id_empresa
 WHERE c.id_desenvolvedor = ?
 ORDER BY c.data_conexao DESC
 ";
@@ -75,7 +75,7 @@ if ($stmt_conexoes) {
   while ($row = $result_conexoes->fetch_assoc()) {
     $conexoes[] = $row;
   }
-
+  $qtd_conexoes = count ($conexoes);
   $stmt_conexoes->close();
 } else {
   error_log("Erro ao buscar conexões: " . $conn->error);
@@ -138,14 +138,21 @@ if ($stmt_conexoes) {
         </li>
 
 
-        <li >Minhas conexões
-          <i class="people bi bi-people-fill"></i>
+        <li class="liconexoes" >Minhas conexões
+          <i class="people bi bi-people-fill">
+             <?php if ($qtd_conexoes > 0): ?>
+    <div class="conexao-qtd">
+        <?php echo $qtd_conexoes; ?>
+    </div>
+<?php endif; ?>
+
+          </i>
         </li>
 
       
          <!-- PARTE DE DESATIVAÇÃO DE CONTA  -->
            <!-- inclui id    -giulia-->
-            <a  class="item liconexoes" href=" ../server/usuarios/desativarConta.php" id="desativarContaLink"
+            <a  class="item lidesativar" href=" ../server/usuarios/desativarConta.php" id="desativarContaLink"
             onclick="return confirm('Quer desativar sua conta? Você poderá reativá-la fazendo login novamente.');">
             Desativar Conta
              <i class="bi bi-person-x"></i>
@@ -279,6 +286,7 @@ if ($stmt_conexoes) {
                   <td><?= htmlspecialchars($conexao['email_empresa']) ?></td>
                   <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
                 </tr>
+                
               <?php endforeach; ?>
             </tbody>
           </table>
