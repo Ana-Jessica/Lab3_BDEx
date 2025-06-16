@@ -76,7 +76,7 @@ SELECT
 FROM solicitacao s
 INNER JOIN vaga v ON s.id_vaga = v.id_vaga
 INNER JOIN desenvolvedor d ON s.id_desenvolvedor = d.id_desenvolvedor
-WHERE v.id_empresa = ?
+WHERE v.id_empresa = ? AND s.status_solicitacao = 'pendente'
 ORDER BY s.id_solicitacao DESC
 ";
 
@@ -393,8 +393,6 @@ if ($stmt_conexoes) {
                             <th>Nome do Candidato</th>
                             <th>Skills do Candidato</th>
                             <th>Data da solicitação</th>
-                           
-                            <th>Status</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -406,9 +404,7 @@ if ($stmt_conexoes) {
                                 <td> <?= htmlspecialchars($sol['nome_desenvolvedor']) ?></td>
                                 <td> <?= htmlspecialchars($sol['skills_desenvolvedor']) ?></td>
                                 <td><?= htmlspecialchars($sol['data_solicitacao'] ?? 'Data indefinida') ?></td>
-                              
-                                <td><span class="status pendente"><?= htmlspecialchars($sol['status_solicitacao']) ?></span>
-                                </td>
+
                                 <td class="ldld">
                                     <button class="btn-conectar" data-id-vaga="<?= $sol['id_vaga'] ?>"
                                         data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
@@ -442,32 +438,83 @@ if ($stmt_conexoes) {
             </article>
 
             <article class="artconexoes" style="display: none;">
-                <?php if (count($conexoes) > 0): ?>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID Conexão</th>
-                                <th>Nome da empresa</th>
-                                <th>Email</th>
-                                <th>Telefone</th>
-                                <th>Data</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($conexoes as $conexao): ?>
-                                <tr>
-                                    <td><?= $conexao['id_conexao'] ?></td>
-                                    <td><?= htmlspecialchars($conexao['nome_desenvolvedor']) ?></td>
-                                    <td><?= htmlspecialchars($conexao['email_desenvolvedor']) ?></td>
-                                    <td><?= htmlspecialchars($conexao['telefone_desenvolvedor']) ?></td>
-                                    <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php else: ?>
-                    <div class="alert alert-info mt-4">Nenhuma conexão realizada ainda.</div>
-                <?php endif; ?>
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Conexões Realizadas</h5>
+                    </div>
+                    <div class="card-body">
+                        <?php if (count($conexoes) > 0): ?>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>ID Conexão</th>
+                                            <th>Nome do Desenvolvedor</th>
+                                            <th>Email</th>
+                                            <th>Telefone</th>
+                                            <th>Data</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($conexoes as $conexao): ?>
+                                            <tr>
+                                                <td><?= $conexao['id_conexao'] ?></td>
+                                                <td><?= htmlspecialchars($conexao['nome_desenvolvedor']) ?></td>
+                                                <td><?= htmlspecialchars($conexao['email_desenvolvedor']) ?></td>
+                                                <td><?= htmlspecialchars($conexao['telefone_desenvolvedor']) ?></td>
+                                                <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?>
+                                                </td>
+                                                <!-- Botão concluir -->
+                                                <td>
+                                                   <?php if ($conexao['status_conexao'] === 'aceita'): ?>
+                                                        <button class="btn btn-danger btn-encerrar"
+                                                            data-id="<?= $conexao['id_conexao'] ?>">
+                                                            Encerrar
+                                                        </button>
+                                                        <button class="btn btn-success btn-concluir"
+                                                            data-id="<?= $conexao['id_conexao'] ?>">
+                                                            Concluir
+                                                        </button>
+                                                    <?php else: ?>
+                                                        <span
+                                                            class="badge bg-secondary"><?= ucfirst($conexao['status_conexao']) ?></span>
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                            <!-- Modal Encerramento -->
+                                            <div class="modal fade" id="modalEncerrar" tabindex="-1">
+                                                <div class="modal-dialog">
+                                                    <form method="POST" action="gerenciar_conexao.php">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header bg-danger text-white">
+                                                                <h5 class="modal-title">Encerrar Conexão</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input type="hidden" name="id_conexao" id="encerrarId">
+                                                                <input type="hidden" name="acao" value="encerrar">
+                                                                <label>Justificativa</label>
+                                                                <textarea class="form-control" name="justificativa"
+                                                                    required></textarea>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-danger">Encerrar</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php else: ?>
+                            <div class="alert alert-info mt-3">Nenhuma conexão realizada ainda.</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </article>
         </main>
 

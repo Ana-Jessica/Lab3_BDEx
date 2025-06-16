@@ -56,11 +56,12 @@ $conexoes = [];
 $sql_conexoes = "
 SELECT 
     c.id_conexao,
+    c.status_conexao,
     e.nome_empresa,
     e.email_empresa,
     e.telefone_empresa,
     c.data_conexao
-FROM conexao c
+FROM Conexao c
 INNER JOIN empresa e ON c.id_empresa = e.id_empresa
 WHERE c.id_desenvolvedor = ?
 ORDER BY c.data_conexao DESC
@@ -267,32 +268,44 @@ if ($stmt_conexoes) {
 
       </article>
 
-      <article class="artconexoes" style="display: none;">
-        <?php if (count($conexoes) > 0): ?>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>ID Conexão</th>
-                <th>Nome da empresa</th>
-                <th>Email</th>
-                <th>Data</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($conexoes as $conexao): ?>
-                <tr>
-                  <td><?= $conexao['id_conexao'] ?></td>
-                  <td><?= htmlspecialchars($conexao['nome_empresa']) ?></td>
-                  <td><?= htmlspecialchars($conexao['email_empresa']) ?></td>
-                  <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
-                </tr>
-                
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-        <?php else: ?>
-          <div class="alert alert-info mt-4">Nenhuma conexão realizada ainda.</div>
-        <?php endif; ?>
+ <article class="artconexoes" style="display: none;">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Conexões Realizadas</h5>
+          </div>
+          <div class="card-body">
+            <?php if (count($conexoes) > 0): ?>
+              <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                  <thead class="table-light">
+                    <tr>
+                      <th>ID Conexão</th>
+                      <th>Status da Conexão</th>
+                      <th>Nome da Empresa</th>
+                      <th>Email</th>
+                      <th>Telefone</th>
+                      <th>Data</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($conexoes as $conexao): ?>
+                      <tr>
+                        <td><?= $conexao['id_conexao'] ?></td>
+                        <td><?= htmlspecialchars($conexao['status_conexao']) ?></td>
+                        <td><?= htmlspecialchars($conexao['nome_empresa']) ?></td>
+                        <td><?= htmlspecialchars($conexao['email_empresa']) ?></td>
+                        <td><?= htmlspecialchars($conexao['telefone_empresa']) ?></td>
+                        <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            <?php else: ?>
+              <div class="alert alert-info mt-3">Nenhuma conexão realizada ainda.</div>
+            <?php endif; ?>
+          </div>
+        </div>
       </article>
 
       <div class="modalsenha">
@@ -321,9 +334,6 @@ if ($stmt_conexoes) {
 
       </article>
 
-      <article class="artconexoes" style="display: none;">
-        <!-- Em breve: Minhas conexões -->
-      </article>
 
       <div class="modalsenha">
         <form class="modaleditarsenha" action="../server/conexao/criar_vaga.php" method="POST">
