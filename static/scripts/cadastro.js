@@ -27,3 +27,21 @@ document.addEventListener('DOMContentLoaded', function () {
             }
          });
       });
+
+window.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const erro = params.get("erro");
+  const sucesso = params.get("sucesso");
+
+  if (erro) {
+    const div = document.getElementById("mensagem-erro");
+    div.textContent = decodeURIComponent(erro);
+    div.style.display = "block";
+  }
+
+  if (sucesso) {
+    const div = document.getElementById("mensagem-sucesso");
+    div.textContent = decodeURIComponent(sucesso);
+    div.style.display = "block";
+  }
+});

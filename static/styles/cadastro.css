@@ -175,3 +175,14 @@
     justify-content: center;
     padding-left: 20px;
 }
+
+.mensagem-erro {
+  color: #a33;
+  background-color: #f9dede;
+  border-left: 4px solid #e57373;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}

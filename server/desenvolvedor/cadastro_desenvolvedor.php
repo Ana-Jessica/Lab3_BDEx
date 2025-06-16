@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
-        
+
         if ($stmt->num_rows > 0) {
             throw new Exception('Este email já foi cadastrado!');
         }
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
-        
+
         if ($stmt->num_rows > 0) {
             throw new Exception('Este email já foi cadastrado!');
         }
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("s", $cpf);
         $stmt->execute();
         $stmt->store_result();
-        
+
         if ($stmt->num_rows > 0) {
             throw new Exception('Este CPF já foi cadastrado!');
         }
@@ -67,19 +67,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $conn->prepare("INSERT INTO desenvolvedor 
             (nome_desenvolvedor, telefone_desenvolvedor, email_desenvolvedor, endereco_desenvolvedor, cpf_desenvolvedor, skills_desenvolvedor, senha_desenvolvedor) 
             VALUES (?, ?, ?, ?, ?, ?, ?)");
-        
-        $stmt->bind_param("sssssss", $nome, $telefone, $email, $endereco, $cpf, $skills, $senha_hash);
 
+        $stmt->bind_param("sssssss", $nome, $telefone, $email, $endereco, $cpf, $skills, $senha_hash);
         if ($stmt->execute()) {
-            echo "<script>alert('Desenvolvedor Cadastrado com exito!'); window.location.href = '../../templates/pglogin.html'</script>";
+            $sucesso = urlencode("Desenvolvedor cadastrado com êxito!");
+            header("Location: ../../templates/pglogin.html?sucesso=$sucesso");
+            exit();
         } else {
             throw new Exception('Erro ao cadastrar desenvolvedor!');
         }
 
     } catch (Exception $e) {
-        echo "<script>alert('".addslashes($e->getMessage())."'); window.history.back();</script>";
+        $mensagem = urlencode($e->getMessage());
+        header("Location: ../../templates/cadastro.html?erro=$mensagem");
+        exit();
+
     } finally {
-        if (isset($stmt)) $stmt->close();
+        if (isset($stmt))
+            $stmt->close();
         $conn->close();
     }
 } else {

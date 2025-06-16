@@ -12,3 +12,4 @@ document.getElementById('manual').addEventListener('click', function() {
 document.getElementById('logon_dev').addEventListener('click', function() {
     window.location.href = 'pglogin.html';
 });
+

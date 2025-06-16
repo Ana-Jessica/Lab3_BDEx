@@ -342,3 +342,14 @@ input:checked+.slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.mensagem-sucesso {
+  background-color: #e6ffed;
+  color: #2d7a46;
+  border-left: 4px solid #4caf50;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
