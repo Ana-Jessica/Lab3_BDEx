@@ -56,13 +56,12 @@ $conexoes = [];
 $sql_conexoes = "
 SELECT 
     c.id_conexao,
-    c.status_conexao,
     e.nome_empresa,
     e.email_empresa,
     e.telefone_empresa,
     c.data_conexao
 FROM Conexao c
-INNER JOIN empresa e ON c.id_empresa = e.id_empresa
+INNER JOIN Empresa e ON c.id_empresa = e.id_empresa
 WHERE c.id_desenvolvedor = ?
 ORDER BY c.data_conexao DESC
 ";
@@ -76,7 +75,7 @@ if ($stmt_conexoes) {
   while ($row = $result_conexoes->fetch_assoc()) {
     $conexoes[] = $row;
   }
-  $qtd_conexoes = count($conexoes);
+
   $stmt_conexoes->close();
 } else {
   error_log("Erro ao buscar conexões: " . $conn->error);
@@ -139,21 +138,19 @@ if ($stmt_conexoes) {
         </li>
 
 
-        <li class="item liconexoes">Minhas conexões
-          <i class="people bi bi-people-fill">
-            <?php if ($qtd_conexoes > 0): ?>
-              <div class="conexao-qtd">
-                <?= $qtd_conexoes ?>
-              </div>
-            <?php endif; ?>
-          </i>
+        <li >Minhas conexões
+          <i class="people bi bi-people-fill"></i>
         </li>
 
-        <a class="item liconexoes">desativar conta
-          <i class="bi bi-person-x"></i>
-        </a>
-
-
+      
+         <!-- PARTE DE DESATIVAÇÃO DE CONTA  -->
+           <!-- inclui id    -giulia-->
+            <a  class="item liconexoes" href=" ../server/usuarios/desativarConta.php" id="desativarContaLink"
+            onclick="return confirm('Quer desativar sua conta? Você poderá reativá-la fazendo login novamente.');">
+            Desativar Conta
+             <i class="bi bi-person-x"></i>
+          </a>
+         <!-- até aqui  -->
 
       </ul>
     </nav>
@@ -184,18 +181,17 @@ if ($stmt_conexoes) {
               <input value="<?= htmlspecialchars($email) ?>" type="text" placeholder="Digite seu e-mail"
                 id="email_desenvolvedor" name="email_desenvolvedor" required>
             </div>
-            <!-- <br> -->
-            <!-- <div class="box-input">
+            <br>
+            <div class="box-input">
               <label for="cpf_desenvolvedor">CPF:</label>
               <input value="<?= htmlspecialchars($cpf) ?>" type="text" placeholder="Digite seu CPF:"
                 id="cpf_desenvolvedor" name="cpf_desenvolvedor" required>
-            </div> -->
+            </div>
             <br>
 
             <div class="box-input">
               <label for="skills_desenvolvedor">Skills:</label>
-              <textarea placeholder="Digite seus conhecimentos:" id="skills_desenvolvedor" name="skills_desenvolvedor"
-                required>
+              <textarea placeholder="Digite seus conhecimentos:" id="skills_desenvolvedor" name="skills_desenvolvedor" required>
               <?= htmlspecialchars($skills) ?>
               </textarea>
             </div>
@@ -212,99 +208,45 @@ if ($stmt_conexoes) {
         </form>
       </article>
 
-      <article class="artconectar" style="display: flex; flex-direction: column;">
-        <h2>Vagas Disponíveis</h2>
-        <form method="GET" action="" class="mb-4" style="width: 100%;">
-          <div class="input-group">
-            <input type="text" name="skills" class="form-control" placeholder="Filtrar por skills (separar com vírgula)"
-              value="<?= htmlspecialchars($_GET['skills'] ?? '') ?>">
-            <button type="submit" class="btn btn-primary">Filtrar</button>
-            <button type="button" onclick="window.location.href='?'" class="btn btn-secondary">
-              Limpar
-            </button>
-          </div>
-        </form>
-
+      <article class="artconectar" style="display: flex;">
+        <h2>Vagas Diponiveis</h2>
         <div class="vagas-lista">
           <?php
           if (isset($_SESSION['id'])) {
-            $where = "WHERE vaga.status_vaga = 'ativa'";
-            $params = [];
-            $types = '';
-
-            if (!empty($_GET['skills'])) {
-              $skills = trim($_GET['skills']);
-              $keywords = preg_split('/[,;]\s*/', $skills);
-
-              if (!empty($keywords)) {
-                $skillConditions = [];
-                foreach ($keywords as $keyword) {
-                  $skillConditions[] = "vaga.descricao_vaga LIKE ?";
-                  $params[] = '%' . $keyword . '%';
-                  $types .= 's';
-                }
-                $where .= " AND (" . implode(' OR ', $skillConditions) . ")";
-              }
-            }
-
+            // Consulta todas as vagas com os nomes das empresas
             $sql = "SELECT vaga.*, empresa.nome_empresa 
-                    FROM vaga 
-                    INNER JOIN empresa ON vaga.id_empresa = empresa.id_empresa
-                    $where
-                    ORDER BY vaga.data_publicacao DESC";
+            FROM vaga 
+            INNER JOIN empresa ON vaga.id_empresa = empresa.id_empresa";
 
             $stmt = mysqli_prepare($conn, $sql);
-
-            if (!empty($params)) {
-              mysqli_stmt_bind_param($stmt, $types, ...$params);
-            }
-
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
 
-            // Primeiro armazenamos todas as vagas em um array
-            $vagas = [];
-            while ($vaga = mysqli_fetch_assoc($result)) {
-              $vagas[] = $vaga;
-            }
-
-            $total_vagas = count($vagas);
-
-            echo "<p style='text-align: center; width: 100%; margin-bottom: 20px;'>";
-            echo $total_vagas . " vaga(s) encontrada(s)";
-            if (!empty($_GET['skills'])) {
-              echo " para: " . htmlspecialchars($_GET['skills']);
-            }
-            echo "</p>";
-
-            if ($total_vagas > 0) {
-              foreach ($vagas as $vaga) {
+            if (mysqli_num_rows($result) > 0) {
+              while ($vaga = mysqli_fetch_assoc($result)) {
                 echo "<div class='card border-primary mb-3' style='width: 300px; margin: 10px; display: inline-block;'>
-                        <div class='card-body'>
-                            <h5 class='card-title text-primary'>" . htmlspecialchars($vaga['titulo_vaga']) . "</h5></br>
-                            <h6 class='card-subtitle mb-2 text-muted'>Empresa:<b> " . htmlspecialchars($vaga['nome_empresa']) . "</b></h6>
-                            <h6 class='card-subtitle mb-2 text-muted'>Publicada em: " . htmlspecialchars($vaga['data_publicacao']) . "</h6>
-                            <p class='card-text'>" . htmlspecialchars($vaga['descricao_vaga']) . "</p>
-                            <p class='card-text'>
-                                <strong>Oferta Salarial:</strong> " .
+                    <div class='card-body'>
+                        <h5 class='card-title text-primary'>" . htmlspecialchars($vaga['titulo_vaga']) . "</h5></br>
+                        <h6 class='card-subtitle mb-2 text-muted'>Empresa:<b> " . htmlspecialchars($vaga['nome_empresa']) . "</b></h6>
+                        <h6 class='card-subtitle mb-2 text-muted'>Publicada em: " . htmlspecialchars($vaga['data_publicacao']) . "</h6>
+                        <p class='card-text'>" . htmlspecialchars($vaga['descricao_vaga']) . "</p>
+                        <p class='card-text'>
+                            <strong>Oferta Salarial:</strong> " .
                   ($vaga['valor_oferta']
                     ? 'R$ ' . number_format($vaga['valor_oferta'], 2, ',', '.')
                     : '—') . "
-                            </p>
-                            <div style='display: flex; justify-content: center; gap: 10px;'>
-                                <a href='../server/conexao/candidatar.php?id=" . $vaga['id_vaga'] . "' class='btn btn-success'>
-                                    <i class='bi bi-person-check'></i> Candidatar-se
-                                </a>
-                            </div>
+                        </p>
+                        <div style='display: flex; justify-content: center; gap: 10px;'>
+                            <a href='../server/conexao/candidatar.php?id=" . $vaga['id_vaga'] . "' class='btn btn-success'>
+                                <i class='bi bi-person-check'></i> Candidatar-se
+                            </a>
+                            
                         </div>
-                    </div>";
+                    </div>
+                </div>";
               }
             } else {
-              $mensagem = "Nenhuma vaga disponível no momento.";
-              if (!empty($_GET['skills'])) {
-                $mensagem = "Nenhuma vaga encontrada com os filtros aplicados.";
-              }
-              echo "<p style='text-align: center; width: 100%;'>$mensagem</p>";
+              echo "<p style='text-align: center; width: 100%;'>Nenhuma vaga disponível no momento.</p>";
             }
 
             mysqli_stmt_close($stmt);
@@ -312,49 +254,38 @@ if ($stmt_conexoes) {
             echo "<p style='text-align: center; width: 100%;'>Usuário não autenticado.</p>";
           }
           ?>
+
         </div>
+
+
       </article>
 
       <article class="artconexoes" style="display: none;">
-        <div class="card shadow mb-4">
-          <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Conexões Realizadas</h5>
-          </div>
-          <div class="card-body">
-            <?php if (count($conexoes) > 0): ?>
-              <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
-                  <thead class="table-light">
-                    <tr>
-                      <th>ID Conexão</th>
-                      <th>Status da Conexão</th>
-                      <th>Nome da Empresa</th>
-                      <th>Email</th>
-                      <th>Telefone</th>
-                      <th>Data</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php foreach ($conexoes as $conexao): ?>
-                      <tr>
-                        <td><?= $conexao['id_conexao'] ?></td>
-                        <td><?= htmlspecialchars($conexao['status_conexao']) ?></td>
-                        <td><?= htmlspecialchars($conexao['nome_empresa']) ?></td>
-                        <td><?= htmlspecialchars($conexao['email_empresa']) ?></td>
-                        <td><?= htmlspecialchars($conexao['telefone_empresa']) ?></td>
-                        <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
-                      </tr>
-                    <?php endforeach; ?>
-                  </tbody>
-                </table>
-              </div>
-            <?php else: ?>
-              <div class="alert alert-info mt-3">Nenhuma conexão realizada ainda.</div>
-            <?php endif; ?>
-          </div>
-        </div>
+        <?php if (count($conexoes) > 0): ?>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID Conexão</th>
+                <th>Nome da empresa</th>
+                <th>Email</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($conexoes as $conexao): ?>
+                <tr>
+                  <td><?= $conexao['id_conexao'] ?></td>
+                  <td><?= htmlspecialchars($conexao['nome_empresa']) ?></td>
+                  <td><?= htmlspecialchars($conexao['email_empresa']) ?></td>
+                  <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        <?php else: ?>
+          <div class="alert alert-info mt-4">Nenhuma conexão realizada ainda.</div>
+        <?php endif; ?>
       </article>
-
 
       <div class="modalsenha">
         <form class="modaleditarsenha" action="../server/conexao/criar_vaga.php" method="POST">
@@ -367,7 +298,8 @@ if ($stmt_conexoes) {
           </div>
           <div class="box-input">
             <label for="">Nova senha:</label>
-            <input type="password" name="descricao_vaga" placeholder="Digite a nova senha">
+            <input type="password" name="descricao_vaga"
+              placeholder="Digite a nova senha">
           </div>
           <div class="box-input">
             <label for="">Repetir nova senha</label>
@@ -418,7 +350,7 @@ if ($stmt_conexoes) {
   <?php if ($exibir_toast_solicitar): ?>
     <div id="toast">foi realizada uma solicitacao de vaga</div>
   <?php endif; ?>
-
+  
   <?php if ($exibir_toast_solicitar_aviso): ?>
     <div id="toast_aviso">essa vaga ja recebeu sua solicitacao</div>
   <?php endif; ?>
@@ -437,7 +369,18 @@ if ($stmt_conexoes) {
       </div>
     </div>
   </div>
-
+    
+    <!-- new script-giulia  -->
+    <script>
+    document.getElementById('desativarContaLink').addEventListener('click', function(e) {
+        e.preventDefault(); // Impede o comportamento padrão do link
+        
+        if(confirm('Tem certeza que deseja desativar sua conta?')) {
+            // Redireciona diretamente para o script PHP
+            window.location.href = '../server/usuarios/desativarConta.php?acao=desativar';
+    }
+});
+</script>
   <script src="../static/scripts/toast.js"></script>
   <!--  Fim toast -->
   <script src="../static/scripts/dash_desenvolvedor.js"></script>

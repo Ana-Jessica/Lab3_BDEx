@@ -18,3 +18,5 @@ if (isset($_COOKIE['tipo'])) {
 // Redireciona pro login
 header("Location: ../../templates/pglogin.html");
 exit();
+
+?>

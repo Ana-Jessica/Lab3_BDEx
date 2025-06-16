@@ -19,10 +19,7 @@ CREATE TABLE IF NOT EXISTS empresa (
      token_reativacao VARCHAR(64) NULL,
     --  mudança abaixo
      reativacao_expira DATETIME NULL,
-     -- adcionando campos-envio de e-mail
-    token_email VARCHAR(255),
-    email_confirmado BOOLEAN DEFAULT FALSE,
-    time_envio_token DATETIME
+     -- adcionando campos-envio de e-mail na tabela reset_tokens
 
 );
 
@@ -42,10 +39,7 @@ CREATE TABLE IF NOT EXISTS desenvolvedor (
      token_reativacao VARCHAR(64) NULL,
     --  mudança abaixo
     reativacao_expira DATETIME NULL,
-       -- adcionando campos-envio de e-mail
-    token_email VARCHAR(255),
-    email_confirmado BOOLEAN DEFAULT FALSE,
-    time_envio_token DATETIME
+       -- adcionando campos-envio de e-mail na table reset_tokens
 );
 
 -- Tabela para vagas
@@ -79,8 +73,7 @@ CREATE TABLE IF NOT EXISTS conexao (
     id_desenvolvedor INT NOT NULL,
     id_vaga INT NOT NULL,
     data_conexao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status_conexao ENUM('aceita', 'encerrada', 'concluida') DEFAULT 'aceita',
-    justificativa TEXT NULL,
+    status_conexao ENUM('aceita', 'encerrada') DEFAULT 'aceita',
     FOREIGN KEY (id_empresa) REFERENCES empresa(id_empresa) ON DELETE CASCADE,
     FOREIGN KEY (id_desenvolvedor) REFERENCES desenvolvedor(id_desenvolvedor) ON DELETE CASCADE,
     FOREIGN KEY (id_vaga) REFERENCES vaga(id_vaga) ON DELETE CASCADE
@@ -88,10 +81,11 @@ CREATE TABLE IF NOT EXISTS conexao (
 
 -- Tabela para tokens de redefinição de senha
 CREATE TABLE IF NOT EXISTS tokens_reset_senha (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(255) NOT NULL,
-    token VARCHAR(255) NOT NULL,
+    id_tokenEmail INT PRIMARY KEY AUTO_INCREMENT,
+    email_envio VARCHAR(255) NOT NULL,
+    token_email VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL,
     expires_at DATETIME NOT NULL,
-    INDEX (token)
+    INDEX idx_token (token),
+    INDEX idx_email (email)
 );

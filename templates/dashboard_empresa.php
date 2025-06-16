@@ -1,41 +1,37 @@
 <?php
 session_start();
+
 include_once("../server/conexao.php");
 include_once("../server/autenticacao/auth.php");
 
 // Para aparecer o toast de sucesso
-$exibir_toast_vagacriada = false;
 $exibir_toast_editar = false;
 $exibir_toast_bem_vindo = false;
 $exibir_toast_conexao_criada = false;
 $exibir_toast_conexao_jaexiste = false;
 
 
-if (isset($_SESSION['vagacriada'])) {
-    $exibir_toast_vagacriada = true;
-    unset($_SESSION['vagacriada']); // evita repetição
-}
 if (isset($_SESSION['editado_sucesso'])) {
-    $exibir_toast_editar = true;
-    unset($_SESSION['editado_sucesso']); // evita repetição
+  $exibir_toast_editar = true;
+  unset($_SESSION['editado_sucesso']); // evita repetição
 }
 
 
 if (isset($_SESSION['bem_vindoo'])) {
-    $exibir_toast_bem_vindo = true;
-    unset($_SESSION['bem_vindoo']); // evita repetição
+  $exibir_toast_bem_vindo = true;
+  unset($_SESSION['bem_vindoo']); // evita repetição
 }
 
 if (isset($_SESSION['conexao_criada'])) {
-    $exibir_toast_conexao_criada = true;
-    unset($_SESSION['conexao_criada']); // evita repetição
+  $exibir_toast_conexao_criada = true;
+  unset($_SESSION['conexao_criada']); // evita repetição
 }
-
+ 
 if (isset($_SESSION['conexao_jaexiste'])) {
-    $exibir_toast_conexao_jaexiste = true;
-    unset($_SESSION['conexao_jaexiste']); // evita repetição
+  $exibir_toast_conexao_jaexiste = true;
+  unset($_SESSION['conexao_jaexiste']); // evita repetição
 }
-
+ 
 
 // Verifica se está logado e se é uma empresa
 if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'empresa') {
@@ -64,7 +60,6 @@ if ($stmt) {
 }
 
 // Buscar solicitações
-// Buscar solicitações
 $solicitacoes = [];
 
 $sql = "
@@ -81,7 +76,7 @@ SELECT
 FROM solicitacao s
 INNER JOIN vaga v ON s.id_vaga = v.id_vaga
 INNER JOIN desenvolvedor d ON s.id_desenvolvedor = d.id_desenvolvedor
-WHERE v.id_empresa = ? AND s.status_solicitacao = 'pendente'
+WHERE v.id_empresa = ?
 ORDER BY s.id_solicitacao DESC
 ";
 
@@ -93,7 +88,6 @@ if ($stmt) {
     while ($row = $result->fetch_assoc()) {
         $solicitacoes[] = $row;
     }
-    $qtd_solicitacoes = count($solicitacoes);
     $stmt->close();
 } else {
     error_log("Erro ao buscar solicitações: " . $conn->error);
@@ -127,8 +121,6 @@ if ($stmt_conexoes) {
     while ($row = $result_conexoes->fetch_assoc()) {
         $conexoes[] = $row;
     }
-    $qtd_conexoes = count($conexoes);
-
     $stmt_conexoes->close();
 } else {
     error_log("Erro ao buscar conexões: " . $conn->error);
@@ -185,76 +177,73 @@ if ($stmt_conexoes) {
                 <br />
                 <li class="item lisolicitacoes">
                     Solicitações
-                    <i class="brief bi bi-envelope-open-fill">
-                        <?php if ($qtd_solicitacoes > 0): ?>
-                            <div class="conexao-qtd">
-                                <?= $qtd_solicitacoes ?>
-                            </div>
-                        <?php endif; ?>
-                    </i>
+                    <i class="brief bi bi-envelope-open-fill"></i>
                 </li>
                 <br />
                 <li class="item liconexoes">
                     Conexões
-                    <i class="brief bi bi-people-fill"><?php if ($qtd_conexoes > 0): ?>
-                            <div class="conexao-qtd">
-                                <?= $qtd_conexoes ?>
-                            </div>
-                        <?php endif; ?>
-                    </i>
-
-
+                    <i class="brief bi bi-people-fill"></i>
                 </li>
                 <br />
-            </ul>
 
+         <!-- PARTE DE DESATIVAÇÃO DE CONTA  -->
+           <!-- inclui id    -giulia-->
+            <a  class="item liconexoes" href=" ../server/usuarios/desativarConta.php" id="desativarContaLink"
+            onclick="return confirm('Quer desativar sua conta? Você poderá reativá-la fazendo login novamente.');">
+            Desativar Conta
+             <i class="bi bi-person-x"></i>
+          </a>
+         <!-- até aqui  -->
+
+            </ul>
         </nav>
         <main>
             <article class="artcadastro" style="display: none;">
                 <!-- Editar dados da empresa -->
                 <form id="formEditar" action="../server/empresa/EditUserEmpresa.php" method="POST">
-                    <box-inputset>
-                        <legend>
-                            <h1><b>Editar dados da Empresa</b></h1>
-                        </legend>
-                        <br />
+                <box-inputset>
+                    <legend>
+                        <h1><b>Editar dados da Empresa</b></h1>
+                    </legend>
+                    <br />
 
-                        <div class="box-input">
-                            <label for="nome_empresa">Nome:</label>
-                            <input type="text" placeholder="Digite o nome da Empresa" id="nome_empresa"
-                                name="nome_empresa" required value="<?= htmlspecialchars($nome_empresa) ?>">
-                        </div>
-                        <br>
+                    <div class="box-input">
+                        <label for="nome_empresa">Nome:</label>
+                        <input type="text" placeholder="Digite o nome da Empresa" id="nome_empresa" name="nome_empresa"
+                            required value="<?= htmlspecialchars($nome_empresa) ?>">
+                    </div>
+                    <br>
 
-                        <div class="box-input">
-                            <label for="endereco_empresa">Endereço:</label>
-                            <input type="text" placeholder="Digite seu endereço" id="endereco_empresa"
-                                name="endereco_empresa" required value="<?= htmlspecialchars($endereco_empresa) ?>">
-                        </div>
-                        <br>
+                    <div class="box-input">
+                        <label for="endereco_empresa">Endereço:</label>
+                        <input type="text" placeholder="Digite seu endereço" id="endereco_empresa"
+                            name="endereco_empresa" required value="<?= htmlspecialchars($endereco_empresa) ?>">
+                    </div>
+                    <br>
 
-                        <div class="box-input">
-                            <label for="email_empresa">Email:</label>
-                            <input type="email" placeholder="Digite seu e-mail" id="email_empresa" name="email_empresa"
-                                required value="<?= htmlspecialchars($email_empresa) ?>">
-                        </div>
-                        <br>
+                    <div class="box-input">
+                        <label for="email_empresa">Email:</label>
+                        <input type="email" placeholder="Digite seu e-mail" id="email_empresa" name="email_empresa"
+                            required value="<?= htmlspecialchars($email_empresa) ?>">
+                    </div>
+                    <br>
 
-                        <div class="box-input">
-                            <label for="telefone_empresa">Telefone:</label>
-                            <input type="text" placeholder="Digite seu telefone" id="telefone_empresa"
-                                name="telefone_empresa" required value="<?= htmlspecialchars($telefone_empresa) ?>">
-                        </div>
-                        <br>
+                    <div class="box-input">
+                        <label for="telefone_empresa">Telefone:</label>
+                        <input type="text" placeholder="Digite seu telefone" id="telefone_empresa"
+                            name="telefone_empresa" required value="<?= htmlspecialchars($telefone_empresa) ?>">
+                    </div>
+                    <br>
 
 
-                        <a href="Desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
-                        <br />
+                    <a href="Desativar_conta.php" onclick="return confirmarEncerramento()">Desativar Conta</a>
+                    <br />
 
-                        <!-- CRIAR MODAL SOBRE -->
-                        <button type="button" id="update" name="update" class="btneditar">Editar</button>
-                    </box-inputset>
-                </form>
+                    <!-- CRIAR MODAL SOBRE -->
+                    <button type="button" id="update" name="update"
+                        class="btneditar">Editar</button>
+                </box-inputset>
+            </form>
             </article>
 
             <article class="artvagas" style="display: flex;">
@@ -381,41 +370,45 @@ if ($stmt_conexoes) {
             </article>
 
             <article class="artsolicitacoes" style="display: none;">
-                <div class="card shadow mb-4">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">Solicitações Recebidas</h5>
-                    </div>
-                    <div class="card-body">
-                        <?php if (count($solicitacoes) > 0): ?>
-                            <ul class="list-group">
-                                <?php foreach ($solicitacoes as $sol): ?>
-                                    <li
-                                        class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                                        <div>
-                                            <strong><?= htmlspecialchars($sol['nome_desenvolvedor']) ?></strong><br>
-                                            <small>Email: <?= htmlspecialchars($sol['email_desenvolvedor']) ?> |
-                                                Conhecimentos: <?= htmlspecialchars($sol['skills_desenvolvedor']) ?></small>
-                                        </div>
-                                        <div class="mt-2 mt-md-0 d-flex gap-2">
-                                            <button class="btn btn-success btn-conectar" data-id-vaga="<?= $sol['id_vaga'] ?>"
-                                                data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
-                                                Conectar <i class="bi bi-person-check-fill"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-cancelar" data-id-vaga="<?= $sol['id_vaga'] ?>"
-                                                data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>"
-                                                data-id-solicitacao="<?= $sol['id_solicitacao'] ?>">
-                                                Rejeitar <i class="bi bi-person-dash-fill"></i>
-                                            </button>
-                                        </div>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php else: ?>
-                            <div class="alert alert-info mt-3">Nenhuma solicitação recebida no momento.</div>
-                        <?php endif; ?>
-                    </div>
-                </div>
+                <h2>Minhas Solicitações</h2>
+                <table class="tabela-solicitacoes">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título da vaga</th>
+                            <th>Nome do Candidato</th>
+                            <th>Skills do Candidato</th>
+                            <th>Data da solicitação</th>
+                           
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($solicitacoes as $sol): ?>
+                            <tr style="text-align: center;">
+                                <td><?= htmlspecialchars($sol['id_solicitacao']) ?></td>
+                                <td><b><?= htmlspecialchars($sol['titulo_vaga']) ?></b></td>
+                                <td> <?= htmlspecialchars($sol['nome_desenvolvedor']) ?></td>
+                                <td> <?= htmlspecialchars($sol['skills_desenvolvedor']) ?></td>
+                                <td><?= htmlspecialchars($sol['data_solicitacao'] ?? 'Data indefinida') ?></td>
+                              
+                                <td><span class="status pendente"><?= htmlspecialchars($sol['status_solicitacao']) ?></span>
+                                </td>
+                                <td class="ldld">
+                                    <button class="btn-conectar" data-id-vaga="<?= $sol['id_vaga'] ?>"
+                                        data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
+                                        Conectar <i class="bi bi-person-fill-add"></i>
+                                    </button>
+                                    <button class="btn-cancelar" data-id-vaga="<?= $sol['id_vaga'] ?>"
+                                        data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
+                                        Rejeitar <i class="bi bi-person-fill-dash"></i>
+                                    </button>
 
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
                 </table>
                 <div class="modal-candidatos" style="display: none;">
                     <div class="modal-content">
@@ -435,120 +428,76 @@ if ($stmt_conexoes) {
             </article>
 
             <article class="artconexoes" style="display: none;">
-                <div class="card shadow mb-4">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">Conexões Realizadas</h5>
-                    </div>
-                    <div class="card-body">
-                        <?php if (count($conexoes) > 0): ?>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover align-middle">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>ID Conexão</th>
-                                            <th>Nome do Desenvolvedor</th>
-                                            <th>Email</th>
-                                            <th>Telefone</th>
-                                            <th>Data</th>
-                                            <th>Ação</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($conexoes as $conexao): ?>
-                                            <tr>
-                                                <td><?= $conexao['id_conexao'] ?></td>
-                                                <td><?= htmlspecialchars($conexao['nome_desenvolvedor']) ?></td>
-                                                <td><?= htmlspecialchars($conexao['email_desenvolvedor']) ?></td>
-                                                <td><?= htmlspecialchars($conexao['telefone_desenvolvedor']) ?></td>
-                                                <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?>
-                                                </td>
-                                                <!-- Botão concluir -->
-                                                <td>
-                                                   <?php if ($conexao['status_conexao'] === 'aceita'): ?>
-                                                        <button class="btn btn-danger btn-encerrar"
-                                                            data-id="<?= $conexao['id_conexao'] ?>">
-                                                            Encerrar
-                                                        </button>
-                                                        <button class="btn btn-success btn-concluir"
-                                                            data-id="<?= $conexao['id_conexao'] ?>">
-                                                            Concluir
-                                                        </button>
-                                                    <?php else: ?>
-                                                        <span
-                                                            class="badge bg-secondary"><?= ucfirst($conexao['status_conexao']) ?></span>
-                                                    <?php endif; ?>
-                                                </td>
-                                            </tr>
-                                            <!-- Modal Encerramento -->
-                                            <div class="modal fade" id="modalEncerrar" tabindex="-1">
-                                                <div class="modal-dialog">
-                                                    <form method="POST" action="gerenciar_conexao.php">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header bg-danger text-white">
-                                                                <h5 class="modal-title">Encerrar Conexão</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <input type="hidden" name="id_conexao" id="encerrarId">
-                                                                <input type="hidden" name="acao" value="encerrar">
-                                                                <label>Justificativa</label>
-                                                                <textarea class="form-control" name="justificativa"
-                                                                    required></textarea>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-danger">Encerrar</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <?php else: ?>
-                            <div class="alert alert-info mt-3">Nenhuma conexão realizada ainda.</div>
-                        <?php endif; ?>
-                    </div>
-                </div>
+                <?php if (count($conexoes) > 0): ?>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID Conexão</th>
+                                <th>Nome da empresa</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($conexoes as $conexao): ?>
+                                <tr>
+                                    <td><?= $conexao['id_conexao'] ?></td>
+                                    <td><?= htmlspecialchars($conexao['nome_desenvolvedor']) ?></td>
+                                    <td><?= htmlspecialchars($conexao['email_desenvolvedor']) ?></td>
+                                    <td><?= htmlspecialchars($conexao['telefone_desenvolvedor']) ?></td>
+                                    <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($conexao['data_conexao']))) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <div class="alert alert-info mt-4">Nenhuma conexão realizada ainda.</div>
+                <?php endif; ?>
             </article>
         </main>
 
-        <!-- Tost com notificação que os dados foram editados -->
-        <?php if ($exibir_toast_vagacriada): ?>
-            <div id="toast_bemvindo">uma vaga foi criada</div>
-        <?php endif; ?>
-
+          <!-- Tost com notificação que os dados foram editados -->
         <?php if ($exibir_toast_editar): ?>
             <div id="toast">os dados de <?= htmlspecialchars($nome_empresa) ?> foram alterados</div>
         <?php endif; ?>
 
-
+ 
         <?php if ($exibir_toast_conexao_criada): ?>
-            <div id="toast"> foi criada uma conexão </div>
-        <?php endif; ?>
+           <div id="toast"> foi criada uma conexão  </div>
+         <?php endif; ?>
 
         <?php if ($exibir_toast_conexao_jaexiste): ?>
-            <div id="toast_aviso">essa conexao já foi aceita </div>
-        <?php endif; ?>
+           <div id="toast_aviso">essa conexao já foi aceita </div>
+         <?php endif; ?>
 
-        <!-- modal editar -->
+           <!-- modal editar -->
         <div class="modal_default">
             <div class="modal-content">
-                <p id="modalMensagem">Tem certeza de que deseja editar os dados?<br>Verifique se estão corretos.</p>
-                <div class="modal-buttons">
-                    <button id="btnconfirmar" onclick="confirmarModal(true)">Confirmar</button>
-                    <button id="btncancelar" onclick="confirmarModal(false)">Cancelar</button>
-                </div>
+            <p id="modalMensagem">Tem certeza de que deseja editar os dados?<br>Verifique se estão corretos.</p>
+            <div class="modal-buttons">
+                <button id="btnconfirmar" onclick="confirmarModal(true)">Confirmar</button>
+                <button id="btncancelar" onclick="confirmarModal(false)">Cancelar</button>
+            </div>
             </div>
         </div>
 
     </div>
+         <!-- new script-giulia  -->
+    <script>
+    document.getElementById('desativarContaLink').addEventListener('click', function(e) {
+        e.preventDefault(); // Impede o comportamento padrão do link
+        
+        if(confirm('Tem certeza que deseja desativar sua conta?')) {
+            // Redireciona diretamente para o script PHP
+            window.location.href = '../server/usuarios/desativarConta.php?acao=desativar';
+        }
+    });
+    </script>
+
     <script src="../static/scripts/dash_empresa.js"></script>
     <script src="../static/scripts/toast.js"></script>
     <script src="../static/scripts/modal_default.js"></script>
-
 </body>
 
 </html>

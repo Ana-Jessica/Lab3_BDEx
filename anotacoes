@@ -1,0 +1,42 @@
+Alterações-new code:
+giulia{
+login.php = line 56 ate 121 -nao dá pra manter código igual antes, mudanças de estrutura, porem tudo certo
+auth.php = line 2, 25 até 48 -nao dá pra manter código igual antes, mudanças de estrutura, porem tudo certo
+dashboard_dev.php = line  146, 373 - código mantido completamente, só inclusões
+dashboard_empresa.php - 188, 486 -código mantido completamente, só inclusões
+pglogin.html = line 73 até 92   -código mantido, apenas implementado
+}
+
+Criação de page:
+giulia{
+-desativarConta.php
+-reativarConta.php 
+}
+alterações insert into:
+-cadastro_desenvolvedor.php = 68
+-cadastro_empresa.php = 62
+-cadastro.php = 28
+-criar_vaga.php = 25
+
+--------------------------------------------------------
+Reunião de separação de tarefas individuais e em grupo
+
+funcionalidades?
+-alterar os proprios dados da empresa ou do desenvolvedor
+-listagem de dados do desenvolvedor para a visualização e solicitação da empresa
+etc..
+
+Afazeres:
+-incluir alteração de senha com email aqui    -giulia 
+-anular usuarios desativados da listagem 
+-resolver conflitos de envio de e-mail(Fazendo)
+FAZENDO: conferir banco de dados com codes cadstro etc se der algum erro
+Feito:
+
+
+Requisitos:
+-protótipo, banco de dados sincronizado, especificação e 
+funcionalidades implementadas na LP preferida, cometários detalhando o código
+-arrumar .gitignote antes de enviar 
+
+
