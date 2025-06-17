@@ -78,48 +78,49 @@ document.querySelectorAll(".btn-conectar").forEach(button => {
       });
   });
 });
-// Script para gerenciar o modal de encerramento de conexões
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.btn-encerrar').forEach(btn => {
-    btn.addEventListener('click', function () {
-      const id = this.getAttribute('data-id');
-      const confirmar = confirm("Tem certeza que deseja marcar esta conexão como encerrada?");
-      if (confirmar) {
-        // Criar e enviar formulário via JavaScript
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '../server/conexao/gerenciar_conexao.php';
 
-        form.innerHTML = `
-            <input type="hidden" name="id_conexao" value="${id}">
-            <input type="hidden" name="acao" value="encerrar">
-          `;
-        document.body.appendChild(form);
-        form.submit();
-      }
+// Configuração dos botões de encerramento
+// Inicializa o modal de encerramento
+document.querySelectorAll('.btn-encerrar').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const idConexao = this.getAttribute('data-id');
+        document.getElementById('idConexaoEncerrar').value = idConexao;
+        
+        // Limpa a justificativa anterior
+        document.getElementById('justificativa').value = '';
+        
+        // Mostra o modal
+        const modal = new bootstrap.Modal(document.getElementById('modalEncerrar'));
+        modal.show();
     });
-  });
+});
 
-  // Concluir
-  document.querySelectorAll('.btn-concluir').forEach(btn => {
-    btn.addEventListener('click', function () {
-      const id = this.getAttribute('data-id');
-      const confirmar = confirm("Tem certeza que deseja marcar esta conexão como CONCLUÍDA?");
-      if (confirmar) {
-        // Criar e enviar formulário via JavaScript
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '../server/conexao/gerenciar_conexao.php';
-
-        form.innerHTML = `
-            <input type="hidden" name="id_conexao" value="${id}">
-            <input type="hidden" name="acao" value="concluir">
-          `;
-        document.body.appendChild(form);
-        form.submit();
-      }
+// Configura o botão de concluir
+document.querySelectorAll('.btn-concluir').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const idConexao = this.getAttribute('data-id');
+        if(confirm('Deseja marcar esta conexão como concluída?')) {
+            // Cria um formulário dinâmico para envio
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '../server/conexao/gerenciar_conexao.php';
+            
+            const acaoInput = document.createElement('input');
+            acaoInput.type = 'hidden';
+            acaoInput.name = 'acao';
+            acaoInput.value = 'concluir';
+            
+            const idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'id_conexao';
+            idInput.value = idConexao;
+            
+            form.appendChild(acaoInput);
+            form.appendChild(idInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
     });
-  });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
