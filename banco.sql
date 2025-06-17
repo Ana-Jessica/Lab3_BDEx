@@ -8,19 +8,15 @@ USE banco_bdex;
 CREATE TABLE IF NOT EXISTS empresa (
     id_empresa INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nome_empresa VARCHAR(255) NOT NULL,
-    cnpj_empresa VARCHAR(18) NOT NULL UNIQUE, -- CNPJ deve ser único
+    cnpj_empresa VARCHAR(18) NOT NULL UNIQUE,
     endereco_empresa VARCHAR(255) NOT NULL,
-    email_empresa VARCHAR(255) NOT NULL UNIQUE, -- Email deve ser único
+    email_empresa VARCHAR(255) NOT NULL UNIQUE,
     telefone_empresa VARCHAR(20) NOT NULL,
     senha_empresa VARCHAR(255) NOT NULL,
     status_empresa BOOLEAN DEFAULT TRUE,
-	  -- campos adcionados abaixo--
     ativo BOOLEAN DEFAULT TRUE,
-     token_reativacao VARCHAR(64) NULL,
-    --  mudança abaixo
-     reativacao_expira DATETIME NULL,
-     -- adcionando campos-envio de e-mail na tabela reset_tokens
-
+    token_reativacao VARCHAR(64) NULL,
+    reativacao_expira DATETIME NULL
 );
 
 -- Tabela para desenvolvedores
@@ -28,18 +24,15 @@ CREATE TABLE IF NOT EXISTS desenvolvedor (
     id_desenvolvedor INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nome_desenvolvedor VARCHAR(255) NOT NULL,
     telefone_desenvolvedor VARCHAR(20) NOT NULL,
-    email_desenvolvedor VARCHAR(255) NOT NULL UNIQUE, -- Email deve ser único
+    email_desenvolvedor VARCHAR(255) NOT NULL UNIQUE,
     endereco_desenvolvedor VARCHAR(255) NOT NULL,
-    cpf_desenvolvedor VARCHAR(14) NOT NULL UNIQUE, -- CPF deve ser único
-    skills_desenvolvedor TEXT NOT NULL, -- Pode ser uma string JSON ou texto separado por vírgula
+    cpf_desenvolvedor VARCHAR(14) NOT NULL UNIQUE,
+    skills_desenvolvedor TEXT NOT NULL,
     senha_desenvolvedor VARCHAR(255) NOT NULL,
     status_desenvolvedor BOOLEAN DEFAULT TRUE,
-	  -- campos adcionados --
     ativo BOOLEAN DEFAULT TRUE,
-     token_reativacao VARCHAR(64) NULL,
-    --  mudança abaixo
-    reativacao_expira DATETIME NULL,
-       -- adcionando campos-envio de e-mail na table reset_tokens
+    token_reativacao VARCHAR(64) NULL,
+    reativacao_expira DATETIME NULL
 );
 
 -- Tabela para vagas
@@ -50,7 +43,7 @@ CREATE TABLE IF NOT EXISTS vaga (
     descricao_vaga TEXT NOT NULL,
     data_publicacao DATE NOT NULL,
     valor_oferta FLOAT,
-    status_vaga VARCHAR(50) DEFAULT 'ativa', -- 'ativa', 'fechada', 'conectada'
+    status_vaga VARCHAR(50) DEFAULT 'ativa',
     FOREIGN KEY (id_empresa) REFERENCES empresa(id_empresa) ON DELETE CASCADE
 );
 
@@ -60,10 +53,10 @@ CREATE TABLE IF NOT EXISTS solicitacao (
     id_desenvolvedor INT NOT NULL,
     id_vaga INT NOT NULL,
     data_solicitacao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status_solicitacao VARCHAR(50) DEFAULT 'pendente', -- 'pendente', 'aceita', 'rejeitada'
+    status_solicitacao VARCHAR(50) DEFAULT 'pendente',
     FOREIGN KEY (id_desenvolvedor) REFERENCES desenvolvedor(id_desenvolvedor) ON DELETE CASCADE,
     FOREIGN KEY (id_vaga) REFERENCES vaga(id_vaga) ON DELETE CASCADE,
-    UNIQUE (id_desenvolvedor, id_vaga) -- Um desenvolvedor só pode se candidatar uma vez por vaga
+    UNIQUE (id_desenvolvedor, id_vaga)
 );
 
 -- Tabela para conexões (vagas finalizadas com desenvolvedor selecionado)
@@ -86,6 +79,19 @@ CREATE TABLE IF NOT EXISTS tokens_reset_senha (
     token_email VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL,
     expires_at DATETIME NOT NULL,
-    INDEX idx_token (token),
-    INDEX idx_email (email)
+    INDEX idx_token_email (token_email),
+    INDEX idx_email_envio (email_envio)
+);
+
+CREATE TABLE IF NOT EXISTS historico_usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_empresa INT DEFAULT NULL,
+    id_desenvolvedor INT DEFAULT NULL,
+    tipo_usuario ENUM('empresa', 'desenvolvedor') NOT NULL,
+    acao ENUM('desativacao', 'reativacao') NOT NULL,
+    motivo TEXT,
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ip VARCHAR(45),
+    FOREIGN KEY (id_empresa) REFERENCES empresa(id_empresa) ON DELETE SET NULL,
+    FOREIGN KEY (id_desenvolvedor) REFERENCES desenvolvedor(id_desenvolvedor) ON DELETE SET NULL
 );
