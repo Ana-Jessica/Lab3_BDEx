@@ -1,6 +1,10 @@
 ﻿# Laboratorio-3
 # BDEx - Beginner Dev Experience
-![LOGO_BDEx](https://github.com/user-attachments/assets/1e0764d1-0e2f-4919-967b-ef6c955ce3a6)
+
+![SIMBOLO_BDEx](https://github.com/user-attachments/assets/73f44c04-0364-4a49-b862-4979acd42e52)
+
+
+
 
 ## Sobre o Projeto
 O **BDeX - Beginner Dev Experience** é uma plataforma digital inovadora que conecta programadores iniciantes a empresas que necessitam de soluções tecnológicas. O objetivo principal é proporcionar experiência prática para desenvolvedores em início de carreira, permitindo que trabalhem em projetos reais, ganhem portfólio e aumentem suas chances de empregabilidade.
