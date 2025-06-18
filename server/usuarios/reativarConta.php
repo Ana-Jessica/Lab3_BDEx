@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/../../server/conexao.php';
+require_once 'registrar_historico.php'; // Adicionado para o histórico
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: ../../templates/pglogin.html");
@@ -18,9 +19,10 @@ if (empty($email) || empty($token) || empty($tipo) || !in_array($tipo, ['empresa
 
 $tabela = ($tipo === 'empresa') ? 'empresa' : 'desenvolvedor';
 $campo_email = ($tipo === 'empresa') ? 'email_empresa' : 'email_desenvolvedor';
+$campo_id = ($tipo === 'empresa') ? 'id_empresa' : 'id_desenvolvedor';
 
 try {
-    $stmt = $conn->prepare("SELECT token_reativacao, reativacao_expira FROM $tabela WHERE $campo_email = ?");
+    $stmt = $conn->prepare("SELECT $campo_id, token_reativacao, reativacao_expira FROM $tabela WHERE $campo_email = ?");
     if (!$stmt) {
         throw new Exception("Erro na preparação da query: " . $conn->error);
     }
@@ -30,12 +32,13 @@ try {
 
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
-        
+        $id_usuario = $user[$campo_id];
+
         if (!empty($user['token_reativacao']) &&
             !empty($user['reativacao_expira']) &&
             strtotime($user['reativacao_expira']) > time() &&
             password_verify($token, $user['token_reativacao'])) {
-            
+
             $update = $conn->prepare("UPDATE $tabela SET ativo = 1, token_reativacao = NULL, reativacao_expira = NULL WHERE $campo_email = ?");
             if (!$update) {
                 throw new Exception("Erro na preparação do UPDATE: " . $conn->error);
@@ -46,6 +49,9 @@ try {
                 throw new Exception("Nenhuma conta foi atualizada.");
             }
             $update->close();
+
+            // Registro no histórico (RF06.4)
+            registrarHistorico($conn, $tipo, $id_usuario, 'reativacao');
 
             header("Location: ../../templates/pglogin.html?conta_reativada=1");
             exit();
@@ -58,7 +64,7 @@ try {
     exit();
 }
 
-// Após processar a reativação com sucesso, redirecione com um parâmetro:
+// Redirecionamento final por segurança (não deve chegar aqui)
 header("Location: ../../templates/pglogin.html?reativada=1");
 exit();
 ?>
