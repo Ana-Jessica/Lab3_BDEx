@@ -89,3 +89,16 @@ CREATE TABLE IF NOT EXISTS tokens_reset_senha (
     INDEX idx_token (token),
     INDEX idx_email (email)
 );
+
+CREATE TABLE IF NOT EXISTS historico_usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_empresa INT DEFAULT NULL,
+    id_desenvolvedor INT DEFAULT NULL,
+    tipo_usuario ENUM('empresa', 'desenvolvedor') NOT NULL,
+    acao ENUM('desativacao', 'reativacao') NOT NULL,
+    motivo TEXT,
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ip VARCHAR(45),
+    FOREIGN KEY (id_empresa) REFERENCES empresa(id_empresa) ON DELETE SET NULL,
+    FOREIGN KEY (id_desenvolvedor) REFERENCES desenvolvedor(id_desenvolvedor) ON DELETE SET NULL
+);

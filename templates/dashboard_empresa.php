@@ -411,8 +411,9 @@ if ($stmt_conexoes) {
                                         Conectar <i class="bi bi-person-fill-add"></i>
                                     </button>
                                     <button class="btn-cancelar" data-id-vaga="<?= $sol['id_vaga'] ?>"
-                                        data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>">
-                                        Rejeitar <i class="bi bi-person-fill-dash"></i>
+                                        data-id-desenvolvedor="<?= $sol['id_desenvolvedor'] ?>"
+                                        data-id-solicitacao="<?= $sol['id_solicitacao'] ?>">
+                                        Rejeitar <i class="bi bi-person-dash-fill"></i>
                                     </button>
 
                                 </td>

@@ -130,27 +130,29 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", function () {
       if (!confirm("Deseja realmente rejeitar esta solicitação?")) return;
 
-      const idVaga = btn.dataset.idVaga;
-      const idDesenvolvedor = btn.dataset.idDesenvolvedor;
-
-      // Aqui você precisa buscar o ID da solicitação (recomendado já vir no botão como data-id-solicitacao)
-      const idSolicitacao = btn.dataset.idSolicitacao;
+      // Correção: usar a sintaxe correta para dataset
+      const idSolicitacao = btn.dataset.idSolicitacao || btn.getAttribute('data-id-solicitacao');
 
       if (!idSolicitacao) {
         alert("ID da solicitação não encontrado.");
+        console.error("Botão:", btn);
         return;
       }
 
       fetch(`../server/conexao/gerenciar_solicitacao.php?acao=recusar&id=${idSolicitacao}`)
-        .then(res => res.text())
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Erro na resposta do servidor');
+          }
+          return res.text();
+        })
         .then(response => {
-          // Aqui você pode atualizar a interface, exibir mensagem etc
           alert("Solicitação rejeitada com sucesso.");
-          location.reload(); // ou remove o elemento da tela
+          location.reload();
         })
         .catch(err => {
-          console.error(err);
-          alert("Erro ao processar a solicitação.");
+          console.error("Erro detalhado:", err);
+          alert("Erro ao processar a solicitação: " + err.message);
         });
     });
   });
