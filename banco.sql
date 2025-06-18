@@ -13,14 +13,7 @@ CREATE TABLE IF NOT EXISTS empresa (
     email_empresa VARCHAR(255) NOT NULL UNIQUE, -- Email deve ser único
     telefone_empresa VARCHAR(20) NOT NULL,
     senha_empresa VARCHAR(255) NOT NULL,
-    status_empresa BOOLEAN DEFAULT TRUE,
-	  -- campos adcionados abaixo--
-    ativo BOOLEAN DEFAULT TRUE,
-     token_reativacao VARCHAR(64) NULL,
-    --  mudança abaixo
-     reativacao_expira DATETIME NULL,
-     -- adcionando campos-envio de e-mail na tabela reset_tokens
-
+    ativo BOOLEAN DEFAULT TRUE
 );
 
 -- Tabela para desenvolvedores
@@ -33,13 +26,7 @@ CREATE TABLE IF NOT EXISTS desenvolvedor (
     cpf_desenvolvedor VARCHAR(14) NOT NULL UNIQUE, -- CPF deve ser único
     skills_desenvolvedor TEXT NOT NULL, -- Pode ser uma string JSON ou texto separado por vírgula
     senha_desenvolvedor VARCHAR(255) NOT NULL,
-    status_desenvolvedor BOOLEAN DEFAULT TRUE,
-	  -- campos adcionados --
-    ativo BOOLEAN DEFAULT TRUE,
-     token_reativacao VARCHAR(64) NULL,
-    --  mudança abaixo
-    reativacao_expira DATETIME NULL,
-       -- adcionando campos-envio de e-mail na table reset_tokens
+    ativo BOOLEAN DEFAULT TRUE
 );
 
 -- Tabela para vagas
@@ -73,7 +60,8 @@ CREATE TABLE IF NOT EXISTS conexao (
     id_desenvolvedor INT NOT NULL,
     id_vaga INT NOT NULL,
     data_conexao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status_conexao ENUM('aceita', 'encerrada') DEFAULT 'aceita',
+    status_conexao ENUM('aceita', 'encerrada', 'concluida') DEFAULT 'aceita',
+    justificativa TEXT NULL,
     FOREIGN KEY (id_empresa) REFERENCES empresa(id_empresa) ON DELETE CASCADE,
     FOREIGN KEY (id_desenvolvedor) REFERENCES desenvolvedor(id_desenvolvedor) ON DELETE CASCADE,
     FOREIGN KEY (id_vaga) REFERENCES vaga(id_vaga) ON DELETE CASCADE
@@ -90,6 +78,7 @@ CREATE TABLE IF NOT EXISTS tokens_reset_senha (
     INDEX idx_email (email)
 );
 
+
 CREATE TABLE IF NOT EXISTS historico_usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_empresa INT DEFAULT NULL,
@@ -102,3 +91,11 @@ CREATE TABLE IF NOT EXISTS historico_usuarios (
     FOREIGN KEY (id_empresa) REFERENCES empresa(id_empresa) ON DELETE SET NULL,
     FOREIGN KEY (id_desenvolvedor) REFERENCES desenvolvedor(id_desenvolvedor) ON DELETE SET NULL
 );
+
+-- Para visualizar os dados inseridos
+select * from empresa;
+select * from desenvolvedor;
+select * from vaga;
+select * from solicitacao;
+select * from conexao;
+
