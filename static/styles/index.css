@@ -73,8 +73,10 @@ body {
 /* Container das caixas */
 .caixas-container {
     display: flex;
+    align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 150px;
 }
 
 /* Ajustes nas caixas individuais */
@@ -133,4 +135,12 @@ body {
 }
 ::-webkit-scrollbar-thumb{
     background: #2A5EAC;
+}
+.emcoluna{
+display: flex;
+flex-direction: column;
+}
+.delado{
+    display: flex;
+    flex-direction: row;
 }
