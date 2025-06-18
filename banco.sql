@@ -86,8 +86,8 @@ CREATE TABLE IF NOT EXISTS tokens_reset_senha (
     token_email VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL,
     expires_at DATETIME NOT NULL,
-    INDEX idx_token (token),
-    INDEX idx_email (email)
+    INDEX idx_token (token_email),
+    INDEX idx_email (email_envio)
 );
 
 CREATE TABLE IF NOT EXISTS historico_usuarios (
