@@ -1,120 +1,121 @@
  :root {
-   --cor-azul-escuro: #2A5EAC;
-   --cor-azul-claro: #3ABAF1;
-   --cor-verde-escuro: #00DE8A;
-   --cor-verde-claro: #84EC80;
-   --fonte-BDEx: 'Poppins';
+     --cor-azul-escuro: #2A5EAC;
+     --cor-azul-claro: #3ABAF1;
+     --cor-verde-escuro: #00DE8A;
+     --cor-verde-claro: #84EC80;
+     --fonte-BDEx: 'Poppins';
  }
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-.txtdigitado {
-    position: relative;
-    width: 300px;
-    font-family: sans-serif;
-    font-weight: bolder;
-}
+ @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-.txtdigitado p {
-    left: -120px;
-    font-family: Montserrat;
-    position: relative;
-    display: flex;
-    align-items: start;
-    text-align: start;
-    font-size: 22px;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: black;
-    white-space: nowrap;
-    letter-spacing: 1px;
+ .txtdigitado {
+     position: relative;
+     width: 300px;
+     font-family: sans-serif;
+     font-weight: bolder;
+ }
 
-}
+ .txtdigitado p {
+     left: -120px;
+     font-family: Montserrat;
+     position: relative;
+     display: flex;
+     align-items: start;
+     text-align: start;
+     font-size: 22px;
+     font-weight: 800;
+     text-transform: uppercase;
+     color: black;
+     white-space: nowrap;
+     letter-spacing: 1px;
 
-.txtdigitado p span {
-    margin-left: 5px;
-    position: relative;
-    width: 100%;
-}
+ }
+
+ .txtdigitado p span {
+     margin-left: 5px;
+     position: relative;
+     width: 100%;
+ }
 
 
-.txtdigitado p span::before {
-    content: "";
-    /*letras que passam*/
-    color: var(--cor-azul-escuro);
-    animation: txtanimado 20s infinite;
-    transition: all 0.5s linear;
-}
+ .txtdigitado p span::before {
+     content: "";
+     /*letras que passam*/
+     color: var(--cor-azul-escuro);
+     animation: txtanimado 20s infinite;
+     transition: all 0.5s linear;
+ }
 
-.txtdigitado p span::after {
-    content: "";
-    position: absolute;
-    height: 100%;
-    border-left: 2px solid black;
-    right: -335px;
-    width: calc(100% + 100px);
-    background-color: var(--after-color, white);
-    animation: digita 20s infinite steps(15), pisca 1.5s infinite;
-}
+ .txtdigitado p span::after {
+     content: "";
+     position: absolute;
+     height: 100%;
+     border-left: 2px solid black;
+     right: -335px;
+     width: calc(100% + 100px);
+     background-color: var(--after-color, white);
+     animation: digita 20s infinite steps(15), pisca 1.5s infinite;
+ }
 
-@keyframes digita {
+ @keyframes digita {
 
-    10%,
-    15%,
-    30%,
-    35%,
-    50%,
-    55%,
-    70%,
-    75%,
-    90%,
-    95% {
-        width: 0;
-    }
+     10%,
+     15%,
+     30%,
+     35%,
+     50%,
+     55%,
+     70%,
+     75%,
+     90%,
+     95% {
+         width: 0;
+     }
 
-    5%,
-    20%,
-    25%,
-    40%,
-    45%,
-    60%,
-    65%,
-    80%,
-    85% {
+     5%,
+     20%,
+     25%,
+     40%,
+     45%,
+     60%,
+     65%,
+     80%,
+     85% {
 
-        width: calc(100% + 345px);
-    }
-}
+         width: calc(100% + 345px);
+     }
+ }
 
-@keyframes pisca {
-    0% {
-        border-left: 2px solid white;
-    }
-}
+ @keyframes pisca {
+     0% {
+         border-left: 2px solid white;
+     }
+ }
 
-@keyframes txtanimado {
+ @keyframes txtanimado {
 
-    0%,
-    20% {
-        content: "Bem-vindo ao Beginner Dev experience";
-    }
+     0%,
+     20% {
+         content: "Encontre seu Desenvolvedor Ideal";
+     }
 
-    21%,
-    40% {
-        content: "unimos DEVs iniciantes à empresas";
-    }
+     21%,
+     40% {
+         content: "Se candidate a diversos projetos ";
+     }
 
-    41%,
-    60% {
-        content: "realize projetos para empresas";
-    }
+     41%,
+     60% {
+         content: "Conheça as oportunidades atuais";
+     }
 
-    61%,
-    80% {
-        content: "realize conexões com novos Devs"
-    }
+     61%,
+     80% {
+         content: "Descubra novos talentos"
+     }
 
-    81%,
-    100% {
-        content: "Conheça multiplos talentos";
-    }
-}
+     81%,
+     100% {
+         content: "Agregue valor ao seu portifólio";
+     }
+ }
